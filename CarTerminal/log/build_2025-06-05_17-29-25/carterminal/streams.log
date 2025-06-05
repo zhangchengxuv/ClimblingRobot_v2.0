@@ -1,0 +1,11 @@
+[0.016s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12
+[0.073s] [35m[1mConsolidate compiler generated dependencies of target camera_talker_node[0m
+[0.099s] [ 50%] [32mBuilding CXX object CMakeFiles/camera_talker_node.dir/src/camera_talker_node.cpp.o[0m
+[0.310s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/camera_talker_node.cpp:4:10:[m[K [01;31m[Kfatal error: [m[Kopencv2/opencv.hpp: 没有那个文件或目录
+[0.310s]     4 | #include [01;31m[K"opencv2/opencv.hpp"[m[K
+[0.310s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~[m[K
+[0.310s] compilation terminated.
+[0.316s] gmake[2]: *** [CMakeFiles/camera_talker_node.dir/build.make:76：CMakeFiles/camera_talker_node.dir/src/camera_talker_node.cpp.o] 错误 1
+[0.316s] gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/camera_talker_node.dir/all] 错误 2
+[0.316s] gmake: *** [Makefile:146：all] 错误 2
+[0.319s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12

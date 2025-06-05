@@ -1,0 +1,488 @@
+// 1.包含头文件
+#include "rclcpp/rclcpp.hpp"
+#include <std_msgs/msg/float64_multi_array.hpp>
+#include "geometry_msgs/msg/twist.hpp"
+#include "std_msgs/msg/int32.hpp"
+#include "signal.h"
+#include <iostream>
+#include <unistd.h>
+#include <array>
+#include <fcntl.h>
+#include "carterminal/myconfig.h"
+#include "carterminal/cansend.h"
+
+using namespace std::chrono_literals;
+using namespace std;
+std::mutex can_mutex;           // 全局互斥锁
+std::atomic<bool> m_run0(true); // 使用原子变量
+bool change_flag = false;
+// 模式
+int mode = 0;
+float pitch;
+float roll;
+// 数据获取线程
+int ret;
+pthread_t dataread_thread;
+// 将电机速度转换为十六进制数据
+std::array<unsigned char, 5> createOutspeed(int dec_speed);
+
+void signal_handler(int signal);
+
+// 自定义节点类；
+class Can_Driver : public rclcpp::Node
+{
+public:
+  Can_Driver() : Node("can_driver_node_cpp")
+  {
+    // 数据获取线程
+    // 设置socket为非阻塞模式
+    int flags = fcntl(can0_socket, F_GETFL, 0);
+    fcntl(can0_socket, F_SETFL, flags | O_NONBLOCK);
+    ret = pthread_create(&dataread_thread, NULL, &Can_Driver::receive_func, this);
+    // 创建可重入回调组
+    // 创建订阅选项，并设置回调组
+    // 订阅
+    sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
+    rclcpp::SubscriptionOptions options_sub;
+    options_sub.callback_group = sub_callback_group_;
+    // 操作回调组(高频操作)
+    operate_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions operate_options_sub;
+    operate_options_sub.callback_group = operate_callback_group_;
+    // 定时器
+    timer_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
+    sendtimer_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
+
+    // 创建速度指令订阅者回调
+    this->twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 10,
+                                                                            std::bind(&Can_Driver::twistCallback, this, std::placeholders::_1), options_sub);
+    // 创建控制线程
+    this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_true", 10,
+                                                                       std::bind(&Can_Driver::speedCallback, this, std::placeholders::_1), operate_options_sub);
+    // 操作模式切换
+    this->mode_sub_ = this->create_subscription<std_msgs::msg::Int32>("mode_flag", 10,
+                                                                      std::bind(&Can_Driver::modeCallback, this, std::placeholders::_1), options_sub);
+    // imu数据订阅
+    this->imu_data_subr = this->create_subscription<std_msgs::msg::Float64MultiArray>("imu_data_pub", 10,
+                                                                                      std::bind(&Can_Driver::imu_calculate_Callback, this, std::placeholders::_1), options_sub);
+    // 创建实时速度发布方
+    rtspeed1_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt1_speed", 10);
+    rtspeed2_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt2_speed", 10);
+    rtspeed3_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt3_speed", 10);
+    rtspeed4_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt4_speed", 10);
+    // 定时器
+    sp_timer_ = this->create_wall_timer(40ms, std::bind(&Can_Driver::on_rtsp_timer, this), timer_callback_group_);
+    send_timer_ = this->create_wall_timer(40ms, std::bind(&Can_Driver::senddata_cb, this), sendtimer_callback_group_);
+  }
+
+private:
+  std::atomic<bool> twist_called_{false}; // 新增原子标志
+  std::mutex motor_mutex_;                // 新增互斥锁保护数据
+  // 成员变量
+  rclcpp::CallbackGroup::SharedPtr timer_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr sendtimer_callback_group_;
+
+  rclcpp::CallbackGroup::SharedPtr sub_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr operate_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr pub_callback_group_;
+
+  // 键盘控制节点订阅
+  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub_;
+
+  // 订阅IMU数据
+  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr imu_data_subr;
+
+  // 速度发布节点订阅
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr speed_sub_;
+
+  // 模式订阅
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr mode_sub_;
+
+  // 四个车轮的实时速度反馈
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed1_pub_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed2_pub_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed3_pub_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed4_pub_;
+
+  // 定义计时器
+  rclcpp::TimerBase::SharedPtr sp_timer_;
+  rclcpp::TimerBase::SharedPtr send_timer_;
+
+  // 操作速度回调函数
+  void speedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
+  {
+
+    V_x = speed_msg->data;
+    RCLCPP_INFO(this->get_logger(), "%d", V_x);
+  }
+  // 操作模式回调函数
+  void modeCallback(const std_msgs::msg::Int32::SharedPtr mode_msg)
+  {
+    mode = mode_msg->data;
+  }
+  // imu数据回调函数
+  void imu_calculate_Callback(const std_msgs::msg::Float64MultiArray::SharedPtr imu_data)
+  {
+    pitch = imu_data->data[1] + 90;
+    roll = imu_data->data[0];
+  }
+  // 综合发布函数
+  void senddata_cb()
+  {
+    bool called = twist_called_.exchange(false);    // 读取并重置标志
+    std::lock_guard<std::mutex> lock(motor_mutex_); // 加锁
+
+    // 发送速度获取数据
+    SendData(can0_socket, motor_id_01, false, get_speed, 1);
+    SendData(can0_socket, motor_id_02, false, get_speed, 1);
+    SendData(can0_socket, motor_id_03, false, get_speed, 1);
+    SendData(can0_socket, motor_id_04, false, get_speed, 1);
+
+    if (called)
+    {
+      // twistCallback 被调用时的逻辑
+      SendData(can0_socket, motor_id_01, false, motor_01, 5);
+      SendData(can0_socket, motor_id_02, false, motor_02, 5);
+      SendData(can0_socket, motor_id_03, false, motor_03, 5);
+      SendData(can0_socket, motor_id_04, false, motor_04, 5);
+    }
+    else
+    {
+      // twistCallback 未被调用时的逻辑
+      SendData(can0_socket, motor_id_01, false, speed_zero, 5);
+      SendData(can0_socket, motor_id_02, false, speed_zero, 5);
+      SendData(can0_socket, motor_id_03, false, speed_zero, 5);
+      SendData(can0_socket, motor_id_04, false, speed_zero, 5);
+    }
+  }
+  // 操作方向回调函数
+  void twistCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
+  {
+    twist_called_.store(true); // 标记回调被触发
+
+    float Straight_f = msg->linear.x;
+    float Turn_f = msg->angular.z;
+    if (V_x > 2000)
+    {
+      // 限制最大速度
+      V_x = 2000;
+    }
+    switch (mode)
+    {
+    // 正常模式
+    case 0:
+    {
+      // --------------前进--------------
+      if (Straight_f > 0)
+      {
+        // 前进时左侧1和3轮速度一致
+        auto leftwheel = createOutspeed(round(V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = leftwheel[i];
+          motor_03[i] = leftwheel[i];
+        }
+        // 前进时右侧2和4轮速度一致
+        auto rightwheel = createOutspeed(round(-V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = rightwheel[i];
+          motor_04[i] = rightwheel[i];
+        }
+      }
+      // --------------后退--------------
+      else if (Straight_f < 0)
+      {
+        // 后退时左侧1和3轮速度一致
+        auto leftwheel = createOutspeed(round(-V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = leftwheel[i];
+          motor_03[i] = leftwheel[i];
+        }
+        // 后退时右侧2和4轮速度一致
+        auto rightwheel = createOutspeed(round(V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = rightwheel[i];
+          motor_04[i] = rightwheel[i];
+        }
+      }
+      // --------------左转--------------
+      else if (Turn_f > 0)
+      {
+        // 转向时的直线速度
+        int V_x_t = 200;
+        // 转向时的旋转速度
+        int V_x_f = 200;
+        // 1&3
+        auto leftwheel = createOutspeed(-round(V_x_t + V_x_f));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = leftwheel[i];
+          motor_03[i] = leftwheel[i];
+        }
+        // 2&4
+        auto rightwheel = createOutspeed(-round(V_x_t + V_x_f));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = rightwheel[i];
+          motor_04[i] = rightwheel[i];
+        }
+      }
+      // --------------右转--------------
+      else if (Turn_f < 0)
+      {
+        // 转向时的直线速度
+        int V_x_t = 200;
+        // 转向时的旋转速度
+        int V_x_f = 200;
+        // 1&3
+        auto leftwheel = createOutspeed(round(V_x_t + V_x_f));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = leftwheel[i];
+          motor_03[i] = leftwheel[i];
+        }
+        // 2&4
+        auto rightwheel = createOutspeed(round(V_x_t + V_x_f));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = rightwheel[i];
+          motor_04[i] = rightwheel[i];
+        }
+      }
+      // --------------停止--------------
+      else
+      {
+        cout << "----- 停止" << endl;
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = speed_zero[i];
+          motor_03[i] = speed_zero[i];
+          motor_02[i] = speed_zero[i];
+          motor_04[i] = speed_zero[i];
+        }
+      }
+      break;
+    }
+    // Imu辅助模式
+    case 1:
+    {
+      pitch = pitch / 180 * 3.1415;
+      double sin_val = std::sin(pitch);
+      double cos_val = std::cos(pitch);
+      float V_y = V_x * cos_val / sin_val;
+
+      // --------------前进--------------
+      if (Straight_f > 0)
+      {
+        // 前进时前方1和2轮速度一致
+        auto frontwheel_1 = createOutspeed(round(V_y));
+        auto frontwheel_2 = createOutspeed(round(-V_y));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = frontwheel_1[i];
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = frontwheel_2[i];
+        }
+        // 前进时后方3和4轮速度一致
+        auto behindwheel_3 = createOutspeed(round(V_x));
+        auto behindwheel_4 = createOutspeed(round(-V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_03[i] = behindwheel_3[i];
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_04[i] = behindwheel_4[i];
+        }
+      }
+      // --------------后退--------------
+      else if (Straight_f < 0)
+      {
+        // 前进时前方1和2轮速度一致
+        auto frontwheel_1 = createOutspeed(round(-V_x));
+        auto frontwheel_2 = createOutspeed(round(V_x));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = frontwheel_1[i];
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_02[i] = frontwheel_2[i];
+        }
+        // 前进时后方3和4轮速度一致
+        auto behindwheel_3 = createOutspeed(round(-V_y));
+        auto behindwheel_4 = createOutspeed(round(V_y));
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_03[i] = behindwheel_3[i];
+        }
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_04[i] = behindwheel_4[i];
+        }
+      }
+      // --------------停止--------------
+      else
+      {
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_01[i] = speed_zero[i];
+          motor_03[i] = speed_zero[i];
+          motor_02[i] = speed_zero[i];
+          motor_04[i] = speed_zero[i];
+        }
+      }
+
+      break;
+    }
+    }
+  }
+  // 接收数据函数
+  static void *receive_func(void *param)
+  {
+    Can_Driver *speed_data = static_cast<Can_Driver *>(param);
+    speed_data->ReceiveData();
+    return nullptr;
+  }
+  void ReceiveData()
+{
+  // 接收数据
+  can_frame frame;
+  sockaddr_can addr;
+  socklen_t len = sizeof(addr);
+  while (rclcpp::ok() && m_run0)
+  {
+    int nbytes = recvfrom(can0_socket, &frame, sizeof(frame), 0,
+                          (struct sockaddr *)&addr, &len);
+
+    if (nbytes < 0)
+    {
+      if (errno == EAGAIN)
+      { // 非阻塞模式无数据
+        std::this_thread::sleep_for(10ms);
+        continue;
+      }
+      break;
+    }
+
+    switch (frame.can_id)
+    {
+    case 0x001:
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          printf("%02x", (int)frame.data[i]);
+          receiveData[i] = (int)frame.data[i];
+        }
+        realData[0] = receiveData[2];
+        realData[1] = receiveData[1];
+        int16_t hexval = (static_cast<uint16_t>(realData[0] << 8) | realData[1]);
+        int decval1 = static_cast<int>(hexval);
+        // 发布信息
+        rt1_data.data = decval1;
+      }
+      break;
+
+    case 0x002:
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          receiveData[i] = (int)frame.data[i];
+        }
+        realData[0] = receiveData[2];
+        realData[1] = receiveData[1];
+        int16_t hexval = (static_cast<uint16_t>(realData[0] << 8) | realData[1]);
+        int decval2 = static_cast<int>(hexval);
+        // 发布信息
+        rt2_data.data = decval2;
+      }
+      break;
+
+    case 0x003:
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          receiveData[i] = (int)frame.data[i];
+        }
+        realData[0] = receiveData[2];
+        realData[1] = receiveData[1];
+        int16_t hexval = (static_cast<uint16_t>(realData[0] << 8) | realData[1]);
+        int decval3 = static_cast<int>(hexval);
+        // 发布信息
+        rt3_data.data = decval3;
+      }
+      break;
+
+    case 0x004:
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          receiveData[i] = (int)frame.data[i];
+        }
+        realData[0] = receiveData[2];
+        realData[1] = receiveData[1];
+        int16_t hexval = (static_cast<uint16_t>(realData[0] << 8) | realData[1]);
+        int decval4 = static_cast<int>(hexval);
+        // 发布信息
+        rt4_data.data = decval4;
+      }
+      break;
+    }
+  }
+}
+  // 速度反馈函数 此处应该调用回调组
+  void on_rtsp_timer()
+  {
+    rtspeed1_pub_->publish(rt1_data);
+    rtspeed2_pub_->publish(rt2_data);
+    rtspeed3_pub_->publish(rt3_data);
+    rtspeed4_pub_->publish(rt4_data);
+  }
+};
+
+int main(int argc, char const *argv[])
+{
+  // 注册信号处理函数
+  std::signal(SIGINT, signal_handler);
+  // 初始化CAN设备
+  can0_socket = init_can("can0");
+  rclcpp::init(argc, argv);
+  auto node = std::make_shared<Can_Driver>();
+  rclcpp::executors::MultiThreadedExecutor executor;
+  executor.add_node(node);
+  executor.spin();
+  return 0;
+}
+
+// 转换为速度发送，小字端
+std::array<unsigned char, 5> createOutspeed(int dec_speed)
+{
+  return {
+      0x1D,
+      static_cast<unsigned char>(dec_speed & 0xFF),
+      static_cast<unsigned char>((dec_speed >> 8) & 0xFF),
+      static_cast<unsigned char>((dec_speed >> 16) & 0xFF),
+      static_cast<unsigned char>((dec_speed >> 24) & 0xFF)};
+}
+
+// 信号处理函数
+void signal_handler(int signal)
+{
+  (void)signal;
+  std::cout << "程序收到中断信号, 正在安全退出..." << std::endl;
+  // 停止电机
+  SendData(can0_socket, motor_id_01, false, motor_stop, 1);
+  SendData(can0_socket, motor_id_02, false, motor_stop, 1);
+  SendData(can0_socket, motor_id_03, false, motor_stop, 1);
+  SendData(can0_socket, motor_id_04, false, motor_stop, 1);
+  rclcpp::shutdown();
+  m_run0 = false;
+  // 关闭CAN设备
+  close(can0_socket);
+  cout << "CAN设备关闭" << std::endl;
+}
