@@ -1,6 +1,7 @@
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/uninstall.dir
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/carterminal_uninstall.dir
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/camera_talker_node.dir
+/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/wheel_talker_node.dir
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/test.dir
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/edit_cache.dir
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles/rebuild_cache.dir

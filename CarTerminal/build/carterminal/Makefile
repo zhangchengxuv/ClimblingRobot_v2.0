@@ -210,6 +210,19 @@ camera_talker_node/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera_talker_node.dir/build.make CMakeFiles/camera_talker_node.dir/build
 .PHONY : camera_talker_node/fast
 
+#=============================================================================
+# Target rules for targets named wheel_talker_node
+
+# Build rule for target.
+wheel_talker_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 wheel_talker_node
+.PHONY : wheel_talker_node
+
+# fast build rule for target.
+wheel_talker_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/build
+.PHONY : wheel_talker_node/fast
+
 src/camera_talker_node.o: src/camera_talker_node.cpp.o
 .PHONY : src/camera_talker_node.o
 
@@ -234,6 +247,30 @@ src/camera_talker_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/camera_talker_node.dir/build.make CMakeFiles/camera_talker_node.dir/src/camera_talker_node.cpp.s
 .PHONY : src/camera_talker_node.cpp.s
 
+src/wheel_talker_node.o: src/wheel_talker_node.cpp.o
+.PHONY : src/wheel_talker_node.o
+
+# target to build an object file
+src/wheel_talker_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/src/wheel_talker_node.cpp.o
+.PHONY : src/wheel_talker_node.cpp.o
+
+src/wheel_talker_node.i: src/wheel_talker_node.cpp.i
+.PHONY : src/wheel_talker_node.i
+
+# target to preprocess a source file
+src/wheel_talker_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/src/wheel_talker_node.cpp.i
+.PHONY : src/wheel_talker_node.cpp.i
+
+src/wheel_talker_node.s: src/wheel_talker_node.cpp.s
+.PHONY : src/wheel_talker_node.s
+
+# target to generate assembly for a file
+src/wheel_talker_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/src/wheel_talker_node.cpp.s
+.PHONY : src/wheel_talker_node.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -250,9 +287,13 @@ help:
 	@echo "... carterminal_uninstall"
 	@echo "... uninstall"
 	@echo "... camera_talker_node"
+	@echo "... wheel_talker_node"
 	@echo "... src/camera_talker_node.o"
 	@echo "... src/camera_talker_node.i"
 	@echo "... src/camera_talker_node.s"
+	@echo "... src/wheel_talker_node.o"
+	@echo "... src/wheel_talker_node.i"
+	@echo "... src/wheel_talker_node.s"
 .PHONY : help
 
 

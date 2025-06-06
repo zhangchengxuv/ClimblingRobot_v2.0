@@ -20,10 +20,13 @@ find_package(OpenCV REQUIRED)
 
 
 add_executable(camera_talker_node src/camera_talker_node.cpp)
+add_executable(wheel_talker_node src/wheel_talker_node.cpp)
+
 target_include_directories(camera_talker_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 target_compile_features(camera_talker_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
 ament_target_dependencies(
   camera_talker_node
   "rclcpp"
@@ -37,7 +40,19 @@ ament_target_dependencies(
   "cv_bridge"
 )
 
-install(TARGETS camera_talker_node
+ament_target_dependencies(
+  wheel_talker_node
+  "rclcpp"
+  "std_msgs"
+  "sensor_msgs"
+  "message_filters"
+  "serial"
+)
+
+
+install(TARGETS 
+  camera_talker_node
+  wheel_talker_node
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
