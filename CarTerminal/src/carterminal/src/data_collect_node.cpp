@@ -43,13 +43,29 @@ private:
                 {
                     Validdata[i] = Readdate[i + 1];
                 }
-                // 打印有效数据
-                std::cout << "Valid data: ";
-                for (int i = 0; i < 13; i++)
-                {
-                    std::cout << std::hex << static_cast<int>(Validdata[i]) << " ";
-                }
-                std::cout << std::endl;
+                // 获取有效数据
+                uint32_t data1 = ((uint32_t)Validdata[3]) |
+                                 ((uint32_t)Validdata[2] << 8) |
+                                 ((uint32_t)Validdata[1] << 16) |
+                                 ((uint32_t)Validdata[0] << 24);
+                uint32_t data2 = ((uint32_t)Validdata[7]) |
+                                 ((uint32_t)Validdata[6] << 8) |
+                                 ((uint32_t)Validdata[5] << 16) |
+                                 ((uint32_t)Validdata[4] << 24);
+                uint32_t data3 = (uint32_t)Validdata[8];
+                uint32_t data4 = ((uint32_t)Validdata[10]) |
+                                 ((uint32_t)Validdata[9] << 8);
+                uint32_t data5 = ((uint32_t)Validdata[12]) |
+                                 ((uint32_t)Validdata[11] << 8);
+                // 转换为有符号整数
+                int32_t signed_data1 = (int32_t)data1;
+                int32_t signed_data2 = (int32_t)data2;
+                // 打印数据
+                std::cout << "data1: " << signed_data1 << std::endl;
+                std::cout << "data2: " << signed_data2 << std::endl;
+                std::cout << "data3: " << data3 << std::endl;
+                std::cout << "data4: " << data4 << std::endl;
+                std::cout << "data5: " << data5 << std::endl;
             }
             else
             {
