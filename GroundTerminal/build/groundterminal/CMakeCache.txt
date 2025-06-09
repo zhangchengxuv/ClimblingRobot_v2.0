@@ -389,7 +389,7 @@ groundterminal_BINARY_DIR:STATIC=/home/zhangchenxu/Documents/00_Project/Climblin
 groundterminal_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-groundterminal_SOURCE_DIR:STATIC=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal
+groundterminal_SOURCE_DIR:STATIC=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal
 
 //The directory containing a CMake configuration file for libstatistics_collector.
 libstatistics_collector_DIR:PATH=/opt/ros/humble/share/libstatistics_collector/cmake
@@ -603,7 +603,7 @@ CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER

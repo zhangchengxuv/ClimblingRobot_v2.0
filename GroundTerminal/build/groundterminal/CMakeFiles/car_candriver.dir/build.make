@@ -53,7 +53,7 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal
+CMAKE_SOURCE_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal
@@ -70,18 +70,18 @@ include CMakeFiles/car_candriver.dir/progress.make
 include CMakeFiles/car_candriver.dir/flags.make
 
 CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: CMakeFiles/car_candriver.dir/flags.make
-CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp
+CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp
 CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: CMakeFiles/car_candriver.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o -MF CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o.d -o CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o -c /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o -MF CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o.d -o CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o -c /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp
 
 CMakeFiles/car_candriver.dir/src/car_candriver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/car_candriver.dir/src/car_candriver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp > CMakeFiles/car_candriver.dir/src/car_candriver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp > CMakeFiles/car_candriver.dir/src/car_candriver.cpp.i
 
 CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp -o CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp -o CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s
 
 # Object files for target car_candriver
 car_candriver_OBJECTS = \
@@ -183,6 +183,6 @@ CMakeFiles/car_candriver.dir/clean:
 .PHONY : CMakeFiles/car_candriver.dir/clean
 
 CMakeFiles/car_candriver.dir/depend:
-	cd /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles/car_candriver.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles/car_candriver.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/car_candriver.dir/depend
 

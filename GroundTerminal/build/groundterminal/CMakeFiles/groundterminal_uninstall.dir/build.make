@@ -53,7 +53,7 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal
+CMAKE_SOURCE_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal
@@ -82,6 +82,6 @@ CMakeFiles/groundterminal_uninstall.dir/clean:
 .PHONY : CMakeFiles/groundterminal_uninstall.dir/clean
 
 CMakeFiles/groundterminal_uninstall.dir/depend:
-	cd /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles/groundterminal_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles/groundterminal_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/groundterminal_uninstall.dir/depend
 

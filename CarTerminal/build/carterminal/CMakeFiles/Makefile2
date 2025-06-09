@@ -65,6 +65,7 @@ CMAKE_BINARY_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/Ca
 # The main recursive "all" target.
 all: CMakeFiles/camera_talker_node.dir/all
 all: CMakeFiles/wheel_talker_node.dir/all
+all: CMakeFiles/data_collect_node.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -76,6 +77,7 @@ clean: CMakeFiles/uninstall.dir/clean
 clean: CMakeFiles/carterminal_uninstall.dir/clean
 clean: CMakeFiles/camera_talker_node.dir/clean
 clean: CMakeFiles/wheel_talker_node.dir/clean
+clean: CMakeFiles/data_collect_node.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -163,7 +165,7 @@ CMakeFiles/camera_talker_node.dir/clean:
 CMakeFiles/wheel_talker_node.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles --progress-num=3,4 "Built target wheel_talker_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles --progress-num=5,6 "Built target wheel_talker_node"
 .PHONY : CMakeFiles/wheel_talker_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -181,6 +183,32 @@ wheel_talker_node: CMakeFiles/wheel_talker_node.dir/rule
 CMakeFiles/wheel_talker_node.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wheel_talker_node.dir/build.make CMakeFiles/wheel_talker_node.dir/clean
 .PHONY : CMakeFiles/wheel_talker_node.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/data_collect_node.dir
+
+# All Build rule for target.
+CMakeFiles/data_collect_node.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_collect_node.dir/build.make CMakeFiles/data_collect_node.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_collect_node.dir/build.make CMakeFiles/data_collect_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles --progress-num=3,4 "Built target data_collect_node"
+.PHONY : CMakeFiles/data_collect_node.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/data_collect_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/data_collect_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal/CMakeFiles 0
+.PHONY : CMakeFiles/data_collect_node.dir/rule
+
+# Convenience name for target.
+data_collect_node: CMakeFiles/data_collect_node.dir/rule
+.PHONY : data_collect_node
+
+# clean rule for target.
+CMakeFiles/data_collect_node.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_collect_node.dir/build.make CMakeFiles/data_collect_node.dir/clean
+.PHONY : CMakeFiles/data_collect_node.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

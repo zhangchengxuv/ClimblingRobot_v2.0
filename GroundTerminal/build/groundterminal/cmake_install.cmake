@@ -1,4 +1,4 @@
-# Install script for directory: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal
+# Install script for directory: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -118,7 +118,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/groundterminal" TYPE FILE FILES "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/groundterminal" TYPE FILE FILES "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/package.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

@@ -1,5 +1,5 @@
 CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: \
- /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp \
+ /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp \
  /usr/include/stdc-predef.h \
  /opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp \
  /usr/include/c++/11/csignal \
@@ -646,8 +646,8 @@ CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
- /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/include/carterminal/myconfig.h \
- /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/include/carterminal/cansend.h \
+ /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/include/carterminal/myconfig.h \
+ /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/include/carterminal/cansend.h \
  /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
  /usr/include/x86_64-linux-gnu/bits/socket_type.h \

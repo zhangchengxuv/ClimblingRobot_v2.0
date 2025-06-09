@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/carterminal/src/car_candriver.cpp" "CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o" "gcc" "CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o.d"
+  "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/car_candriver.cpp" "CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o" "gcc" "CMakeFiles/car_candriver.dir/src/car_candriver.cpp.o.d"
   )
 
 # Targets to which this target links.
