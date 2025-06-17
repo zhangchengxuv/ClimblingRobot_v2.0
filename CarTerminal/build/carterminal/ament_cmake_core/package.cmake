@@ -5,7 +5,7 @@ set(carterminal_BUILD_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "image_transport
 set(carterminal_BUILDTOOL_DEPENDS "ament_cmake")
 set(carterminal_BUILD_EXPORT_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "image_transport" "message_filters" "geometry_msgs" "serial" "opencv2" "cv_bridge")
 set(carterminal_BUILDTOOL_EXPORT_DEPENDS )
-set(carterminal_EXEC_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "image_transport" "message_filters" "geometry_msgs" "serial" "opencv2" "cv_bridge")
+set(carterminal_EXEC_DEPENDS "ros2launch" "rclcpp" "std_msgs" "sensor_msgs" "image_transport" "message_filters" "geometry_msgs" "serial" "opencv2" "cv_bridge")
 set(carterminal_TEST_DEPENDS "ament_lint_auto" "ament_lint_common")
 set(carterminal_GROUP_DEPENDS )
 set(carterminal_MEMBER_OF_GROUPS )

@@ -61,9 +61,9 @@ int main(int argc, char const *argv[])
     // 2.初始化ROS2客户端；
     rclcpp::init(argc, argv);
     // 连接串口
-    ros_ser.setPort("/dev/CH340_1");
+    ros_ser.setPort("/dev/ttyS0");
     // 串口波特率
-    ros_ser.setBaudrate(9600);
+    ros_ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     ros_ser.setTimeout(to);
     // ros_ser.close();
