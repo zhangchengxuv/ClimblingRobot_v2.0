@@ -25,7 +25,7 @@ public:
     void topic_callback(const std_msgs::msg::Float32::SharedPtr msg)
     {
         // 定义一个Buffer接受订阅消息
-        unsigned char buffer[4] = {0};
+        unsigned char buffer[6] = {0};
         // 将订阅的消息赋值给 dec_voltage（十进制）
         dec_voltage = msg->data;
         // 转换成十六进制数字
@@ -41,15 +41,15 @@ public:
         buffer[1] = (num >> 8) & 0xFF; // 高8位
         buffer[2] = num & 0xFF;        // 低8位
         // 帧尾
-        buffer[3] = 0xFE;
+        buffer[5] = 0xFE;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             std::cout << std::hex << (buffer[i] & 0xff) << " ";
         }
         std::cout << std::endl;
         // 将数据通过串口发送给下位机
-        ros_ser.write(buffer, 4);
+        ros_ser.write(buffer, 6);
     }
 
 private:
@@ -62,6 +62,8 @@ int main(int argc, char const *argv[])
     rclcpp::init(argc, argv);
     // 连接串口
     ros_ser.setPort("/dev/ttyS0");
+    // ros_ser.setPort("/dev/ttyUSB0");
+
     // 串口波特率
     ros_ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
