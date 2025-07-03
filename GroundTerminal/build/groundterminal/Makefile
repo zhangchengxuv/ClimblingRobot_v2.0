@@ -210,6 +210,19 @@ car_candriver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/car_candriver.dir/build.make CMakeFiles/car_candriver.dir/build
 .PHONY : car_candriver/fast
 
+#=============================================================================
+# Target rules for targets named remote_control
+
+# Build rule for target.
+remote_control: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 remote_control
+.PHONY : remote_control
+
+# fast build rule for target.
+remote_control/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/build
+.PHONY : remote_control/fast
+
 src/car_candriver.o: src/car_candriver.cpp.o
 .PHONY : src/car_candriver.o
 
@@ -234,6 +247,30 @@ src/car_candriver.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/car_candriver.dir/build.make CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s
 .PHONY : src/car_candriver.cpp.s
 
+src/remote_control.o: src/remote_control.cpp.o
+.PHONY : src/remote_control.o
+
+# target to build an object file
+src/remote_control.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/src/remote_control.cpp.o
+.PHONY : src/remote_control.cpp.o
+
+src/remote_control.i: src/remote_control.cpp.i
+.PHONY : src/remote_control.i
+
+# target to preprocess a source file
+src/remote_control.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/src/remote_control.cpp.i
+.PHONY : src/remote_control.cpp.i
+
+src/remote_control.s: src/remote_control.cpp.s
+.PHONY : src/remote_control.s
+
+# target to generate assembly for a file
+src/remote_control.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/src/remote_control.cpp.s
+.PHONY : src/remote_control.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -250,9 +287,13 @@ help:
 	@echo "... groundterminal_uninstall"
 	@echo "... uninstall"
 	@echo "... car_candriver"
+	@echo "... remote_control"
 	@echo "... src/car_candriver.o"
 	@echo "... src/car_candriver.i"
 	@echo "... src/car_candriver.s"
+	@echo "... src/remote_control.o"
+	@echo "... src/remote_control.i"
+	@echo "... src/remote_control.s"
 .PHONY : help
 
 

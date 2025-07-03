@@ -1,0 +1,22 @@
+[0.013s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12
+[0.067s] [35m[1mConsolidate compiler generated dependencies of target car_candriver[0m
+[0.067s] [35m[1mConsolidate compiler generated dependencies of target remote_control[0m
+[0.087s] [ 25%] [32mBuilding CXX object CMakeFiles/remote_control.dir/src/remote_control.cpp.o[0m
+[0.088s] [ 75%] Built target car_candriver
+[2.003s] [100%] [32m[1mLinking CXX executable remote_control[0m
+[2.078s] /usr/bin/ld: CMakeFiles/remote_control.dir/src/remote_control.cpp.o: in function `main':
+[2.078s] remote_control.cpp:(.text+0xcb): undefined reference to `serial::Serial::setPort(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+[2.078s] /usr/bin/ld: remote_control.cpp:(.text+0xfa): undefined reference to `serial::Serial::setBaudrate(unsigned int)'
+[2.078s] /usr/bin/ld: remote_control.cpp:(.text+0x127): undefined reference to `serial::Serial::setTimeout(serial::Timeout&)'
+[2.078s] /usr/bin/ld: remote_control.cpp:(.text+0x136): undefined reference to `serial::Serial::open()'
+[2.078s] /usr/bin/ld: remote_control.cpp:(.text+0x145): undefined reference to `serial::Serial::isOpen() const'
+[2.078s] /usr/bin/ld: CMakeFiles/remote_control.dir/src/remote_control.cpp.o: in function `__static_initialization_and_destruction_0(int, int)':
+[2.079s] remote_control.cpp:(.text+0x4b9): undefined reference to `serial::Serial::Serial(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int, serial::Timeout, serial::bytesize_t, serial::parity_t, serial::stopbits_t, serial::flowcontrol_t)'
+[2.079s] /usr/bin/ld: remote_control.cpp:(.text+0x4f0): undefined reference to `serial::Serial::~Serial()'
+[2.079s] /usr/bin/ld: CMakeFiles/remote_control.dir/src/remote_control.cpp.o: in function `Remote_Control::read_data()':
+[2.079s] remote_control.cpp:(.text._ZN14Remote_Control9read_dataEv[_ZN14Remote_Control9read_dataEv]+0x2a): undefined reference to `serial::Serial::write(unsigned char const*, unsigned long)'
+[2.083s] collect2: error: ld returned 1 exit status
+[2.084s] gmake[2]: *** [CMakeFiles/remote_control.dir/build.make:175：remote_control] 错误 1
+[2.085s] gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/remote_control.dir/all] 错误 2
+[2.085s] gmake: *** [Makefile:146：all] 错误 2
+[2.087s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12

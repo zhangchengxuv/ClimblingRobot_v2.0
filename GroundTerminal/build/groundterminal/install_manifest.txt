@@ -1,4 +1,5 @@
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/car_candriver
+/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/remote_control
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/package_run_dependencies/groundterminal
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/parent_prefix_path/groundterminal
 /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/ament_prefix_path.sh

@@ -8,7 +8,8 @@
             "includePath": [
                 "/opt/ros/humble/include/**",
                 "/opt/ros/humble/include/geometry_msgs",
-                "${workspaceFolder}/src/carterminal/include/**"
+                "${workspaceFolder}/src/carterminal/include/**",
+                "${workspaceFolder}/src/groundterminal/include"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",

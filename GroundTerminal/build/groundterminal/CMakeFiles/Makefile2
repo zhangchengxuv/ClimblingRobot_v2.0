@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/Gr
 
 # The main recursive "all" target.
 all: CMakeFiles/car_candriver.dir/all
+all: CMakeFiles/remote_control.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -74,6 +75,7 @@ preinstall:
 clean: CMakeFiles/uninstall.dir/clean
 clean: CMakeFiles/groundterminal_uninstall.dir/clean
 clean: CMakeFiles/car_candriver.dir/clean
+clean: CMakeFiles/remote_control.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -153,6 +155,32 @@ car_candriver: CMakeFiles/car_candriver.dir/rule
 CMakeFiles/car_candriver.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/car_candriver.dir/build.make CMakeFiles/car_candriver.dir/clean
 .PHONY : CMakeFiles/car_candriver.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/remote_control.dir
+
+# All Build rule for target.
+CMakeFiles/remote_control.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles --progress-num=3,4 "Built target remote_control"
+.PHONY : CMakeFiles/remote_control.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/remote_control.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/remote_control.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles 0
+.PHONY : CMakeFiles/remote_control.dir/rule
+
+# Convenience name for target.
+remote_control: CMakeFiles/remote_control.dir/rule
+.PHONY : remote_control
+
+# clean rule for target.
+CMakeFiles/remote_control.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/clean
+.PHONY : CMakeFiles/remote_control.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

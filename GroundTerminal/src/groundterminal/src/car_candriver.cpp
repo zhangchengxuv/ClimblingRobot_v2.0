@@ -350,29 +350,29 @@ private:
     return nullptr;
   }
   void ReceiveData()
-{
-  // 接收数据
-  can_frame frame;
-  sockaddr_can addr;
-  socklen_t len = sizeof(addr);
-  while (rclcpp::ok() && m_run0)
   {
-    int nbytes = recvfrom(can0_socket, &frame, sizeof(frame), 0,
-                          (struct sockaddr *)&addr, &len);
-
-    if (nbytes < 0)
+    // 接收数据
+    can_frame frame;
+    sockaddr_can addr;
+    socklen_t len = sizeof(addr);
+    while (rclcpp::ok() && m_run0)
     {
-      if (errno == EAGAIN)
-      { // 非阻塞模式无数据
-        std::this_thread::sleep_for(10ms);
-        continue;
+      int nbytes = recvfrom(can0_socket, &frame, sizeof(frame), 0,
+                            (struct sockaddr *)&addr, &len);
+
+      if (nbytes < 0)
+      {
+        if (errno == EAGAIN)
+        { // 非阻塞模式无数据
+          std::this_thread::sleep_for(10ms);
+          continue;
+        }
+        break;
       }
-      break;
-    }
 
-    switch (frame.can_id)
-    {
-    case 0x001:
+      switch (frame.can_id)
+      {
+      case 0x001:
       {
         for (int i = 0; i < 5; i++)
         {
@@ -388,7 +388,7 @@ private:
       }
       break;
 
-    case 0x002:
+      case 0x002:
       {
         for (int i = 0; i < 5; i++)
         {
@@ -403,7 +403,7 @@ private:
       }
       break;
 
-    case 0x003:
+      case 0x003:
       {
         for (int i = 0; i < 5; i++)
         {
@@ -418,7 +418,7 @@ private:
       }
       break;
 
-    case 0x004:
+      case 0x004:
       {
         for (int i = 0; i < 5; i++)
         {
@@ -432,9 +432,9 @@ private:
         rt4_data.data = decval4;
       }
       break;
+      }
     }
   }
-}
   // 速度反馈函数 此处应该调用回调组
   void on_rtsp_timer()
   {

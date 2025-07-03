@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-27795ff9a976b021295a.json",
+					"jsonFile" : "directory-.-0cdacc4ed24927d76a27.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.12"
@@ -18,7 +18,8 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3
 					]
 				}
 			],
@@ -35,7 +36,8 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3
 					]
 				}
 			],
@@ -44,7 +46,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "car_candriver::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-car_candriver-a8e68c8258b92d20fb76.json",
+					"jsonFile" : "target-car_candriver-93712507bb2e54d2c719.json",
 					"name" : "car_candriver",
 					"projectIndex" : 0
 				},
@@ -53,6 +55,13 @@
 					"id" : "groundterminal_uninstall::@6890427a1f51a3e7e1df",
 					"jsonFile" : "target-groundterminal_uninstall-971e10eea925c212443d.json",
 					"name" : "groundterminal_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "remote_control::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-remote_control-f1e3ebe8298373f4c2b9.json",
+					"name" : "remote_control",
 					"projectIndex" : 0
 				},
 				{

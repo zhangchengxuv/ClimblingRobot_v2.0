@@ -11,15 +11,18 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(serial REQUIRED)
 
 add_executable(car_candriver src/car_candriver.cpp)
+add_executable(remote_control src/remote_control.cpp)
+
 
 target_include_directories(car_candriver PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-target_compile_features(car_candriver PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(car_candriver PUBLIC c_std_99 cxx_std_17) 
 
 ament_target_dependencies(
   car_candriver
@@ -29,17 +32,24 @@ ament_target_dependencies(
   "geometry_msgs"
 )
 
-install(TARGETS car_candriver
-  DESTINATION lib/${PROJECT_NAME})
+ament_target_dependencies(
+  remote_control
+  "rclcpp"
+  "std_msgs"
+  "sensor_msgs"
+  "geometry_msgs"
+  "serial"
+)
+
+
+install(TARGETS 
+        car_candriver
+        remote_control
+        DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
