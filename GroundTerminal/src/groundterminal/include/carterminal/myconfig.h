@@ -17,7 +17,12 @@ int motor_id_03 = 0x0003; // 左后
 int motor_id_04 = 0x0004; // 右后
 
 // 电机原始速度(单位：HZ)
-int V_x;
+int joyspeed = 0;
+int joyturuspeed = 0;
+int cruising_speed = 0;
+// 下放速度
+int control_speed = 0;
+int control_turnspeed = 0;
 
 // CAN0 socket描述符
 int can0_socket = -1; 

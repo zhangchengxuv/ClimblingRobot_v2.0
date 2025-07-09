@@ -1,0 +1,15 @@
+[0.013s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12
+[0.072s] [35m[1mConsolidate compiler generated dependencies of target remote_control[0m
+[0.089s] [ 50%] Built target car_candriver
+[0.092s] [ 75%] [32mBuilding CXX object CMakeFiles/remote_control.dir/src/remote_control.cpp.o[0m
+[1.600s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:[m[K In member function ‘[01m[Kvoid Remote_Control::read_data()[m[K’:
+[1.600s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:221:17:[m[K [01;31m[Kerror: [m[Kredeclaration of ‘[01m[Kuint8_t status_3[m[K’
+[1.600s]   221 |         uint8_t [01;31m[Kstatus_3[m[K = controldate[22];
+[1.600s]       |                 [01;31m[K^~~~~~~~[m[K
+[1.600s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:167:17:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t status_3[m[K’ previously declared here
+[1.601s]   167 |         uint8_t [01;36m[Kstatus_3[m[K = controldate[20];
+[1.601s]       |                 [01;36m[K^~~~~~~~[m[K
+[1.906s] gmake[2]: *** [CMakeFiles/remote_control.dir/build.make:76：CMakeFiles/remote_control.dir/src/remote_control.cpp.o] 错误 1
+[1.907s] gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/remote_control.dir/all] 错误 2
+[1.907s] gmake: *** [Makefile:146：all] 错误 2
+[1.909s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12

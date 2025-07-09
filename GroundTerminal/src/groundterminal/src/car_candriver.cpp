@@ -45,26 +45,55 @@ public:
     sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
     rclcpp::SubscriptionOptions options_sub;
     options_sub.callback_group = sub_callback_group_;
-    // 操作回调组(高频操作)
-    operate_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-    rclcpp::SubscriptionOptions operate_options_sub;
-    operate_options_sub.callback_group = operate_callback_group_;
+    // 方向订阅回调组
+    direction_sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions options_direction_sub;
+    options_direction_sub.callback_group = direction_sub_callback_group_;
+    // 遥杆速度订阅回调组
+    joystick_speed_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions joystick_speed_sub;
+    joystick_speed_sub.callback_group = joystick_speed_callback_group_;
+    // 遥杆转向速度订阅回调组
+    turn_speed_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions turn_speed_sub;
+    turn_speed_sub.callback_group = turn_speed_callback_group_;
+    // 巡航速度订阅回调组
+    cruising_speed_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions cruising_speed_sub;
+    cruising_speed_sub.callback_group = cruising_speed_callback_group_;
+    // 遥杆和巡航车体状态订阅回调组
+    joystick_or_cruising_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions joystick_or_cruising_sub;
+    joystick_or_cruising_sub.callback_group = joystick_or_cruising_callback_group_;
+    // IMU数据订阅回调组
+    imudata_sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions options_imudata_sub;
+    options_imudata_sub.callback_group = imudata_sub_callback_group_;
     // 定时器
     timer_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
     sendtimer_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
 
-    // 创建速度指令订阅者回调
-    this->twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>("cmd_vel", 10,
-                                                                            std::bind(&Can_Driver::twistCallback, this, std::placeholders::_1), options_sub);
-    // 创建控制线程
-    this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_true", 10,
-                                                                       std::bind(&Can_Driver::speedCallback, this, std::placeholders::_1), operate_options_sub);
+    // 方向订阅
+    this->direction_sub_ = this->create_subscription<std_msgs::msg::Int32>("direction", 10,
+                                                                           std::bind(&Can_Driver::directionCallback, this, std::placeholders::_1), options_direction_sub);
+    // 遥杆速度订阅
+    this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_joystick", 10,
+                                                                       std::bind(&Can_Driver::joyspeedCallback, this, std::placeholders::_1), joystick_speed_sub);
+    // 转向速度订阅
+    this->turn_speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("trunspeed_joystick", 10,
+                                                                            std::bind(&Can_Driver::joyturnspeedCallback, this, std::placeholders::_1), turn_speed_sub);
+    // 遥杆和巡航车体状态订阅
+    this->joystick_or_cruising_sub_ = this->create_subscription<std_msgs::msg::Int32>("joystick_or_cruising", 10,
+                                                                                      std::bind(&Can_Driver::joystickOrCruisingCallback, this, std::placeholders::_1), joystick_or_cruising_sub);
+    // 巡航速度订阅
+    this->cruising_speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("cruising_speed", 10,
+                                                                                std::bind(&Can_Driver::cruisingSpeedCallback, this, std::placeholders::_1), cruising_speed_sub);
     // 操作模式切换
     this->mode_sub_ = this->create_subscription<std_msgs::msg::Int32>("mode_flag", 10,
                                                                       std::bind(&Can_Driver::modeCallback, this, std::placeholders::_1), options_sub);
     // imu数据订阅
     this->imu_data_subr = this->create_subscription<std_msgs::msg::Float64MultiArray>("imu_data_pub", 10,
-                                                                                      std::bind(&Can_Driver::imu_calculate_Callback, this, std::placeholders::_1), options_sub);
+                                                                                      std::bind(&Can_Driver::imu_calculate_Callback, this, std::placeholders::_1), options_imudata_sub);
     // 创建实时速度发布方
     rtspeed1_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt1_speed", 10);
     rtspeed2_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt2_speed", 10);
@@ -83,21 +112,27 @@ private:
   rclcpp::CallbackGroup::SharedPtr sendtimer_callback_group_;
 
   rclcpp::CallbackGroup::SharedPtr sub_callback_group_;
-  rclcpp::CallbackGroup::SharedPtr operate_callback_group_;
-  rclcpp::CallbackGroup::SharedPtr pub_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr joystick_speed_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr turn_speed_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr imudata_sub_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr direction_sub_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr cruising_speed_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr joystick_or_cruising_callback_group_;
 
   // 键盘控制节点订阅
-  rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub_;
-
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr direction_sub_;
   // 订阅IMU数据
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr imu_data_subr;
-
-  // 速度发布节点订阅
+  // 遥杆速度
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr speed_sub_;
-
+  // 转向速度
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr turn_speed_sub_;
+  // 巡航速度
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr cruising_speed_sub_;
+  // 遥杆和巡航车体状态
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr joystick_or_cruising_sub_;
   // 模式订阅
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr mode_sub_;
-
   // 四个车轮的实时速度反馈
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed1_pub_;
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed2_pub_;
@@ -108,13 +143,41 @@ private:
   rclcpp::TimerBase::SharedPtr sp_timer_;
   rclcpp::TimerBase::SharedPtr send_timer_;
 
-  // 操作速度回调函数
-  void speedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
+  // 遥杆速度回调函数
+  void joyspeedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
   {
 
-    V_x = speed_msg->data;
-    RCLCPP_INFO(this->get_logger(), "%d", V_x);
+    joyspeed = speed_msg->data;
+    RCLCPP_INFO(this->get_logger(), "速度：%d", joyspeed);
   }
+  // 转向速度回调函数
+  void joyturnspeedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
+  {
+
+    joyturuspeed = speed_msg->data;
+    RCLCPP_INFO(this->get_logger(), "转向：%d", joyturuspeed);
+  }
+  // 巡航速度回调函数
+  void cruisingSpeedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
+  {
+    cruising_speed = speed_msg->data;
+    RCLCPP_INFO(this->get_logger(), "巡航速度：%d", cruising_speed);
+  }
+  void joystickOrCruisingCallback(const std_msgs::msg::Int32::SharedPtr mode_msg)
+  {
+    // 根据遥杆或巡航模式设置速度
+    if (mode_msg->data == 0) // 遥杆模式
+    {
+      control_speed = joyspeed;
+      control_turnspeed = joyturuspeed;
+    }
+    else if (mode_msg->data == 1) // 巡航模式
+    {
+      control_speed = cruising_speed;
+      control_turnspeed = cruising_speed;
+    }
+  }
+
   // 操作模式回调函数
   void modeCallback(const std_msgs::msg::Int32::SharedPtr mode_msg)
   {
@@ -140,7 +203,7 @@ private:
 
     if (called)
     {
-      // twistCallback 被调用时的逻辑
+      // directionCallback 被调用时的逻辑
       SendData(can0_socket, motor_id_01, false, motor_01, 5);
       SendData(can0_socket, motor_id_02, false, motor_02, 5);
       SendData(can0_socket, motor_id_03, false, motor_03, 5);
@@ -148,7 +211,7 @@ private:
     }
     else
     {
-      // twistCallback 未被调用时的逻辑
+      // directionCallback 未被调用时的逻辑
       SendData(can0_socket, motor_id_01, false, speed_zero, 5);
       SendData(can0_socket, motor_id_02, false, speed_zero, 5);
       SendData(can0_socket, motor_id_03, false, speed_zero, 5);
@@ -156,34 +219,27 @@ private:
     }
   }
   // 操作方向回调函数
-  void twistCallback(const geometry_msgs::msg::Twist::SharedPtr msg)
+  void directionCallback(const std_msgs::msg::Int32 msg)
   {
     twist_called_.store(true); // 标记回调被触发
 
-    float Straight_f = msg->linear.x;
-    float Turn_f = msg->angular.z;
-    if (V_x > 2000)
-    {
-      // 限制最大速度
-      V_x = 2000;
-    }
     switch (mode)
     {
     // 正常模式
     case 0:
     {
       // --------------前进--------------
-      if (Straight_f > 0)
+      if (msg.data == 1)
       {
         // 前进时左侧1和3轮速度一致
-        auto leftwheel = createOutspeed(round(V_x));
+        auto leftwheel = createOutspeed(round(control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = leftwheel[i];
           motor_03[i] = leftwheel[i];
         }
         // 前进时右侧2和4轮速度一致
-        auto rightwheel = createOutspeed(round(-V_x));
+        auto rightwheel = createOutspeed(round(-control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_02[i] = rightwheel[i];
@@ -191,17 +247,17 @@ private:
         }
       }
       // --------------后退--------------
-      else if (Straight_f < 0)
+      else if (msg.data == 2)
       {
         // 后退时左侧1和3轮速度一致
-        auto leftwheel = createOutspeed(round(-V_x));
+        auto leftwheel = createOutspeed(round(-control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = leftwheel[i];
           motor_03[i] = leftwheel[i];
         }
         // 后退时右侧2和4轮速度一致
-        auto rightwheel = createOutspeed(round(V_x));
+        auto rightwheel = createOutspeed(round(control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_02[i] = rightwheel[i];
@@ -209,21 +265,21 @@ private:
         }
       }
       // --------------左转--------------
-      else if (Turn_f > 0)
+      else if (msg.data == 3)
       {
         // 转向时的直线速度
-        int V_x_t = 200;
+        int joyspeed_t = 0;
         // 转向时的旋转速度
-        int V_x_f = 200;
+        int joyspeed_f = control_turnspeed;
         // 1&3
-        auto leftwheel = createOutspeed(-round(V_x_t + V_x_f));
+        auto leftwheel = createOutspeed(-round(joyspeed_t + joyspeed_f));
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = leftwheel[i];
           motor_03[i] = leftwheel[i];
         }
         // 2&4
-        auto rightwheel = createOutspeed(-round(V_x_t + V_x_f));
+        auto rightwheel = createOutspeed(-round(joyspeed_t + joyspeed_f));
         for (int i = 0; i < 5; ++i)
         {
           motor_02[i] = rightwheel[i];
@@ -231,21 +287,21 @@ private:
         }
       }
       // --------------右转--------------
-      else if (Turn_f < 0)
+      else if (msg.data == 4)
       {
         // 转向时的直线速度
-        int V_x_t = 200;
+        int joyspeed_t = 0;
         // 转向时的旋转速度
-        int V_x_f = 200;
+        int joyspeed_f = control_turnspeed;
         // 1&3
-        auto leftwheel = createOutspeed(round(V_x_t + V_x_f));
+        auto leftwheel = createOutspeed(round(joyspeed_t + joyspeed_f));
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = leftwheel[i];
           motor_03[i] = leftwheel[i];
         }
         // 2&4
-        auto rightwheel = createOutspeed(round(V_x_t + V_x_f));
+        auto rightwheel = createOutspeed(round(joyspeed_t + joyspeed_f));
         for (int i = 0; i < 5; ++i)
         {
           motor_02[i] = rightwheel[i];
@@ -272,10 +328,10 @@ private:
       pitch = pitch / 180 * 3.1415;
       double sin_val = std::sin(pitch);
       double cos_val = std::cos(pitch);
-      float V_y = V_x * cos_val / sin_val;
+      float V_y = control_speed * cos_val / sin_val;
 
       // --------------前进--------------
-      if (Straight_f > 0)
+      if (msg.data == 1)
       {
         // 前进时前方1和2轮速度一致
         auto frontwheel_1 = createOutspeed(round(V_y));
@@ -289,8 +345,8 @@ private:
           motor_02[i] = frontwheel_2[i];
         }
         // 前进时后方3和4轮速度一致
-        auto behindwheel_3 = createOutspeed(round(V_x));
-        auto behindwheel_4 = createOutspeed(round(-V_x));
+        auto behindwheel_3 = createOutspeed(round(control_speed));
+        auto behindwheel_4 = createOutspeed(round(-control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_03[i] = behindwheel_3[i];
@@ -301,11 +357,11 @@ private:
         }
       }
       // --------------后退--------------
-      else if (Straight_f < 0)
+      else if (msg.data == 2)
       {
-        // 前进时前方1和2轮速度一致
-        auto frontwheel_1 = createOutspeed(round(-V_x));
-        auto frontwheel_2 = createOutspeed(round(V_x));
+        // 前方1和2轮速度一致
+        auto frontwheel_1 = createOutspeed(round(-control_speed));
+        auto frontwheel_2 = createOutspeed(round(control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = frontwheel_1[i];
@@ -314,9 +370,9 @@ private:
         {
           motor_02[i] = frontwheel_2[i];
         }
-        // 前进时后方3和4轮速度一致
-        auto behindwheel_3 = createOutspeed(round(-V_y));
-        auto behindwheel_4 = createOutspeed(round(V_y));
+        // 后方3和4轮速度一致
+        auto behindwheel_3 = createOutspeed(round(-control_speed));
+        auto behindwheel_4 = createOutspeed(round(control_speed));
         for (int i = 0; i < 5; ++i)
         {
           motor_03[i] = behindwheel_3[i];
