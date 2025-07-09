@@ -22,6 +22,12 @@ public:
         direction_pub_ = this->create_publisher<std_msgs::msg::Int32>("direction", 10);
         // 发送两种电压值（数组）
         voltageArray_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("voltage_array", 10);
+        // 发送两种电压值（数组）
+        voltageArray_pub_2 = this->create_publisher<std_msgs::msg::Float64MultiArray>("voltage_array_2", 10);
+        // wheel状态
+        wheel_status_pub_ = this->create_publisher<std_msgs::msg::Int32>("wheel_status", 10);
+        // arm状态
+        arm_status_pub_ = this->create_publisher<std_msgs::msg::Int32>("arm_status", 10);
         // 遥杆或者巡航车体状态
         joystick_or_cruising_pub_ = this->create_publisher<std_msgs::msg::Int32>("joystick_or_cruising", 10);
         // 遥杆车体速度
@@ -45,8 +51,14 @@ private:
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr speed_joystick_pub_;
     // 转向遥杆速度(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr trunspeed_joystick_pub_;
+    // wheel状态(Int32)
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr wheel_status_pub_;
+    // arm状态(Int32)
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_;
+    // 发送两种电压值（数组）
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_2;
 
     void read_data()
     {
@@ -61,6 +73,10 @@ private:
         auto cruising_speed = std_msgs::msg::Int32();
         // 遥杆或者巡航车体状态
         auto joystick_or_cruising = std_msgs::msg::Int32();
+        // wheel状态
+        auto wheel_status = std_msgs::msg::Int32();
+        // arm状态
+        auto arm_status = std_msgs::msg::Int32();
         // // 辅助轮推杆变量
         // auto auxiliary_rod = std_msgs::msg::Float32();
         // // 前轮推杆变量
@@ -68,6 +84,8 @@ private:
         // 综合推杆电压变量
         auto combined_voltage = std_msgs::msg::Float64MultiArray();
         combined_voltage.data.resize(2);
+        auto combined_voltage_2 = std_msgs::msg::Float64MultiArray();
+        combined_voltage_2.data.resize(2);
 
         //-----------------------------数据的解析----------------------------//
         // 发送数据
@@ -106,11 +124,13 @@ private:
         // 辅助推杆电压
         uint8_t voltage_0 = controldate[10];
         float dec_voltage_0 = static_cast<int>(voltage_0) / 255.0 * 24.0; // 电压范围是0-24V
+        combined_voltage_2.data[0] = dec_voltage_0;                       // 转换为推杆电压
         std::cout << "辅助推杆电压: " << dec_voltage_0 << " V" << std::endl;
 
         // 前臂推杆电压
         uint8_t voltage_1 = controldate[12];
         float dec_voltage_1 = static_cast<int>(voltage_1) / 255.0 * 24.0; // 电压范围是0-24V
+        combined_voltage_2.data[1] = dec_voltage_1;                       // 转换为推杆电压
         std::cout << "前臂推杆电压: " << dec_voltage_1 << " V" << std::endl;
         // controldate[17] 二进制，|按钮1|喷漆关|喷漆开|F4|F3|F2|F1|除锈|
         uint8_t status_0 = controldate[17];
@@ -241,12 +261,14 @@ private:
             std::cout << "辅助轮下降" << std::endl;
             // auxiliary_rod.data = dec_voltage_0 * 10.0;
             combined_voltage.data[0] = dec_voltage_0 * 10.0 - 1.0;
+            wheel_status.data = 1; // 辅助轮下降状态
         }
         else if ((status_2 & 0x02) != 0)
         {
             std::cout << "辅助轮上升" << std::endl;
             // auxiliary_rod.data = dec_voltage_0 * 10.0 + 240.0;
             combined_voltage.data[0] = dec_voltage_0 * 10.0 + 240.0 - 1.0;
+            wheel_status.data = 2; // 辅助轮上升状态
         }
         else
         {
@@ -259,12 +281,14 @@ private:
             std::cout << "摆臂上升" << std::endl;
             // front_rod.data = dec_voltage_1 * 10.0;
             combined_voltage.data[1] = dec_voltage_1 * 10.0 - 1.0;
+            arm_status.data = 1; // 摆臂上升状态
         }
         else if ((status_2 & 0x01) != 0)
         {
             std::cout << "摆臂下降" << std::endl;
             // front_rod.data = dec_voltage_1 * 10.0 + 240.0;
             combined_voltage.data[1] = dec_voltage_1 * 10.0 + 240.0 - 1.0;
+            arm_status.data = 2; // 摆臂下降状态
         }
         else
         {
@@ -380,6 +404,11 @@ private:
         speed_joystick_pub_->publish(speed_joystick);
         // 综合推杆电压发布
         voltageArray_pub_->publish(combined_voltage);
+        voltageArray_pub_2->publish(combined_voltage_2);
+        // wheel状态发布
+        wheel_status_pub_->publish(wheel_status);
+        // arm状态发布
+        arm_status_pub_->publish(arm_status);
         // 转向遥杆速度发布
         trunspeed_joystick_pub_->publish(speed_turn);
     }
