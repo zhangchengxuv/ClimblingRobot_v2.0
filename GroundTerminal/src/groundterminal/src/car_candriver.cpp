@@ -148,31 +148,38 @@ private:
   {
 
     joyspeed = speed_msg->data;
-    RCLCPP_INFO(this->get_logger(), "速度：%d", joyspeed);
+    // RCLCPP_INFO(this->get_logger(), "速度：%d", joyspeed);
   }
   // 转向速度回调函数
   void joyturnspeedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
   {
 
     joyturuspeed = speed_msg->data;
-    RCLCPP_INFO(this->get_logger(), "转向：%d", joyturuspeed);
+    // RCLCPP_INFO(this->get_logger(), "转向：%d", joyturuspeed);
   }
   // 巡航速度回调函数
   void cruisingSpeedCallback(const std_msgs::msg::Int32::SharedPtr speed_msg)
   {
     cruising_speed = speed_msg->data;
-    RCLCPP_INFO(this->get_logger(), "巡航速度：%d", cruising_speed);
+    // RCLCPP_INFO(this->get_logger(), "巡航速度：%d", cruising_speed);
   }
   void joystickOrCruisingCallback(const std_msgs::msg::Int32::SharedPtr mode_msg)
   {
     // 根据遥杆或巡航模式设置速度
     if (mode_msg->data == 0) // 遥杆模式
     {
+      // 先做裁剪
+      joyspeed = std::min(joyspeed, 2000);
+      joyturuspeed = std::min(joyturuspeed, 2000);
+      // 赋值给控制量
       control_speed = joyspeed;
       control_turnspeed = joyturuspeed;
     }
     else if (mode_msg->data == 1) // 巡航模式
     {
+      // 先做裁剪
+      cruising_speed = std::min(cruising_speed, 2000);
+      // 赋值给控制量
       control_speed = cruising_speed;
       control_turnspeed = cruising_speed;
     }
@@ -311,7 +318,7 @@ private:
       // --------------停止--------------
       else
       {
-        cout << "----- 停止" << endl;
+        // cout << "----- 停止" << endl;
         for (int i = 0; i < 5; ++i)
         {
           motor_01[i] = speed_zero[i];
@@ -432,7 +439,7 @@ private:
       {
         for (int i = 0; i < 5; i++)
         {
-          printf("%02x", (int)frame.data[i]);
+          // printf("%02x", (int)frame.data[i]);
           receiveData[i] = (int)frame.data[i];
         }
         realData[0] = receiveData[2];

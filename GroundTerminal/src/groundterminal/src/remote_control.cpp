@@ -102,24 +102,25 @@ private:
         std::cout << std::dec << std::endl;
         // 车体速度
         uint8_t speed_wheel = controldate[8];
-        float dec_speed_wheel = static_cast<int>(speed_wheel) / 255.0 * 15; // 速度范围是0-15 m/min
+        float dec_speed_wheel = static_cast<int>(speed_wheel) / 255.0 * 10; // 速度范围是0-10 m/min (2335)
         std::cout << "巡航车体速度: " << dec_speed_wheel << " m/min" << std::endl;
-        cruising_speed.data = dec_speed_wheel;
+        float motorspeed = dec_speed_wheel * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+        cruising_speed.data = motorspeed;
         // 遥杆车体速度
         uint8_t speed_wheel_1 = controldate[4];
-        float dec_speed_wheel_1 = static_cast<int>(speed_wheel_1) / 255.0 * 15; // 速度范围是0-15 m/min
+        float dec_speed_wheel_1 = static_cast<int>(speed_wheel_1) / 255.0 * 10; // 速度范围是0-10 m/min
         std::cout << "遥杆车体速度: " << dec_speed_wheel_1 << " m/min" << std::endl;
-        float motorspeed1 = dec_speed_wheel_1 * 180 * 110 * 250 / 360 / 10 / 3.14;
+        float motorspeed1 = dec_speed_wheel_1 * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
         speed_joystick.data = motorspeed1;
         // 遥杆转向速度
         uint8_t speed_turu_1 = controldate[6];
-        float dec_speed_turn = static_cast<int>(speed_turu_1) / 255.0 * 7.5; // 速度范围是0-7.5m/min
+        float dec_speed_turn = static_cast<int>(speed_turu_1) / 255.0 * 10; // 速度范围是0-10m/min
         std::cout << "遥杆转向速度: " << dec_speed_turn << " m/min" << std::endl;
-        float motorspeed2 = dec_speed_turn * 180 * 110 * 250 / 360 / 10 / 3.14;
+        float motorspeed2 = dec_speed_turn  * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
         speed_turn.data = motorspeed2;
         // 摆臂电机速度
         uint8_t speed_arm = controldate[14];
-        float dec_speed_arm = static_cast<int>(speed_arm) / 255.0 * 5; // 速度范围是0-15 m/min
+        float dec_speed_arm = static_cast<int>(speed_arm) / 255.0 * 5; // 速度范围是0-10 m/min
         std::cout << "摆臂电机速度: " << dec_speed_arm << " m/min" << std::endl;
         // 辅助推杆电压
         uint8_t voltage_0 = controldate[10];
@@ -260,14 +261,22 @@ private:
         {
             std::cout << "辅助轮下降" << std::endl;
             // auxiliary_rod.data = dec_voltage_0 * 10.0;
-            combined_voltage.data[0] = dec_voltage_0 * 10.0 - 1.0;
+            combined_voltage.data[0] = dec_voltage_0 * 10.0;
             wheel_status.data = 1; // 辅助轮下降状态
         }
         else if ((status_2 & 0x02) != 0)
         {
             std::cout << "辅助轮上升" << std::endl;
             // auxiliary_rod.data = dec_voltage_0 * 10.0 + 240.0;
-            combined_voltage.data[0] = dec_voltage_0 * 10.0 + 240.0 - 1.0;
+            float temp = dec_voltage_0 * 10.0;
+            if (temp == 240)
+            {
+                combined_voltage.data[0] = 0;
+            }
+            else
+            {
+                combined_voltage.data[0] = dec_voltage_0 * 10.0 + 240.0;
+            }
             wheel_status.data = 2; // 辅助轮上升状态
         }
         else
@@ -280,14 +289,14 @@ private:
         {
             std::cout << "摆臂上升" << std::endl;
             // front_rod.data = dec_voltage_1 * 10.0;
-            combined_voltage.data[1] = dec_voltage_1 * 10.0 - 1.0;
+            combined_voltage.data[1] = dec_voltage_1 * 10.0;
             arm_status.data = 1; // 摆臂上升状态
         }
         else if ((status_2 & 0x01) != 0)
         {
             std::cout << "摆臂下降" << std::endl;
             // front_rod.data = dec_voltage_1 * 10.0 + 240.0;
-            combined_voltage.data[1] = dec_voltage_1 * 10.0 + 240.0 - 1.0;
+            combined_voltage.data[1] = dec_voltage_1 * 10.0 + 240.0;
             arm_status.data = 2; // 摆臂下降状态
         }
         else
