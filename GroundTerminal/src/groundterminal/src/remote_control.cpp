@@ -4,7 +4,10 @@
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
 #include "serial/serial.h"
+#include "mode_switching.h"
 #include <cmath>
+#include <thread>
+#include <atomic>
 
 serial::Serial ser;
 using namespace std::chrono_literals;
@@ -59,6 +62,7 @@ private:
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_2;
+    // 模式切换线程
 
     void read_data()
     {
@@ -100,12 +104,20 @@ private:
             std::cout << std::hex << static_cast<int>(controldate[i]) << " ";
         }
         std::cout << std::dec << std::endl;
-        // 车体速度
-        uint8_t speed_wheel = controldate[8];
-        float dec_speed_wheel = static_cast<int>(speed_wheel) / 255.0 * 10; // 速度范围是0-10 m/min (2335)
-        std::cout << "巡航车体速度: " << dec_speed_wheel << " m/min" << std::endl;
-        float motorspeed = dec_speed_wheel * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
-        cruising_speed.data = motorspeed;
+        // 巡航车体速度
+        if (mode_speed_status == 0)
+        {
+            uint8_t speed_wheel = controldate[8];
+            float dec_speed_wheel = static_cast<int>(speed_wheel) / 255.0 * 10; // 速度范围是0-10 m/min (2335)
+            std::cout << "巡航车体速度: " << dec_speed_wheel << " m/min" << std::endl;
+            float motorspeed = dec_speed_wheel * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+            cruising_speed.data = motorspeed;
+        }
+        else if (mode_speed_status == 1)
+        {
+            float motorspeed = mode_speed_value * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+            cruising_speed.data = motorspeed;
+        }
         // 遥杆车体速度
         uint8_t speed_wheel_1 = controldate[4];
         float dec_speed_wheel_1 = static_cast<int>(speed_wheel_1) / 255.0 * 10; // 速度范围是0-10 m/min
@@ -116,7 +128,7 @@ private:
         uint8_t speed_turu_1 = controldate[6];
         float dec_speed_turn = static_cast<int>(speed_turu_1) / 255.0 * 10; // 速度范围是0-10m/min
         std::cout << "遥杆转向速度: " << dec_speed_turn << " m/min" << std::endl;
-        float motorspeed2 = dec_speed_turn  * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+        float motorspeed2 = dec_speed_turn * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
         speed_turn.data = motorspeed2;
         // 摆臂电机速度
         uint8_t speed_arm = controldate[14];
@@ -151,22 +163,24 @@ private:
         {
             std::cout << "喷漆: 开启" << std::endl;
         }
+        // 日常模式与特殊模式切换
         if ((status_0 & 0x10) != 0)
         {
-            std::cout << "F4: 按下" << std::endl;
+            // 速度状态
+            mode_speed_status = 0;
+            // 模式辅助轮状态
+            mode_wheel_status = 0; // 0:日常 1:模式
+            std::cout << "遥杆模式，推杆电压手动" << std::endl;
         }
         else
         {
-            std::cout << "F4: 未按下" << std::endl;
+            // 速度状态
+            mode_speed_status = 1;
+            // 模式辅助轮状态
+            mode_wheel_status = 1; // 0:日常 1:模式
+            std::cout << "特殊过渡模式" << std::endl;
         }
-        if ((status_0 & 0x08) != 0)
-        {
-            std::cout << "F3: 按下" << std::endl;
-        }
-        else
-        {
-            std::cout << "F3: 未按下" << std::endl;
-        }
+        // 遥杆速度与巡航速度切换
         if ((status_0 & 0x04) != 0)
         {
             // F2 按键
@@ -256,33 +270,59 @@ private:
         }
         // controldate[19] 二进制，辅助轮下降|辅助轮上升|摆臂下降|各自停止
         uint8_t status_2 = controldate[19];
-
-        if ((status_2 & 0x04) != 0)
+        // 日常
+        if (mode_wheel_status == 0)
         {
-            std::cout << "辅助轮下降" << std::endl;
-            // auxiliary_rod.data = dec_voltage_0 * 10.0;
-            combined_voltage.data[0] = dec_voltage_0 * 10.0;
-            wheel_status.data = 1; // 辅助轮下降状态
-        }
-        else if ((status_2 & 0x02) != 0)
-        {
-            std::cout << "辅助轮上升" << std::endl;
-            // auxiliary_rod.data = dec_voltage_0 * 10.0 + 240.0;
-            float temp = dec_voltage_0 * 10.0;
-            if (temp == 240)
+            if ((status_2 & 0x04) != 0)
             {
-                combined_voltage.data[0] = 0;
+                std::cout << "辅助轮下降" << std::endl;
+                // auxiliary_rod.data = dec_voltage_0 * 10.0;
+                combined_voltage.data[0] = dec_voltage_0 * 10.0;
+                wheel_status.data = 1; // 辅助轮下降状态
+            }
+            else if ((status_2 & 0x02) != 0)
+            {
+                std::cout << "辅助轮上升" << std::endl;
+                // auxiliary_rod.data = dec_voltage_0 * 10.0 + 240.0;
+                float temp = dec_voltage_0 * 10.0 + 240.0;
+                if (temp == 240)
+                {
+                    combined_voltage.data[0] = 0;
+                }
+                else
+                {
+                    combined_voltage.data[0] = dec_voltage_0 * 10.0 + 240.0;
+                }
+                wheel_status.data = 2; // 辅助轮上升状态
             }
             else
             {
-                combined_voltage.data[0] = dec_voltage_0 * 10.0 + 240.0;
+                std::cout << "辅助轮停止" << std::endl;
             }
-            wheel_status.data = 2; // 辅助轮上升状态
         }
-        else
+        // 模式
+        else if (mode_wheel_status == 1)
         {
-            std::cout << "辅助轮停止" << std::endl;
+            if (mode_wheel_direction == 0)
+            {
+                float temp = mode_voltage_value * 10.0 + 240.0;
+                if (temp == 240)
+                {
+                    combined_voltage.data[0] = 0;
+                }
+                else
+                {
+                    combined_voltage.data[0] = mode_voltage_value * 10.0 + 240.0;
+                }
+                wheel_status.data = 2; // 辅助轮上升状态
+            }
+            else if (mode_wheel_direction == 1)
+            {
+                combined_voltage.data[0] = mode_voltage_value * 10.0;
+                wheel_status.data = 1; // 辅助轮下降状态
+            }
         }
+
         // controldate[20] 二进制，辅助轮下降|辅助轮上升|摆臂下降|各自停止
         uint8_t status_3 = controldate[20];
         if ((status_3 & 0x80) != 0)

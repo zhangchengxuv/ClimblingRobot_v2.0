@@ -4,13 +4,13 @@
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/imu.hpp>
 #include <tf2_ros/transform_broadcaster.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2/LinearMath/Transform.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <string>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <rclcpp/time.hpp>
-#include <std_msgs/msg/float64_multi_array.hpp>
+#include "std_msgs/msg/float64_multi_array.hpp"
 using std::placeholders::_1;
 using namespace std;
 
@@ -110,11 +110,13 @@ private:
         // zcx
         // 创建一个新的Float64MultiArray消息
         auto rpy_msg = std_msgs::msg::Float64MultiArray();
-        rpy_msg.data.push_back(r);
-        rpy_msg.data.push_back(p);
-        rpy_msg.data.push_back(y);
+        rpy_msg.data.resize(3); // 设置消息大小为3
+        // 调转一下方向
+        rpy_msg.data[0] = (p);
+        rpy_msg.data[1] = (r);
+        rpy_msg.data[2] = (y);
         imu_pub_->publish(rpy_msg);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 };
 

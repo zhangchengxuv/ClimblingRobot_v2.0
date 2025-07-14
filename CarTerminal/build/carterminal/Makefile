@@ -236,6 +236,19 @@ data_collect_node/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_collect_node.dir/build.make CMakeFiles/data_collect_node.dir/build
 .PHONY : data_collect_node/fast
 
+#=============================================================================
+# Target rules for targets named sensor_collect_node
+
+# Build rule for target.
+sensor_collect_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sensor_collect_node
+.PHONY : sensor_collect_node
+
+# fast build rule for target.
+sensor_collect_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sensor_collect_node.dir/build.make CMakeFiles/sensor_collect_node.dir/build
+.PHONY : sensor_collect_node/fast
+
 src/camera_talker_node.o: src/camera_talker_node.cpp.o
 .PHONY : src/camera_talker_node.o
 
@@ -284,6 +297,30 @@ src/data_collect_node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/data_collect_node.dir/build.make CMakeFiles/data_collect_node.dir/src/data_collect_node.cpp.s
 .PHONY : src/data_collect_node.cpp.s
 
+src/sensor_collect_node.o: src/sensor_collect_node.cpp.o
+.PHONY : src/sensor_collect_node.o
+
+# target to build an object file
+src/sensor_collect_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sensor_collect_node.dir/build.make CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o
+.PHONY : src/sensor_collect_node.cpp.o
+
+src/sensor_collect_node.i: src/sensor_collect_node.cpp.i
+.PHONY : src/sensor_collect_node.i
+
+# target to preprocess a source file
+src/sensor_collect_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sensor_collect_node.dir/build.make CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.i
+.PHONY : src/sensor_collect_node.cpp.i
+
+src/sensor_collect_node.s: src/sensor_collect_node.cpp.s
+.PHONY : src/sensor_collect_node.s
+
+# target to generate assembly for a file
+src/sensor_collect_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sensor_collect_node.dir/build.make CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.s
+.PHONY : src/sensor_collect_node.cpp.s
+
 src/wheel_talker_node.o: src/wheel_talker_node.cpp.o
 .PHONY : src/wheel_talker_node.o
 
@@ -325,6 +362,7 @@ help:
 	@echo "... uninstall"
 	@echo "... camera_talker_node"
 	@echo "... data_collect_node"
+	@echo "... sensor_collect_node"
 	@echo "... wheel_talker_node"
 	@echo "... src/camera_talker_node.o"
 	@echo "... src/camera_talker_node.i"
@@ -332,6 +370,9 @@ help:
 	@echo "... src/data_collect_node.o"
 	@echo "... src/data_collect_node.i"
 	@echo "... src/data_collect_node.s"
+	@echo "... src/sensor_collect_node.o"
+	@echo "... src/sensor_collect_node.i"
+	@echo "... src/sensor_collect_node.s"
 	@echo "... src/wheel_talker_node.o"
 	@echo "... src/wheel_talker_node.i"
 	@echo "... src/wheel_talker_node.s"

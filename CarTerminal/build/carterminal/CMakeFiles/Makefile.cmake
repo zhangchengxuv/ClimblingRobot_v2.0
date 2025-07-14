@@ -753,4 +753,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/camera_talker_node.dir/DependInfo.cmake"
   "CMakeFiles/wheel_talker_node.dir/DependInfo.cmake"
   "CMakeFiles/data_collect_node.dir/DependInfo.cmake"
+  "CMakeFiles/sensor_collect_node.dir/DependInfo.cmake"
   )

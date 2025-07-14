@@ -22,6 +22,8 @@ find_package(OpenCV REQUIRED)
 add_executable(camera_talker_node src/camera_talker_node.cpp)
 add_executable(wheel_talker_node src/wheel_talker_node.cpp)
 add_executable(data_collect_node src/data_collect_node.cpp)
+add_executable(sensor_collect_node src/sensor_collect_node.cpp)
+
 
 
 target_include_directories(camera_talker_node PUBLIC
@@ -60,12 +62,22 @@ ament_target_dependencies(
   "serial"
 )
 
+ament_target_dependencies(
+  sensor_collect_node
+  "rclcpp"
+  "std_msgs"
+  "sensor_msgs"
+  "message_filters"
+  "serial"
+)
+
 
 
 install(TARGETS 
   camera_talker_node
   wheel_talker_node
   data_collect_node
+  sensor_collect_node
   DESTINATION lib/${PROJECT_NAME})
 
 # launch 文件需要的
