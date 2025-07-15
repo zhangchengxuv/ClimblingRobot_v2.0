@@ -4,14 +4,21 @@
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
 #include "serial/serial.h"
-#include "mode_switching.h"
+#include "groundterminal/mode_switching.h"
 #include <cmath>
 #include <thread>
 #include <atomic>
 
 serial::Serial ser;
-using namespace std::chrono_literals;
+using std::placeholders::_1;
 
+using namespace std::chrono_literals;
+// 速度、推杆电压、方向在日常和模式状态下的切换
+int mode_speed_status = 0;
+// 模式辅助轮状态
+int mode_wheel_status = 0; // 0:日常 1:模式
+
+// 定义
 uint8_t readdata[8] = {0x03, 0x04, 0x00, 0x00, 0x00, 0x0a, 0x71, 0xef};
 
 // 3.自定义节点类；
@@ -20,7 +27,17 @@ class Remote_Control : public rclcpp::Node
 public:
     Remote_Control() : Node("remote_control_node_cpp")
     {
-        read_timer_ = this->create_wall_timer(10ms, std::bind(&Remote_Control::read_data, this));
+        //
+        sub_callback_group_1 = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+        rclcpp::SubscriptionOptions options_sub_1;
+        options_sub_1.callback_group = sub_callback_group_1;
+        //
+        timer_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+        //
+        mode_value_sub = this->create_subscription<std_msgs::msg::Float64MultiArray>(
+            "mode_value", 10, std::bind(&Remote_Control::mode_value_callback, this, _1), options_sub_1);
+        //
+        read_timer_ = this->create_wall_timer(10ms, std::bind(&Remote_Control::read_data, this), timer_callback_group_);
         // 方向
         direction_pub_ = this->create_publisher<std_msgs::msg::Int32>("direction", 10);
         // 发送两种电压值（数组）
@@ -39,11 +56,17 @@ public:
         cruising_speed_pub = this->create_publisher<std_msgs::msg::Int32>("cruising_speed", 10);
         // 转向遥杆速度
         trunspeed_joystick_pub_ = this->create_publisher<std_msgs::msg::Int32>("trunspeed_joystick", 10);
+        // 模式开启与否
+        mode_pub_ = this->create_publisher<std_msgs::msg::Int32>("mode_status", 1);
     }
 
 private:
+    rclcpp::CallbackGroup::SharedPtr timer_callback_group_;
+    rclcpp::CallbackGroup::SharedPtr sub_callback_group_1;
     // 定时发送请求数据
     rclcpp::TimerBase::SharedPtr read_timer_;
+    //
+    rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr mode_value_sub;
     // 运动方向(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr direction_pub_;
     // 遥杆或者巡航车体状态(Int32)
@@ -58,11 +81,19 @@ private:
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr wheel_status_pub_;
     // arm状态(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
+    // 模式开启与否
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_2;
-    // 模式切换线程
+    void mode_value_callback(const std_msgs::msg::Float64MultiArray msg)
+    {
+        mode_speed_value = msg.data[0];
+        mode_voltage_value = msg.data[1];
+        mode_wheel_direction = msg.data[2];
+        std::cout<<"mode_speed_value: "<<mode_speed_value<<" mode_voltage_value: "<<mode_voltage_value<<" mode_wheel_direction: "<<mode_wheel_direction<<std::endl;
+    }
 
     void read_data()
     {
@@ -81,6 +112,8 @@ private:
         auto wheel_status = std_msgs::msg::Int32();
         // arm状态
         auto arm_status = std_msgs::msg::Int32();
+        // 模式状态
+        auto mode_status = std_msgs::msg::Int32();
         // // 辅助轮推杆变量
         // auto auxiliary_rod = std_msgs::msg::Float32();
         // // 前轮推杆变量
@@ -170,6 +203,8 @@ private:
             mode_speed_status = 0;
             // 模式辅助轮状态
             mode_wheel_status = 0; // 0:日常 1:模式
+            // 关闭
+            mode_status.data = 0;
             std::cout << "遥杆模式，推杆电压手动" << std::endl;
         }
         else
@@ -178,6 +213,8 @@ private:
             mode_speed_status = 1;
             // 模式辅助轮状态
             mode_wheel_status = 1; // 0:日常 1:模式
+            // 开启
+            mode_status.data = 1;
             std::cout << "特殊过渡模式" << std::endl;
         }
         // 遥杆速度与巡航速度切换
@@ -460,13 +497,15 @@ private:
         arm_status_pub_->publish(arm_status);
         // 转向遥杆速度发布
         trunspeed_joystick_pub_->publish(speed_turn);
+        // 模式状态发布
+        mode_pub_->publish(mode_status);
     }
 };
 int main(int argc, char const *argv[])
 {
     // 2.初始化ROS2客户端；
     rclcpp::init(argc, argv);
-    ser.setPort("/dev/ttyUSB0");
+    ser.setPort("/dev/ttyUSB1");
     ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     ser.setTimeout(to);
@@ -488,7 +527,10 @@ int main(int argc, char const *argv[])
         return -1;
     }
     // 4.调用spain函数，并传入节点对象指针；
-    rclcpp::spin(std::make_shared<Remote_Control>());
+    auto node = std::make_shared<Remote_Control>();
+    rclcpp::executors::MultiThreadedExecutor executor;
+    executor.add_node(node);
+    executor.spin();
     // 5.资源释放
     rclcpp::shutdown();
     return 0;

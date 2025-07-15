@@ -1,0 +1,7 @@
+[35m[1mConsolidate compiler generated dependencies of target shared_state[0m
+[ 25%] Built target shared_state
+[ 50%] Built target car_candriver
+[35m[1mConsolidate compiler generated dependencies of target mode_switching[0m
+[35m[1mConsolidate compiler generated dependencies of target remote_control[0m
+[ 62%] [32m[1mLinking CXX executable mode_switching[0m
+[ 75%] [32m[1mLinking CXX executable remote_control[0m

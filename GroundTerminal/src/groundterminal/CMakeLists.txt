@@ -13,13 +13,25 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(serial REQUIRED)
 
+
+# 可执行目标
 add_executable(car_candriver src/car_candriver.cpp)
 add_executable(remote_control src/remote_control.cpp)
+add_executable(mode_switching src/mode_switching.cpp)
 
 
+
+# 把 include 目录暴露给 所有 用到该头文件的可执行文件
 target_include_directories(car_candriver PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
+target_include_directories(remote_control PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_include_directories(mode_switching PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 target_compile_features(car_candriver PUBLIC c_std_99 cxx_std_17) 
@@ -41,11 +53,22 @@ ament_target_dependencies(
   "serial"
 )
 
+ament_target_dependencies(
+  mode_switching
+  "rclcpp"
+  "std_msgs"
+  "sensor_msgs"
+  "geometry_msgs"
+  "serial"
+)
+
 
 install(TARGETS 
         car_candriver
         remote_control
+        mode_switching
         DESTINATION lib/${PROJECT_NAME})
+
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 
 

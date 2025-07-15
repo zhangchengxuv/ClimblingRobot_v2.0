@@ -705,7 +705,8 @@ CMakeFiles/remote_control.dir/src/remote_control.cpp.o: /home/zhangchenxu/Docume
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_dimension__traits.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__type_support.hpp \
   /usr/local/include/serial/serial.h \
-  /usr/local/include/serial/v8stdint.h
+  /usr/local/include/serial/v8stdint.h \
+  /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/include/groundterminal/mode_switching.h
 
 
 /usr/local/include/serial/serial.h:
@@ -1755,6 +1756,8 @@ CMakeFiles/remote_control.dir/src/remote_control.cpp.o: /home/zhangchenxu/Docume
 /opt/ros/humble/include/rclcpp/rclcpp/timer.hpp:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/incompatible_qos.h:
+
+/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/include/groundterminal/mode_switching.h:
 
 /opt/ros/humble/include/rmw/rmw/qos_policy_kind.h:
 

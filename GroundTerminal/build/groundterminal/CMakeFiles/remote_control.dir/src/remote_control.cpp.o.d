@@ -638,4 +638,5 @@ CMakeFiles/remote_control.dir/src/remote_control.cpp.o: \
  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_layout__traits.hpp \
  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_dimension__traits.hpp \
  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__type_support.hpp \
- /usr/local/include/serial/serial.h /usr/local/include/serial/v8stdint.h
+ /usr/local/include/serial/serial.h /usr/local/include/serial/v8stdint.h \
+ /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/include/groundterminal/mode_switching.h

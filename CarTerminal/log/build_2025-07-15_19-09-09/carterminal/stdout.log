@@ -1,0 +1,6 @@
+[ 25%] Built target camera_talker_node
+[ 50%] Built target wheel_talker_node
+[ 62%] [32mBuilding CXX object CMakeFiles/data_collect_node.dir/src/data_collect_node.cpp.o[0m
+[ 75%] [32mBuilding CXX object CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o[0m
+[ 87%] [32m[1mLinking CXX executable data_collect_node[0m
+[ 87%] Built target data_collect_node

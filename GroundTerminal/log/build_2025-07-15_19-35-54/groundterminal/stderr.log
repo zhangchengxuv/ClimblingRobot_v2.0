@@ -1,0 +1,31 @@
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:[m[K In member function ‘[01m[Kvoid Remote_Control::read_data()[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:122:32:[m[K [01;31m[Kerror: [m[K‘[01m[Kg_state[m[K’ was not declared in this scope; did you mean ‘[01m[K_xstate[m[K’?
+  122 |             float motorspeed = [01;31m[Kg_state[m[K.mode_speed_value * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+      |                                [01;31m[K^~~~~~~[m[K
+      |                                [32m[K_xstate[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:178:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kg_state[m[K’ was not declared in this scope; did you mean ‘[01m[K_xstate[m[K’?
+  178 |             [01;31m[Kg_state[m[K.cd_enable = false;
+      |             [01;31m[K^~~~~~~[m[K
+      |             [32m[K_xstate[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:188:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kg_state[m[K’ was not declared in this scope; did you mean ‘[01m[K_xstate[m[K’?
+  188 |             [01;31m[Kg_state[m[K.cd_enable = true;
+      |             [01;31m[K^~~~~~~[m[K
+      |             [32m[K_xstate[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/remote_control.cpp:314:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kg_state[m[K’ was not declared in this scope; did you mean ‘[01m[K_xstate[m[K’?
+  314 |             if ([01;31m[Kg_state[m[K.mode_wheel_direction == 0)
+      |                 [01;31m[K^~~~~~~[m[K
+      |                 [32m[K_xstate[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:[m[K In function ‘[01m[Kvoid mode_01(float, float, float)[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:43:20:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kpitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   43 | void mode_01([01;35m[Kfloat pitch[m[K, float roll, float distance)
+      |              [01;35m[K~~~~~~^~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:43:33:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kroll[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   43 | void mode_01(float pitch, [01;35m[Kfloat roll[m[K, float distance)
+      |                           [01;35m[K~~~~~~^~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:43:45:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kdistance[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   43 | void mode_01(float pitch, float roll, [01;35m[Kfloat distance[m[K)
+      |                                       [01;35m[K~~~~~~^~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/remote_control.dir/build.make:76：CMakeFiles/remote_control.dir/src/remote_control.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:167：CMakeFiles/remote_control.dir/all] 错误 2
+gmake[1]: *** 正在等待未完成的任务....
+gmake: *** [Makefile:146：all] 错误 2

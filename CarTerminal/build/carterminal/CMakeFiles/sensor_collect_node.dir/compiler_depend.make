@@ -684,6 +684,12 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
   /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/thread_safe_synchronization.hpp \
   /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/detail/write_preferring_read_write_lock.hpp \
   /opt/ros/humble/include/rclcpp/rclcpp/wait_set_template.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/int32.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__struct.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__builder.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__traits.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__type_support.hpp \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/float64_multi_array.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__struct.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_layout__struct.hpp \
@@ -693,7 +699,6 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_layout__traits.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_dimension__traits.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__type_support.hpp \
-  /opt/ros/humble/include/std_msgs/std_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
   /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/range.hpp \
   /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/range__struct.hpp \
   /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp \
@@ -710,8 +715,6 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
 
 /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/range__struct.hpp:
 
-/opt/ros/humble/include/std_msgs/std_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
-
 /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp:
 
 /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__type_support.hpp:
@@ -723,6 +726,12 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
 /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/multi_array_dimension__struct.hpp:
 
 /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/float64_multi_array__struct.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__builder.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/int32.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/thread_safe_synchronization.hpp:
 
@@ -1169,6 +1178,8 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
 /usr/include/c++/11/csignal:
 
 /usr/include/c++/11/pstl/glue_memory_defs.h:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__struct.hpp:
 
 /usr/include/c++/11/string:
 
@@ -1700,6 +1711,8 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
 
 /opt/ros/humble/include/rmw/rmw/types.h:
 
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__traits.hpp:
+
 /opt/ros/humble/include/rcutils/rcutils/error_handling.h:
 
 /usr/include/c++/11/stdlib.h:
@@ -1755,6 +1768,8 @@ CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: /home/zhangche
 /usr/include/c++/11/bit:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/liveliness_changed.h:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/int32__type_support.hpp:
 
 /usr/include/c++/11/bits/codecvt.h:
 

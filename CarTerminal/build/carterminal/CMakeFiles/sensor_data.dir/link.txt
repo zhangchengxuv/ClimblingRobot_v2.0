@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsensor_data.a CMakeFiles/sensor_data.dir/src/sensor_data.cpp.o
+/usr/bin/ranlib libsensor_data.a

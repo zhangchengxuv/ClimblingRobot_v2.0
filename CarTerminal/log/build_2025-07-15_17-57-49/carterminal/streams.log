@@ -1,0 +1,45 @@
+[0.022s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12
+[0.080s] [35m[1mConsolidate compiler generated dependencies of target wheel_talker_node[0m
+[0.101s] [ 25%] Built target camera_talker_node
+[0.102s] [ 37%] [32mBuilding CXX object CMakeFiles/data_collect_node.dir/src/data_collect_node.cpp.o[0m
+[0.102s] [ 50%] [32mBuilding CXX object CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o[0m
+[0.108s] [ 75%] Built target wheel_talker_node
+[1.825s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:[m[K In member function ‘[01m[Kvoid Sensor_Collect_Node::senddata_cb()[m[K’:
+[1.825s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:70:19:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kweight_left[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[1.825s]    70 |             float [01;35m[Kweight_left[m[K = g_state.weight_left;
+[1.825s]       |                   [01;35m[K^~~~~~~~~~~[m[K
+[1.826s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:71:19:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kweight_right[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[1.826s]    71 |             float [01;35m[Kweight_right[m[K = g_state.weight_right;
+[1.826s]       |                   [01;35m[K^~~~~~~~~~~~[m[K
+[2.964s] [ 87%] [32m[1mLinking CXX executable data_collect_node[0m
+[3.107s] [ 87%] Built target data_collect_node
+[7.672s] [100%] [32m[1mLinking CXX executable sensor_collect_node[0m
+[8.000s] [100%] Built target sensor_collect_node
+[8.013s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12
+[8.015s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal
+[8.024s] -- Install configuration: ""
+[8.024s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/camera_talker_node
+[8.025s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/wheel_talker_node
+[8.028s] -- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/wheel_talker_node" to ""
+[8.028s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/data_collect_node
+[8.030s] -- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/data_collect_node" to ""
+[8.030s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/sensor_collect_node
+[8.036s] -- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/lib/carterminal/sensor_collect_node" to ""
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/launch
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/launch/start_robot_launch.py
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/ament_index/resource_index/package_run_dependencies/carterminal
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/ament_index/resource_index/parent_prefix_path/carterminal
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/environment/ament_prefix_path.sh
+[8.036s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/environment/ament_prefix_path.dsv
+[8.036s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/environment/path.sh
+[8.036s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/environment/path.dsv
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/local_setup.bash
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/local_setup.sh
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/local_setup.zsh
+[8.037s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/local_setup.dsv
+[8.037s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/package.dsv
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/ament_index/resource_index/packages/carterminal
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/cmake/carterminalConfig.cmake
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/cmake/carterminalConfig-version.cmake
+[8.037s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/install/carterminal/share/carterminal/package.xml
+[8.039s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal

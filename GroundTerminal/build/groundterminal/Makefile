@@ -223,6 +223,19 @@ remote_control/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/build
 .PHONY : remote_control/fast
 
+#=============================================================================
+# Target rules for targets named mode_switching
+
+# Build rule for target.
+mode_switching: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mode_switching
+.PHONY : mode_switching
+
+# fast build rule for target.
+mode_switching/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/build
+.PHONY : mode_switching/fast
+
 src/car_candriver.o: src/car_candriver.cpp.o
 .PHONY : src/car_candriver.o
 
@@ -246,6 +259,30 @@ src/car_candriver.s: src/car_candriver.cpp.s
 src/car_candriver.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/car_candriver.dir/build.make CMakeFiles/car_candriver.dir/src/car_candriver.cpp.s
 .PHONY : src/car_candriver.cpp.s
+
+src/mode_switching.o: src/mode_switching.cpp.o
+.PHONY : src/mode_switching.o
+
+# target to build an object file
+src/mode_switching.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/src/mode_switching.cpp.o
+.PHONY : src/mode_switching.cpp.o
+
+src/mode_switching.i: src/mode_switching.cpp.i
+.PHONY : src/mode_switching.i
+
+# target to preprocess a source file
+src/mode_switching.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/src/mode_switching.cpp.i
+.PHONY : src/mode_switching.cpp.i
+
+src/mode_switching.s: src/mode_switching.cpp.s
+.PHONY : src/mode_switching.s
+
+# target to generate assembly for a file
+src/mode_switching.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/src/mode_switching.cpp.s
+.PHONY : src/mode_switching.cpp.s
 
 src/remote_control.o: src/remote_control.cpp.o
 .PHONY : src/remote_control.o
@@ -287,10 +324,14 @@ help:
 	@echo "... groundterminal_uninstall"
 	@echo "... uninstall"
 	@echo "... car_candriver"
+	@echo "... mode_switching"
 	@echo "... remote_control"
 	@echo "... src/car_candriver.o"
 	@echo "... src/car_candriver.i"
 	@echo "... src/car_candriver.s"
+	@echo "... src/mode_switching.o"
+	@echo "... src/mode_switching.i"
+	@echo "... src/mode_switching.s"
 	@echo "... src/remote_control.o"
 	@echo "... src/remote_control.i"
 	@echo "... src/remote_control.s"

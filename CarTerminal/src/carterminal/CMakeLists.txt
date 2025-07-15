@@ -25,7 +25,6 @@ add_executable(data_collect_node src/data_collect_node.cpp)
 add_executable(sensor_collect_node src/sensor_collect_node.cpp)
 
 
-
 target_include_directories(camera_talker_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)

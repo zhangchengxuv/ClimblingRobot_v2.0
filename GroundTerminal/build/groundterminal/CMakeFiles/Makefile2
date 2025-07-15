@@ -65,6 +65,7 @@ CMAKE_BINARY_DIR = /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/Gr
 # The main recursive "all" target.
 all: CMakeFiles/car_candriver.dir/all
 all: CMakeFiles/remote_control.dir/all
+all: CMakeFiles/mode_switching.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -76,6 +77,7 @@ clean: CMakeFiles/uninstall.dir/clean
 clean: CMakeFiles/groundterminal_uninstall.dir/clean
 clean: CMakeFiles/car_candriver.dir/clean
 clean: CMakeFiles/remote_control.dir/clean
+clean: CMakeFiles/mode_switching.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -163,7 +165,7 @@ CMakeFiles/car_candriver.dir/clean:
 CMakeFiles/remote_control.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles --progress-num=3,4 "Built target remote_control"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles --progress-num=5,6 "Built target remote_control"
 .PHONY : CMakeFiles/remote_control.dir/all
 
 # Build rule for subdir invocation for target.
@@ -181,6 +183,32 @@ remote_control: CMakeFiles/remote_control.dir/rule
 CMakeFiles/remote_control.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/remote_control.dir/build.make CMakeFiles/remote_control.dir/clean
 .PHONY : CMakeFiles/remote_control.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/mode_switching.dir
+
+# All Build rule for target.
+CMakeFiles/mode_switching.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles --progress-num=3,4 "Built target mode_switching"
+.PHONY : CMakeFiles/mode_switching.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/mode_switching.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mode_switching.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal/CMakeFiles 0
+.PHONY : CMakeFiles/mode_switching.dir/rule
+
+# Convenience name for target.
+mode_switching: CMakeFiles/mode_switching.dir/rule
+.PHONY : mode_switching
+
+# clean rule for target.
+CMakeFiles/mode_switching.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mode_switching.dir/build.make CMakeFiles/mode_switching.dir/clean
+.PHONY : CMakeFiles/mode_switching.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

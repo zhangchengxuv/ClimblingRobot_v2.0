@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <array>
 #include <fcntl.h>
-#include "carterminal/myconfig.h"
-#include "carterminal/cansend.h"
+#include "groundterminal/myconfig.h"
+#include "groundterminal/cansend.h"
 
 using namespace std::chrono_literals;
 using namespace std;

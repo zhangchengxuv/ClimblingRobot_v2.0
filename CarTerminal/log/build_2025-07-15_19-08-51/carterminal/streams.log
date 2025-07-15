@@ -1,0 +1,52 @@
+[0.021s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12
+[0.049s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.152s] -- Found rclcpp: 16.0.12 (/opt/ros/humble/share/rclcpp/cmake)
+[0.174s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.176s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.179s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.187s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.196s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.219s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.222s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.332s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.364s] -- Found sensor_msgs: 4.8.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.383s] -- Found message_filters: 4.3.7 (/opt/ros/humble/share/message_filters/cmake)
+[0.385s] -- Found serial: 1.2.1 (/usr/local/share/serial/cmake)
+[0.386s] -- Found image_transport: 3.1.11 (/opt/ros/humble/share/image_transport/cmake)
+[0.406s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[0.475s] -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.524s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.524s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/include>
+[0.524s] -- Configured cppcheck exclude dirs and/or files: 
+[0.524s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.525s] -- Added test 'lint_cmake' to check CMake code style
+[0.525s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.526s] -- Added test 'uncrustify' to check C / C++ code style
+[0.526s] -- Configured uncrustify additional arguments: 
+[0.526s] -- Added test 'xmllint' to check XML markup files
+[0.526s] -- Configuring done
+[0.546s] -- Generating done
+[0.552s] -- Build files have been written to: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal
+[0.584s] [35m[1mConsolidate compiler generated dependencies of target sensor_collect_node[0m
+[0.584s] [35m[1mConsolidate compiler generated dependencies of target wheel_talker_node[0m
+[0.584s] [35m[1mConsolidate compiler generated dependencies of target camera_talker_node[0m
+[0.584s] [35m[1mConsolidate compiler generated dependencies of target data_collect_node[0m
+[0.603s] [ 37%] [32mBuilding CXX object CMakeFiles/data_collect_node.dir/src/data_collect_node.cpp.o[0m
+[0.603s] [ 50%] [32mBuilding CXX object CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o[0m
+[0.603s] [ 50%] Built target wheel_talker_node
+[0.603s] [ 75%] Built target camera_talker_node
+[0.786s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/data_collect_node.cpp:7:10:[m[K [01;31m[Kfatal error: [m[Kcarterminal/sensor_data.h: 没有那个文件或目录
+[0.786s]     7 | #include [01;31m[K"carterminal/sensor_data.h"[m[K
+[0.786s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[0.786s] compilation terminated.
+[0.787s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:5:10:[m[K [01;31m[Kfatal error: [m[Kcarterminal/sensor_data.h: 没有那个文件或目录
+[0.787s]     5 | #include [01;31m[K"carterminal/sensor_data.h"[m[K
+[0.787s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[0.787s] compilation terminated.
+[0.791s] gmake[2]: *** [CMakeFiles/data_collect_node.dir/build.make:76：CMakeFiles/data_collect_node.dir/src/data_collect_node.cpp.o] 错误 1
+[0.791s] gmake[2]: *** [CMakeFiles/sensor_collect_node.dir/build.make:76：CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o] 错误 1
+[0.791s] gmake[1]: *** [CMakeFiles/Makefile2:195：CMakeFiles/data_collect_node.dir/all] 错误 2
+[0.791s] gmake[1]: *** 正在等待未完成的任务....
+[0.791s] gmake[1]: *** [CMakeFiles/Makefile2:221：CMakeFiles/sensor_collect_node.dir/all] 错误 2
+[0.791s] gmake: *** [Makefile:146：all] 错误 2
+[0.793s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/build/carterminal -- -j12 -l12

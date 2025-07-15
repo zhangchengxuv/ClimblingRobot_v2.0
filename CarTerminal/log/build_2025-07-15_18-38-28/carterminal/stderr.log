@@ -1,0 +1,19 @@
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:[m[K In member function ‘[01m[Kvoid Sensor_Collect_Node::senddata_cb()[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:70:19:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kweight_left[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   70 |             float [01;35m[Kweight_left[m[K = g_state.weight_left;
+      |                   [01;35m[K^~~~~~~~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/sensor_collect_node.cpp:71:19:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kweight_right[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   71 |             float [01;35m[Kweight_right[m[K = g_state.weight_right;
+      |                   [01;35m[K^~~~~~~~~~~~[m[K
+/usr/bin/ld: CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: warning: relocation against `g_state_mtx' in read-only section `.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]'
+/usr/bin/ld: CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: in function `Sensor_Collect_Node::senddata_cb()':
+sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x27): undefined reference to `g_state_mtx'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x38): undefined reference to `g_state'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x4b): undefined reference to `g_state'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x129): undefined reference to `g_state'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x13c): undefined reference to `g_state'
+/usr/bin/ld: warning: creating DT_TEXTREL in a PIE
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/sensor_collect_node.dir/build.make:184：sensor_collect_node] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:221：CMakeFiles/sensor_collect_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

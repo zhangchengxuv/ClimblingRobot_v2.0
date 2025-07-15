@@ -702,4 +702,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/groundterminal_uninstall.dir/DependInfo.cmake"
   "CMakeFiles/car_candriver.dir/DependInfo.cmake"
   "CMakeFiles/remote_control.dir/DependInfo.cmake"
+  "CMakeFiles/mode_switching.dir/DependInfo.cmake"
   )

@@ -1,0 +1,32 @@
+[0.013s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12
+[0.066s] [35m[1mConsolidate compiler generated dependencies of target remote_control[0m
+[0.082s] [ 66%] Built target mode_switching
+[0.083s] [ 66%] Built target car_candriver
+[0.086s] [ 83%] [32mBuilding CXX object CMakeFiles/remote_control.dir/src/remote_control.cpp.o[0m
+[5.754s] [100%] [32m[1mLinking CXX executable remote_control[0m
+[6.063s] [100%] Built target remote_control
+[6.076s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal -- -j12 -l12
+[6.088s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal
+[6.098s] -- Install configuration: ""
+[6.098s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/car_candriver
+[6.099s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/remote_control
+[6.103s] -- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/remote_control" to ""
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/mode_switching
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/launch
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/launch/start_launch.py
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/package_run_dependencies/groundterminal
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/parent_prefix_path/groundterminal
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/ament_prefix_path.sh
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/ament_prefix_path.dsv
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/path.sh
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/path.dsv
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.bash
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.sh
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.zsh
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.dsv
+[6.104s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/package.dsv
+[6.104s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/packages/groundterminal
+[6.105s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/cmake/groundterminalConfig.cmake
+[6.105s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/cmake/groundterminalConfig-version.cmake
+[6.105s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/package.xml
+[6.106s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/build/groundterminal

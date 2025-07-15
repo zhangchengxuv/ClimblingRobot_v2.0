@@ -1,0 +1,17 @@
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/carterminal/src/wheel_talker_node.cpp:10:10:[m[K [01;31m[Kfatal error: [m[Kcarterminal/sensor_data.h: 没有那个文件或目录
+   10 | #include [01;31m[K"carterminal/sensor_data.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/wheel_talker_node.dir/build.make:76：CMakeFiles/wheel_talker_node.dir/src/wheel_talker_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:169：CMakeFiles/wheel_talker_node.dir/all] 错误 2
+gmake[1]: *** 正在等待未完成的任务....
+/usr/bin/ld: CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: warning: relocation against `g_state_mtx' in read-only section `.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]'
+/usr/bin/ld: CMakeFiles/sensor_collect_node.dir/src/sensor_collect_node.cpp.o: in function `Sensor_Collect_Node::senddata_cb()':
+sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x27): undefined reference to `g_state_mtx'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x38): undefined reference to `g_state'
+/usr/bin/ld: sensor_collect_node.cpp:(.text._ZN19Sensor_Collect_Node11senddata_cbEv[_ZN19Sensor_Collect_Node11senddata_cbEv]+0x4b): undefined reference to `g_state'
+/usr/bin/ld: warning: creating DT_TEXTREL in a PIE
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/sensor_collect_node.dir/build.make:184：sensor_collect_node] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:221：CMakeFiles/sensor_collect_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

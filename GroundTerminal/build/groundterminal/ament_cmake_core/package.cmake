@@ -5,7 +5,7 @@ set(groundterminal_BUILD_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "geometry_msg
 set(groundterminal_BUILDTOOL_DEPENDS "ament_cmake")
 set(groundterminal_BUILD_EXPORT_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "geometry_msgs")
 set(groundterminal_BUILDTOOL_EXPORT_DEPENDS )
-set(groundterminal_EXEC_DEPENDS "rclcpp" "std_msgs" "sensor_msgs" "geometry_msgs")
+set(groundterminal_EXEC_DEPENDS "ros2launch" "rclcpp" "std_msgs" "sensor_msgs" "geometry_msgs")
 set(groundterminal_TEST_DEPENDS "ament_lint_auto" "ament_lint_common")
 set(groundterminal_GROUP_DEPENDS )
 set(groundterminal_MEMBER_OF_GROUPS )

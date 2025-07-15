@@ -5,11 +5,11 @@
 #include <iostream>
 #include <cmath>
 
+// 定义全局状态
 serial::Serial ser;
 using namespace std::chrono_literals;
 // 3.自定义节点类；
 class Data_Collect : public rclcpp::Node
-
 {
 public:
     Data_Collect() : Node("Data_Collect_node_cpp")
@@ -17,14 +17,13 @@ public:
         // 定时器
         data_collect_timer_ = this->create_wall_timer(10ms, std::bind(&Data_Collect::data_collect_callback, this));
         // 发布方
-        force_sensor1_pub_ = this->create_publisher<std_msgs::msg::Int32>("weigh_talker_1",10);
-        force_sensor2_pub_ = this->create_publisher<std_msgs::msg::Int32>("weigh_talker_2",10);
-        temperature_sensor_pub_ = this->create_publisher<std_msgs::msg::Int32>("tem_talker",10);
-        thickness_sensor_pub_= this->create_publisher<std_msgs::msg::Int32>("thickness_talker",10);
-        roughness_sensor_pub_= this->create_publisher<std_msgs::msg::Int32>("roughness_talker",10);
+        force_sensor1_pub_ = this->create_publisher<std_msgs::msg::Int32>("weigh_talker_1", 10);
+        force_sensor2_pub_ = this->create_publisher<std_msgs::msg::Int32>("weigh_talker_2", 10);
+        force_sensor3_pub_ = this->create_publisher<std_msgs::msg::Int32>("weigh_talker_3", 10);
 
-
-
+        temperature_sensor_pub_ = this->create_publisher<std_msgs::msg::Int32>("tem_talker", 10);
+        thickness_sensor_pub_ = this->create_publisher<std_msgs::msg::Int32>("thickness_talker", 10);
+        roughness_sensor_pub_ = this->create_publisher<std_msgs::msg::Int32>("roughness_talker", 10);
     }
     ~Data_Collect()
     {
@@ -36,23 +35,28 @@ private:
     rclcpp::TimerBase::SharedPtr data_collect_timer_;
     // 1 号力传感器
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr force_sensor1_pub_;
-    // 2 号力传感器     
+    // 2 号力传感器
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr force_sensor2_pub_;
+    // 控制力
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr force_sensor3_pub_;
     // 温度传感器
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr temperature_sensor_pub_;
     // 厚度传感器
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr thickness_sensor_pub_;
     // 粗糙度传感器
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr roughness_sensor_pub_;
+
     // 定义回调函数
     void data_collect_callback()
     {
-        // 
+        //
         auto force_sensor1_data = std_msgs::msg::Int32();
         auto force_sensor2_data = std_msgs::msg::Int32();
+        auto force_sensor3_data = std_msgs::msg::Int32();
         auto temperature_sensor_data = std_msgs::msg::Int32();
         auto thickness_sensor_data = std_msgs::msg::Int32();
         auto roughness_sensor_data = std_msgs::msg::Int32();
+
         // 定义一个Buffer接受订阅消息
         uint8_t Readdate[15] = {0};
         uint8_t Validdata[13];
@@ -89,12 +93,24 @@ private:
                 // assignment
                 force_sensor1_data.data = signed_data1;
                 force_sensor2_data.data = signed_data2;
+                float temp = std::min(signed_data1, signed_data2);
+                float temp2;
+                if (temp > 0)
+                {
+                    temp2 = temp;
+                }
+                else
+                {
+                    temp2 = std::max(signed_data1, signed_data2);
+                }
+                force_sensor3_data.data = temp2;
                 temperature_sensor_data.data = (int)data3;
                 thickness_sensor_data.data = (int)data4;
                 roughness_sensor_data.data = (int)data5;
                 // send ros msg
                 force_sensor1_pub_->publish(force_sensor1_data);
                 force_sensor2_pub_->publish(force_sensor2_data);
+                force_sensor3_pub_->publish(force_sensor3_data);
                 temperature_sensor_pub_->publish(temperature_sensor_data);
                 thickness_sensor_pub_->publish(thickness_sensor_data);
                 roughness_sensor_pub_->publish(roughness_sensor_data);
@@ -120,6 +136,7 @@ private:
 int main(int argc, char const *argv[])
 {
     rclcpp::init(argc, argv);
+
     ser.setPort("/dev/ttyS1");
     ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
