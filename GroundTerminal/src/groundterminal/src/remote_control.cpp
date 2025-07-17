@@ -92,7 +92,7 @@ private:
         mode_speed_value = msg.data[0];
         mode_voltage_value = msg.data[1];
         mode_wheel_direction = msg.data[2];
-        std::cout<<"mode_speed_value: "<<mode_speed_value<<" mode_voltage_value: "<<mode_voltage_value<<" mode_wheel_direction: "<<mode_wheel_direction<<std::endl;
+        std::cout << "mode_speed_value: " << mode_speed_value << " mode_voltage_value: " << mode_voltage_value << " mode_wheel_direction: " << mode_wheel_direction << std::endl;
     }
 
     void read_data()
@@ -357,6 +357,10 @@ private:
             {
                 combined_voltage.data[0] = mode_voltage_value * 10.0;
                 wheel_status.data = 1; // 辅助轮下降状态
+            }
+            else
+            {
+                std::cout << "辅助轮停止" << std::endl;
             }
         }
 

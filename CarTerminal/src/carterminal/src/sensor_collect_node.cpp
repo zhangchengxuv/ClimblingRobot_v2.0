@@ -35,7 +35,7 @@ public:
         imu_sub_ = this->create_subscription<std_msgs::msg::Float64MultiArray>("/imu_data_pub", 10, std::bind(&Sensor_Collect_Node::imu_callback, this, _1), options_sub_1);
         dis_sub_ = this->create_subscription<sensor_msgs::msg::Range>("/laser", 10, std::bind(&Sensor_Collect_Node::range_callback, this, _1), options_sub_2);
         weight_sub = this->create_subscription<std_msgs::msg::Int32>("/weigh_talker_3", 10, std::bind(&Sensor_Collect_Node::weight_callback, this, _1), options_sub_3);
-
+        // 发布综合数据
         value_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/imu_and_laser", 10);
         send_timer_ = this->create_wall_timer(40ms, std::bind(&Sensor_Collect_Node::senddata_cb, this), sendtimer_callback_group_);
     }

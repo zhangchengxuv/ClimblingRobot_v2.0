@@ -1,0 +1,61 @@
+[35m[1mConsolidate compiler generated dependencies of target mode_switching[0m
+[ 33%] Built target car_candriver
+[ 66%] Built target remote_control
+[ 83%] [32mBuilding CXX object CMakeFiles/mode_switching.dir/src/mode_switching.cpp.o[0m
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:[m[K In member function ‘[01m[Kvoid Mode_Switching::mode_02(float, float, float, float)[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:122:24:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kpitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  122 |     void mode_02([01;35m[Kfloat pitch[m[K, float roll, float distance, float force)
+      |                  [01;35m[K~~~~~~^~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:122:49:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kdistance[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  122 |     void mode_02(float pitch, float roll, [01;35m[Kfloat distance[m[K, float force)
+      |                                           [01;35m[K~~~~~~^~~~~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:[m[K In member function ‘[01m[Kvoid Mode_Switching::mode_03(float, float, float, float)[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:169:24:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kpitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  169 |     void mode_03([01;35m[Kfloat pitch[m[K, float roll, float distance, float force)
+      |                  [01;35m[K~~~~~~^~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:169:37:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kroll[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  169 |     void mode_03(float pitch, [01;35m[Kfloat roll[m[K, float distance, float force)
+      |                               [01;35m[K~~~~~~^~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:169:49:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kdistance[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  169 |     void mode_03(float pitch, float roll, [01;35m[Kfloat distance[m[K, float force)
+      |                                           [01;35m[K~~~~~~^~~~~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:169:65:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kforce[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  169 |     void mode_03(float pitch, float roll, float distance, [01;35m[Kfloat force[m[K)
+      |                                                           [01;35m[K~~~~~~^~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:[m[K In member function ‘[01m[Kvoid Mode_Switching::mode_04(float, float, float, float)[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:173:24:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kpitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  173 |     void mode_04([01;35m[Kfloat pitch[m[K, float roll, float distance, float force)
+      |                  [01;35m[K~~~~~~^~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:173:37:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kroll[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  173 |     void mode_04(float pitch, [01;35m[Kfloat roll[m[K, float distance, float force)
+      |                               [01;35m[K~~~~~~^~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:173:49:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kdistance[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  173 |     void mode_04(float pitch, float roll, [01;35m[Kfloat distance[m[K, float force)
+      |                                           [01;35m[K~~~~~~^~~~~~~~[m[K
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:173:65:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kforce[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  173 |     void mode_04(float pitch, float roll, float distance, [01;35m[Kfloat force[m[K)
+      |                                                           [01;35m[K~~~~~~^~~~~[m[K
+[100%] [32m[1mLinking CXX executable mode_switching[0m
+[100%] Built target mode_switching
+-- Install configuration: ""
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/car_candriver
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/remote_control
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/mode_switching
+-- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/lib/groundterminal/mode_switching" to ""
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/launch
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/launch/start_launch.py
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/package_run_dependencies/groundterminal
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/parent_prefix_path/groundterminal
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/ament_prefix_path.sh
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/path.sh
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/environment/path.dsv
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.bash
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.sh
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.zsh
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/local_setup.dsv
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/package.dsv
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/ament_index/resource_index/packages/groundterminal
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/cmake/groundterminalConfig.cmake
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/cmake/groundterminalConfig-version.cmake
+-- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/install/groundterminal/share/groundterminal/package.xml
