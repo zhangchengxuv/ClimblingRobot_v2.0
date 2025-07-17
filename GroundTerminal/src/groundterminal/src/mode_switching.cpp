@@ -124,12 +124,6 @@ private:
     {
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
-
-        // float mode_temp_voltage = std::abs(mode_2_kp * (mode_2_pressure - force));
-        // // 限制电压范围
-        // // abs !
-        // float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
-        // 定速值
         combined_value.data[0] = mode_2_speed;
         switch (state)
         {
@@ -184,56 +178,18 @@ private:
                 }
             }
             // 关闭条件，俯角达到88度以上
-            else if (roll > 88.0)
+            else if (roll >= 88.0)
             {
                 combined_value.data[1] = 0.0; // 停止
                 combined_value.data[2] = 2;   // 停止
             }
+            break;
         }
-
         default:
             break;
         }
-
-        // // 开启条件：俯角达到一定值，且期望值与实际值的绝对差大于一定值
-        // if (roll > mode_2_1_startroll && std::abs(mode_2_pressure - force) > mode_2_ads)
-        // {
-        //     // 推杆实际受拉力，需要下压
-        //     if (force > 0)
-        //     {
-        //         // 定速值
-        //         combined_value.data[0] = mode_2_speed;
-        //         // 电压值
-        //         combined_value.data[1] = std::abs(mode_voltage); // 取绝对值
-        //         // 方向 0：升 1：降
-        //         combined_value.data[2] = 1; // 方向 0：升 1：降
-        //     }
-        //     // 推杆实际受推力（或不受力），需要上升
-        //     else
-        //     {
-        //         // 定速值
-        //         combined_value.data[0] = mode_2_speed;
-        //         // 电压值
-        //         combined_value.data[1] = std::abs(mode_voltage); // 取绝对值
-        //         // 方向 0：升 1：降
-        //         combined_value.data[2] = 0; // 方向 0：升 1：降
-        //     }
-        // }
-        // // 关闭条件，俯角达到88度以上
-        // else if (roll > 88.0)
-        // {
-        //     // 停止推杆,定慢速前行
-        //     combined_value.data[0] = mode_2_speed;
-        //     combined_value.data[1] = 0.0;
-        //     combined_value.data[2] = 2; // 停止
-        // }
-        // else
-        // {
-        //     // 不满足开启条件，停止推杆,定慢速前行
-        //     combined_value.data[0] = mode_2_speed;
-        //     combined_value.data[1] = 0.0;
-        //     combined_value.data[2] = 2; // 停止
-        // }
+        // 发送数据
+        value_pub_->publish(combined_value);
     }
     void mode_03(float pitch, float roll, float distance, float force)
     {
