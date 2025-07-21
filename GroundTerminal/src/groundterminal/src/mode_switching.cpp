@@ -30,7 +30,6 @@ int state = 0;            // 状态机阶段
 //
 
 using std::placeholders::_1;
-int state = 0;
 // 3.自定义节点类；
 class Mode_Switching : public rclcpp::Node
 {
@@ -84,6 +83,9 @@ private:
     }
     void mode_01(float pitch, float roll, float distance, float force)
     {
+        (void) pitch; // 忽略pitch
+        (void) force; // 忽略force
+        // 处理模式1的逻辑
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
         // 根据激光传感器判断车头是否探出
@@ -122,8 +124,12 @@ private:
     }
     void mode_02(float pitch, float roll, float distance, float force)
     {
+        (void) pitch; // 忽略pitch
+        (void) distance; // 忽略distance
+        // 处理模式2的逻辑
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
+        // 定速值 确保车辆一直有速度
         combined_value.data[0] = mode_2_speed;
         switch (state)
         {
@@ -133,7 +139,7 @@ private:
             if (force > 0)
             {
                 // 电压值
-                combined_value.data[1] = mode_2_1_voltage; // 阶段一的电压
+                combined_value.data[1] = mode_2_1_voltage; // 模式二阶段一的电压
                 combined_value.data[2] = 1;                // 方向 0：升 1：降
             }
             else
@@ -191,12 +197,13 @@ private:
         // 发送数据
         value_pub_->publish(combined_value);
     }
-    void mode_03(float pitch, float roll, float distance, float force)
-    {
-    }
-    void mode_04(float pitch, float roll, float distance, float force)
-    {
-    }
+    // void mode_03(float pitch, float roll, float distance, float force)
+    // {
+        
+    // }
+    // void mode_04(float pitch, float roll, float distance, float force)
+    // {
+    // }
 };
 
 int main(int argc, char const *argv[])

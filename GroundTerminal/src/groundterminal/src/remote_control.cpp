@@ -40,6 +40,8 @@ public:
         read_timer_ = this->create_wall_timer(10ms, std::bind(&Remote_Control::read_data, this), timer_callback_group_);
         // 方向
         direction_pub_ = this->create_publisher<std_msgs::msg::Int32>("direction", 10);
+        // 度数发布
+        degree_pub_ = this->create_publisher<std_msgs::msg::Int32>("degree", 10);
         // 发送两种电压值（数组）
         voltageArray_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("voltage_array", 10);
         // 发送两种电压值（数组）
@@ -81,6 +83,8 @@ private:
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr wheel_status_pub_;
     // arm状态(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
+    // 度数发布(Int32)
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr degree_pub_;
     // 模式开启与否
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_pub_;
     // 发送两种电压值（数组）
@@ -114,6 +118,8 @@ private:
         auto arm_status = std_msgs::msg::Int32();
         // 模式状态
         auto mode_status = std_msgs::msg::Int32();
+        // 度数
+        auto degree = std_msgs::msg::Int32();
         // // 辅助轮推杆变量
         // auto auxiliary_rod = std_msgs::msg::Float32();
         // // 前轮推杆变量
@@ -436,47 +442,58 @@ private:
         // }
         if ((status_4 & 0x20) != 0)
         {
-            std::cout << "旋转开关在11" << std::endl;
+            std::cout << "旋转开关在11 顺160" << std::endl;
+            degree.data = 11; // 开关位置
         }
         else if ((status_4 & 0x10) != 0)
         {
-            std::cout << "旋转开关在10" << std::endl;
+            std::cout << "旋转开关在10 顺120" << std::endl;
+            degree.data = 10; 
         }
         else if ((status_4 & 0x08) != 0)
         {
-            std::cout << "旋转开关在9" << std::endl;
+            std::cout << "旋转开关在9 顺90" << std::endl;
+            degree.data = 9; 
         }
         else if ((status_4 & 0x04) != 0)
         {
-            std::cout << "旋转开关在8" << std::endl;
+            std::cout << "旋转开关在8 顺60" << std::endl;
+            degree.data = 8; 
         }
         else if ((status_4 & 0x02) != 0)
         {
-            std::cout << "旋转开关在7" << std::endl;
+            std::cout << "旋转开关在7 顺30" << std::endl;
+            degree.data = 7;
         }
         else if ((status_4 & 0x01) != 0)
         {
-            std::cout << "旋转开关在6" << std::endl;
+            std::cout << "旋转开关在6 0位置" << std::endl;
+            degree.data = 6; 
         }
         else if ((status_2 & 0x80) != 0)
         {
-            std::cout << "旋转开关在5" << std::endl;
+            std::cout << "旋转开关在5 逆30" << std::endl;
+            degree.data = 5; 
         }
         else if ((status_2 & 0x40) != 0)
         {
-            std::cout << "旋转开关在4" << std::endl;
+            std::cout << "旋转开关在4 逆60" << std::endl;
+            degree.data = 4; 
         }
         else if ((status_2 & 0x20) != 0)
         {
-            std::cout << "旋转开关在3" << std::endl;
+            std::cout << "旋转开关在3 逆90" << std::endl;
+            degree.data = 3; 
         }
         else if ((status_2 & 0x10) != 0)
         {
-            std::cout << "旋转开关在2" << std::endl;
+            std::cout << "旋转开关在2 逆120" << std::endl;
+            degree.data = 2; 
         }
         else if ((status_2 & 0x08) != 0)
         {
-            std::cout << "旋转开关在1" << std::endl;
+            std::cout << "旋转开关在1 逆160度" << std::endl;
+            degree.data = 1; 
         }
         else
         {
@@ -503,6 +520,8 @@ private:
         trunspeed_joystick_pub_->publish(speed_turn);
         // 模式状态发布
         mode_pub_->publish(mode_status);
+        // 度数发布
+        degree_pub_->publish(degree);
     }
 };
 int main(int argc, char const *argv[])

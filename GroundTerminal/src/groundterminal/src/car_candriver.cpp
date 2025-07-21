@@ -49,6 +49,10 @@ public:
     direction_sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
     rclcpp::SubscriptionOptions options_direction_sub;
     options_direction_sub.callback_group = direction_sub_callback_group_;
+    // 度数订阅回调组
+    degree_sub_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+    rclcpp::SubscriptionOptions options_degree_sub;
+    options_degree_sub.callback_group = degree_sub_callback_group_;
     // 遥杆速度订阅回调组
     joystick_speed_callback_group_ = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
     rclcpp::SubscriptionOptions joystick_speed_sub;
@@ -76,6 +80,9 @@ public:
     // 方向订阅
     this->direction_sub_ = this->create_subscription<std_msgs::msg::Int32>("direction", 10,
                                                                            std::bind(&Can_Driver::directionCallback, this, std::placeholders::_1), options_direction_sub);
+    // 度数订阅
+    this->degree_sub_ = this->create_subscription<std_msgs::msg::Int32>("degree", 10,
+                                                                        std::bind(&Can_Driver::degree_control_cb, this, std::placeholders::_1), options_degree_sub);
     // 遥杆速度订阅
     this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_joystick", 10,
                                                                        std::bind(&Can_Driver::joyspeedCallback, this, std::placeholders::_1), joystick_speed_sub);
@@ -116,11 +123,14 @@ private:
   rclcpp::CallbackGroup::SharedPtr turn_speed_callback_group_;
   rclcpp::CallbackGroup::SharedPtr imudata_sub_callback_group_;
   rclcpp::CallbackGroup::SharedPtr direction_sub_callback_group_;
+  rclcpp::CallbackGroup::SharedPtr degree_sub_callback_group_;
   rclcpp::CallbackGroup::SharedPtr cruising_speed_callback_group_;
   rclcpp::CallbackGroup::SharedPtr joystick_or_cruising_callback_group_;
 
   // 键盘控制节点订阅
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr direction_sub_;
+  // 度数订阅
+  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr degree_sub_;
   // 订阅IMU数据
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr imu_data_subr;
   // 遥杆速度
@@ -196,6 +206,115 @@ private:
     pitch = imu_data->data[1] + 90;
     roll = imu_data->data[0];
   }
+  void degree_control_cb(const std_msgs::msg::Int32 degree_msg)
+  {
+    int degree_control = degree_msg.data;
+    switch (degree_control)
+    {
+    case 1:
+    {
+      // 160度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_clockwise_160[i];
+      }
+      break;
+    }
+    case 2:
+    {
+      // 120度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_clockwise_120[i];
+      }
+      break;
+    }
+    case 3:
+    {
+      // 90度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_clockwise_90[i];
+      }
+      break;
+    }
+    case 4:
+    {
+      // 60度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_clockwise_60[i];
+      }
+      break;
+    }
+    case 5:
+    {
+      // 30度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_clockwise_30[i];
+      }
+      break;
+    }
+    case 6:
+    {
+      // 0度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_0[i];
+      }
+      break;
+    }
+    case 7:
+    {
+      // -30度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_counterclockwise_30[i];
+      }
+      break;
+    }
+    case 8:
+    {
+      // -60度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_counterclockwise__60[i];
+      }
+      break;
+    }
+    case 9:
+    {
+      // -90度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_counterclockwise__90[i];
+      }
+      break;
+    }
+    case 10:
+    {
+      // -120度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_counterclockwise__120[i];
+      }
+      break;
+    }
+    case 11:
+    {
+      // -160度位置
+      for (int i = 0; i < 5; ++i)
+      {
+        motor_05[i] = degree_counterclockwise__160[i];
+      }
+      break;
+    }
+
+    default:
+      break;
+    }
+  }
   // 综合发布函数
   void senddata_cb()
   {
@@ -215,6 +334,7 @@ private:
       SendData(can0_socket, motor_id_02, false, motor_02, 5);
       SendData(can0_socket, motor_id_03, false, motor_03, 5);
       SendData(can0_socket, motor_id_04, false, motor_04, 5);
+      SendData(can0_socket, motor_id_05, false, motor_05, 5); // 推杆电机
     }
     else
     {
@@ -223,6 +343,7 @@ private:
       SendData(can0_socket, motor_id_02, false, speed_zero, 5);
       SendData(can0_socket, motor_id_03, false, speed_zero, 5);
       SendData(can0_socket, motor_id_04, false, speed_zero, 5);
+      SendData(can0_socket, motor_id_05, false, speed_zero, 5); // 推杆电机
     }
   }
   // 操作方向回调函数
