@@ -26,8 +26,20 @@ float mode_2_max_voltage; // 模式2的最大电压
 float mode_2_ads;         // 期望电压与实际电压的绝对值
 float mode_2_1_voltage;   // 模式2 阶段一 的电压
 int state = 0;            // 状态机阶段
-//
-//
+int temp_state = 0;       // 临时状态机阶段
+
+// 模式3参数
+int mode3_state = 0;   // 模式3状态机阶段
+float mode_3_speed;    // 模式3的速度
+float mode_3_distance; // 模式3的距离
+float mode_3_1_minroll;
+float mode_3_1_maxroll;
+float mode_3_1_voltage = 0.0;
+float mode_3_kp;          // 模式2的比例系数
+float mode_3_expect;      // 模式2的推杆期望下压力
+float mode_2_max_voltage; // 模式2的最大电压
+float mode_3_ads;         // 期望电压与实际电压的绝对值
+float mode_3_1_voltage;   // 模式2 阶段一 的电压
 
 using std::placeholders::_1;
 // 3.自定义节点类；
@@ -83,8 +95,8 @@ private:
     }
     void mode_01(float pitch, float roll, float distance, float force)
     {
-        (void) pitch; // 忽略pitch
-        (void) force; // 忽略force
+        (void)pitch; // 忽略pitch
+        (void)force; // 忽略force
         // 处理模式1的逻辑
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
@@ -99,7 +111,7 @@ private:
                 // 电压值
                 combined_value.data[1] = mode_1_1_voltage;
                 // 方向 0：升 1：降
-                combined_value.data[2] = 1;
+                combined_value.data[2] = 0;
             }
             // 第二阶段 推杆快速
             else if (roll > mode_1_2_minroll && roll < mode_1_2_maxroll)
@@ -109,7 +121,7 @@ private:
                 // 电压值
                 combined_value.data[1] = mode_1_2_voltage;
                 // 方向 0：升 1：降
-                combined_value.data[2] = 1;
+                combined_value.data[2] = 0;
             }
             else
             {
@@ -124,83 +136,163 @@ private:
     }
     void mode_02(float pitch, float roll, float distance, float force)
     {
-        (void) pitch; // 忽略pitch
-        (void) distance; // 忽略distance
+        (void)pitch;    // 忽略pitch
+        (void)distance; // 忽略distance
         // 处理模式2的逻辑
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
         // 定速值 确保车辆一直有速度
         combined_value.data[0] = mode_2_speed;
-        switch (state)
+        // 俯角大于某个值后开启
+        if (roll > mode_2_1_startroll)
+        {
+            // 实际力小于期望力 且 力差值大于阈值 需要上拉
+            if (force < mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
+            {
+                // 比例 * 力差值
+                float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
+                // 限制最大电压
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                //
+                combined_value.data[1] = mode_voltage; // 阶段2 电压
+                combined_value.data[2] = 0;            // 方向 0：升|1：降
+            }
+            // 实际力大于期望力 且 力差值大于阈值 需要下压
+            else if (force > mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
+            {
+                // 比例 * 力差值
+                float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
+                // 限制最大电压
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                //
+                combined_value.data[1] = mode_voltage; // 阶段2 电压
+                combined_value.data[2] = 1;            // 方向 0：升|1：降
+            }
+            // 实际力接近期望力，且力差值小于阈值，停止推杆动作，继续往前走
+            else
+            {
+                // 力差值小于阈值，保持原有状态
+                combined_value.data[1] = 0.0; // 停止
+                combined_value.data[2] = 2;   // 停止
+            }
+        }
+        // 关闭条件，俯角达到88度以上
+        else if (roll >= 88.0)
+        {
+            if (temp_state == 0)
+            {
+                combined_value.data[0] = 0.4; // 稍微加快速度
+                combined_value.data[1] = 0.0; // 停止
+                combined_value.data[2] = 2;   // 停止
+                temp_state = 1;
+            }
+            else if (temp_state == 1)
+            {
+                // 延时 2s
+                rclcpp::sleep_for(std::chrono::seconds(2));
+                temp_state = 2;
+            }
+            else if (temp_state == 2)
+            {
+                combined_value.data[0] = 0.0; // 停止
+                combined_value.data[1] = 0.0; // 停止
+                combined_value.data[2] = 2;   // 停止
+            }
+        }
+
+        // 发送数据
+        value_pub_->publish(combined_value);
+    }
+    void mode_03(float pitch, float roll, float distance, float force)
+    {
+        auto combined_value = std_msgs::msg::Float64MultiArray();
+        combined_value.data.resize(3);
+        switch (mode3_state)
         {
         case 0:
         {
-            // 缓慢下放，直到测量值force小于 0
-            if (force > 0)
+            combined_value.data[0] = mode_3_speed; // 定速前进
+            if (distance > mode_3_distance)
             {
-                // 电压值
-                combined_value.data[1] = mode_2_1_voltage; // 模式二阶段一的电压
-                combined_value.data[2] = 1;                // 方向 0：升 1：降
-            }
-            else
-            {
-                state = 1; // 切换到 阶段 2
+                // 车头探出
+                mode3_state = 1; // 进入下一阶段
             }
             break;
         }
         case 1:
         {
-            // 俯角大于某个值后开启
-            if (roll > mode_2_1_startroll)
+            // 慢速上拉
+            if (roll > mode_3_1_minroll && roll < mode_3_1_maxroll)
             {
-                // 实际力小于期望力 且 力差值大于阈值 需要上拉
-                if (force < mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
-                {
-                    // 比例 * 力差值
-                    float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
-                    // 限制最大电压
-                    float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
-                    //
-                    combined_value.data[1] = mode_voltage; // 阶段2 电压
-                    combined_value.data[2] = 0;            // 方向 0：升|1：降
-                }
-                // 实际力大于期望力 且 力差值大于阈值 需要下压
-                else if (force > mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
-                {
-                    // 比例 * 力差值
-                    float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
-                    // 限制最大电压
-                    float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
-                    //
-                    combined_value.data[1] = mode_voltage; // 阶段2 电压
-                    combined_value.data[2] = 1;            // 方向 0：升|1：降
-                }
-                // 实际力接近期望力，且力差值小于阈值，停止推杆动作，继续往前走
-                else
-                {
-                    // 力差值小于阈值，保持原有状态
-                    combined_value.data[1] = 0.0; // 停止
-                    combined_value.data[2] = 2;   // 停止
-                }
+                // 定速值
+                combined_value.data[0] = mode_3_speed;
+                // 电压值
+                combined_value.data[1] = mode_3_1_voltage;
+                // 方向 0：升 1：降
+                combined_value.data[2] = 0;
             }
-            // 关闭条件，俯角达到88度以上
-            else if (roll >= 88.0)
+            else if (roll > mode_3_1_maxroll)
             {
+                // 进入下一阶段
+                mode3_state = 2;
+            }
+            break;
+        }
+        case 2:
+        {
+            // 维持小推力？推杆自身重力影响
+            if (force < mode_3_expect && std::abs(mode_3_expect - force) > mode_3_ads)
+            {
+                // 比例 * 力差值
+                float mode_temp_voltage = mode_3_kp * std::abs(mode_3_expect - force);
+                // 限制最大电压
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                combined_value.data[1] = mode_voltage; // 阶段2 电压
+                combined_value.data[2] = 0;            // 方向 0：升|1：降
+            }
+            else if (force > mode_3_expect && std::abs(mode_3_expect - force) > mode_3_ads)
+            {
+                // 比例 * 力差值
+                float mode_temp_voltage = mode_3_kp * std::abs(mode_3_expect - force);
+                // 限制最大电压
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                combined_value.data[1] = mode_voltage; // 阶段2 电压
+                combined_value.data[2] = 1;            // 方向 0：升|1：降
+            }
+            else
+            {
+                // 力差值小于阈值，保持原有状态
                 combined_value.data[1] = 0.0; // 停止
                 combined_value.data[2] = 2;   // 停止
             }
+            // 关闭条件，俯角达到178度以上
+            if (roll >= 178.0)
+            {
+                combined_value.data[0] = 0.4; // 稍微加快速度
+                combined_value.data[1] = 0.0; // 停止
+                combined_value.data[2] = 2;   // 停止
+                mode3_state = 3;              // 进入下一阶段
+            }
             break;
         }
-        default:
+        case 3:
+        {
+            // 延时 2s
+            rclcpp::sleep_for(std::chrono::seconds(2));
+            mode3_state = 4; // 进入下一阶段
             break;
         }
-        // 发送数据
-        value_pub_->publish(combined_value);
+        case 4:
+        {
+            combined_value.data[0] = 0.0; // 停止
+            combined_value.data[1] = 0.0; // 停止
+            combined_value.data[2] = 2;   // 停止
+            break;
+        }
+            // 发送数据
+            value_pub_->publish(combined_value);
+        }
     }
-    // void mode_03(float pitch, float roll, float distance, float force)
-    // {
-        
-    // }
     // void mode_04(float pitch, float roll, float distance, float force)
     // {
     // }

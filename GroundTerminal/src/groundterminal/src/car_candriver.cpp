@@ -3,6 +3,7 @@
 #include <std_msgs/msg/float64_multi_array.hpp>
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/int32.hpp"
+#include "std_msgs/msg/float32.hpp"
 #include "signal.h"
 #include <iostream>
 #include <unistd.h>
@@ -20,6 +21,7 @@ bool change_flag = false;
 int mode = 0;
 float pitch;
 float roll;
+
 // 数据获取线程
 int ret;
 pthread_t dataread_thread;
@@ -81,8 +83,8 @@ public:
     this->direction_sub_ = this->create_subscription<std_msgs::msg::Int32>("direction", 10,
                                                                            std::bind(&Can_Driver::directionCallback, this, std::placeholders::_1), options_direction_sub);
     // 度数订阅
-    this->degree_sub_ = this->create_subscription<std_msgs::msg::Int32>("degree", 10,
-                                                                        std::bind(&Can_Driver::degree_control_cb, this, std::placeholders::_1), options_degree_sub);
+    this->degree_sub_ = this->create_subscription<std_msgs::msg::Float32>("degree", 10,
+                                                                          std::bind(&Can_Driver::degree_control_cb, this, std::placeholders::_1), options_degree_sub);
     // 遥杆速度订阅
     this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_joystick", 10,
                                                                        std::bind(&Can_Driver::joyspeedCallback, this, std::placeholders::_1), joystick_speed_sub);
@@ -130,7 +132,7 @@ private:
   // 键盘控制节点订阅
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr direction_sub_;
   // 度数订阅
-  rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr degree_sub_;
+  rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr degree_sub_;
   // 订阅IMU数据
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr imu_data_subr;
   // 遥杆速度
@@ -206,113 +208,38 @@ private:
     pitch = imu_data->data[1] + 90;
     roll = imu_data->data[0];
   }
-  void degree_control_cb(const std_msgs::msg::Int32 degree_msg)
+  void degree_control_cb(const std_msgs::msg::Float32 degree_msg)
   {
-    int degree_control = degree_msg.data;
-    switch (degree_control)
+    // 处理度数控制逻辑
+    if (is_position = true)
     {
-    case 1:
-    {
-      // 160度位置
+      // 处理位置数据
+      new_degree_position = degree_msg.data;
+      // 与上一次的差值
+      float degree_delta = new_degree_position - last_degree_position;
+      last_degree_position = new_degree_position;            // 更新上一次位置
+      float control_degree = degree_position + degree_delta; // 更新控制位置
+      if (control_degree < -160.0)
+      {
+        control_degree = -160.0; // 限制最小值
+      }
+      else if (control_degree > 160.0)
+      {
+        control_degree = 160.0; // 限制最大值
+      }
+      // 发送控制位置
+      int motor_degree = (control_degree / 360.0) * 65536.0 * 101; // 转换为电机位置
+      auto out_degree = createOutdegree(motor_degree);
       for (int i = 0; i < 5; ++i)
       {
-        motor_05[i] = degree_clockwise_160[i];
+        motor_05[i] = out_degree[i]; // 更新推杆电机数据
       }
-      break;
+      // 重置标志
+      is_position = false;
     }
-    case 2:
+    else
     {
-      // 120度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_clockwise_120[i];
-      }
-      break;
-    }
-    case 3:
-    {
-      // 90度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_clockwise_90[i];
-      }
-      break;
-    }
-    case 4:
-    {
-      // 60度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_clockwise_60[i];
-      }
-      break;
-    }
-    case 5:
-    {
-      // 30度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_clockwise_30[i];
-      }
-      break;
-    }
-    case 6:
-    {
-      // 0度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_0[i];
-      }
-      break;
-    }
-    case 7:
-    {
-      // -30度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_counterclockwise_30[i];
-      }
-      break;
-    }
-    case 8:
-    {
-      // -60度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_counterclockwise__60[i];
-      }
-      break;
-    }
-    case 9:
-    {
-      // -90度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_counterclockwise__90[i];
-      }
-      break;
-    }
-    case 10:
-    {
-      // -120度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_counterclockwise__120[i];
-      }
-      break;
-    }
-    case 11:
-    {
-      // -160度位置
-      for (int i = 0; i < 5; ++i)
-      {
-        motor_05[i] = degree_counterclockwise__160[i];
-      }
-      break;
-    }
-
-    default:
-      break;
+      RCLCPP_WARN(this->get_logger(), "位置数据未更新");
     }
   }
   // 综合发布函数
@@ -326,6 +253,8 @@ private:
     SendData(can0_socket, motor_id_02, false, get_speed, 1);
     SendData(can0_socket, motor_id_03, false, get_speed, 1);
     SendData(can0_socket, motor_id_04, false, get_speed, 1);
+    // 发送位置获取数据
+    SendData(can0_socket, motor_id_05, false, get_position, 1);
 
     if (called)
     {
@@ -615,6 +544,23 @@ private:
         // 发布信息
         rt4_data.data = decval4;
       }
+
+      case 0x005:
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          receiveData[i] = (int)frame.data[i];
+        }
+        // 获取原始位置数据
+        positionData[0] = receiveData[4];
+        positionData[1] = receiveData[3];
+        positionData[2] = receiveData[2];
+        positionData[3] = receiveData[1];
+        int32_t value = (positionData[0] << 24) | (positionData[1] << 16) | (positionData[2] << 8) | positionData[3];
+        int decval5 = static_cast<int>(value);
+        degree_position = (decval5 / 65536.0 / 101) * 360; // 转换为度数
+        is_position = true;                                // 设置位置数据已更新标志
+      }
       break;
       }
     }
@@ -652,6 +598,16 @@ std::array<unsigned char, 5> createOutspeed(int dec_speed)
       static_cast<unsigned char>((dec_speed >> 8) & 0xFF),
       static_cast<unsigned char>((dec_speed >> 16) & 0xFF),
       static_cast<unsigned char>((dec_speed >> 24) & 0xFF)};
+}
+// 转换为位置发送，小字端
+std::array<unsigned char, 5> createOutdegree(int dec_degree)
+{
+  return {
+      0x1E,
+      static_cast<unsigned char>(dec_degree & 0xFF),
+      static_cast<unsigned char>((dec_degree >> 8) & 0xFF),
+      static_cast<unsigned char>((dec_degree >> 16) & 0xFF),
+      static_cast<unsigned char>((dec_degree >> 24) & 0xFF)};
 }
 
 // 信号处理函数

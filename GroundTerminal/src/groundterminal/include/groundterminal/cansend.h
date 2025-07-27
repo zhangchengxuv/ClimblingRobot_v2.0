@@ -15,6 +15,7 @@
 
 uint8_t receiveData[4];
 uint8_t realData[2];
+uint8_t positionData[4];
 int action_flag;
 
 void *receive_func(void *param);

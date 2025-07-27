@@ -41,7 +41,7 @@ public:
         // 方向
         direction_pub_ = this->create_publisher<std_msgs::msg::Int32>("direction", 10);
         // 度数发布
-        degree_pub_ = this->create_publisher<std_msgs::msg::Int32>("degree", 10);
+        degree_pub_ = this->create_publisher<std_msgs::msg::Float32>("degree", 10);
         // 发送两种电压值（数组）
         voltageArray_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("voltage_array", 10);
         // 发送两种电压值（数组）
@@ -84,7 +84,7 @@ private:
     // arm状态(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
     // 度数发布(Int32)
-    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr degree_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr degree_pub_;
     // 模式开启与否
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_pub_;
     // 发送两种电压值（数组）
@@ -119,7 +119,7 @@ private:
         // 模式状态
         auto mode_status = std_msgs::msg::Int32();
         // 度数
-        auto degree = std_msgs::msg::Int32();
+        auto degree = std_msgs::msg::Float32();
         // // 辅助轮推杆变量
         // auto auxiliary_rod = std_msgs::msg::Float32();
         // // 前轮推杆变量
@@ -178,7 +178,9 @@ private:
         float dec_voltage_0 = static_cast<int>(voltage_0) / 255.0 * 24.0; // 电压范围是0-24V
         combined_voltage_2.data[0] = dec_voltage_0;                       // 转换为推杆电压
         std::cout << "辅助推杆电压: " << dec_voltage_0 << " V" << std::endl;
-
+        // 备用旋钮
+        uint8_t knob = controldate[16];
+        float dec_knob = static_cast<int>(knob) / 255.0 *180; // 旋钮范围是0-180度
         // 前臂推杆电压
         uint8_t voltage_1 = controldate[12];
         float dec_voltage_1 = static_cast<int>(voltage_1) / 255.0 * 24.0; // 电压范围是0-24V
@@ -432,68 +434,50 @@ private:
         }
         // 12位开关设置
         uint8_t status_4 = controldate[22];
-        // if ((status_4 & 0x40) != 0)
-        // {
-        //     std::cout << "遥控关机" << std::endl;
-        // }
-        // else
-        // {
-        //     std::cout << "遥控开机" << std::endl;
-        // }
         if ((status_4 & 0x20) != 0)
         {
-            std::cout << "旋转开关在11 顺160" << std::endl;
-            degree.data = 11; // 开关位置
+            std::cout << "旋转开关在11" << std::endl;
+
         }
         else if ((status_4 & 0x10) != 0)
         {
-            std::cout << "旋转开关在10 顺120" << std::endl;
-            degree.data = 10; 
+            std::cout << "旋转开关在10" << std::endl;
         }
         else if ((status_4 & 0x08) != 0)
         {
-            std::cout << "旋转开关在9 顺90" << std::endl;
-            degree.data = 9; 
+            std::cout << "旋转开关在9" << std::endl;
         }
         else if ((status_4 & 0x04) != 0)
         {
-            std::cout << "旋转开关在8 顺60" << std::endl;
-            degree.data = 8; 
+            std::cout << "旋转开关在8" << std::endl;
         }
         else if ((status_4 & 0x02) != 0)
         {
-            std::cout << "旋转开关在7 顺30" << std::endl;
-            degree.data = 7;
+            std::cout << "旋转开关在7" << std::endl;
         }
         else if ((status_4 & 0x01) != 0)
         {
-            std::cout << "旋转开关在6 0位置" << std::endl;
-            degree.data = 6; 
+            std::cout << "旋转开关在6" << std::endl;
         }
         else if ((status_2 & 0x80) != 0)
         {
-            std::cout << "旋转开关在5 逆30" << std::endl;
-            degree.data = 5; 
+            std::cout << "旋转开关在5" << std::endl;
         }
         else if ((status_2 & 0x40) != 0)
         {
-            std::cout << "旋转开关在4 逆60" << std::endl;
-            degree.data = 4; 
+            std::cout << "旋转开关在4 " << std::endl;
         }
         else if ((status_2 & 0x20) != 0)
         {
-            std::cout << "旋转开关在3 逆90" << std::endl;
-            degree.data = 3; 
+            std::cout << "旋转开关在3 " << std::endl;
         }
         else if ((status_2 & 0x10) != 0)
         {
-            std::cout << "旋转开关在2 逆120" << std::endl;
-            degree.data = 2; 
+            std::cout << "旋转开关在2" << std::endl;
         }
         else if ((status_2 & 0x08) != 0)
         {
-            std::cout << "旋转开关在1 逆160度" << std::endl;
-            degree.data = 1; 
+            std::cout << "旋转开关在1" << std::endl;
         }
         else
         {

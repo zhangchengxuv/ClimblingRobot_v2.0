@@ -34,6 +34,13 @@ BYTE motor_stop[1] = {0x02};                         // 电机关闭
 
 // 获取速度
 BYTE get_speed[1] = {0x06};
+// 获取位置
+BYTE get_position[1] = {0x08};
+// 位置
+float degree_position;     // 当前位置，单位：度
+float new_degree_position; // 新位置
+float last_degree_position;// 上一次位置
+bool is_position = false;
 // 同一发送
 BYTE motor_01[5] = {0x1d, 0x00, 0x00, 0x00, 0x00};
 BYTE motor_02[5] = {0x1d, 0x00, 0x00, 0x00, 0x00};
