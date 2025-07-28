@@ -104,7 +104,7 @@ private:
         if (distance > mode_1_distance)
         {
             // 第一阶段 推杆慢速
-            if (roll > mode_1_1_minroll && roll < mode_1_1_maxroll)
+            if (roll < mode_1_1_maxroll)
             {
                 // 定速值
                 combined_value.data[0] = mode_1_speed;
@@ -114,7 +114,7 @@ private:
                 combined_value.data[2] = 0;
             }
             // 第二阶段 推杆快速
-            else if (roll > mode_1_2_minroll && roll < mode_1_2_maxroll)
+            else if (roll > mode_1_2_minroll)
             {
                 // 定速值
                 combined_value.data[0] = mode_1_speed;
@@ -221,17 +221,28 @@ private:
         }
         case 1:
         {
-            // 慢速上拉
-            if (roll > mode_3_1_minroll && roll < mode_3_1_maxroll)
-            {
-                // 定速值
-                combined_value.data[0] = mode_3_speed;
-                // 电压值
-                combined_value.data[1] = mode_3_1_voltage;
-                // 方向 0：升 1：降
-                combined_value.data[2] = 0;
-            }
-            else if (roll > mode_3_1_maxroll)
+            // // 慢速上拉
+            // if (roll > mode_3_1_minroll && roll < mode_3_1_maxroll)
+            // {
+            //     // 定速值
+            //     combined_value.data[0] = mode_3_speed;
+            //     // 电压值
+            //     combined_value.data[1] = mode_3_1_voltage;
+            //     // 方向 0：升 1：降
+            //     combined_value.data[2] = 0;
+            // }
+            // else if (roll > mode_3_1_maxroll)
+            // {
+            //     // 进入下一阶段
+            //     mode3_state = 2;
+            // }
+            // 定速值
+            combined_value.data[0] = mode_3_speed;
+            // 电压值
+            combined_value.data[1] = mode_3_1_voltage;
+            // 方向 0：升 1：降
+            combined_value.data[2] = 0;
+            if (roll > mode_3_1_maxroll)
             {
                 // 进入下一阶段
                 mode3_state = 2;
