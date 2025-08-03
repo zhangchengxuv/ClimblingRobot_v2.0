@@ -57,6 +57,5 @@ def generate_launch_description():
                               wheel_node,
                               ahrs_driver,
                               imu_talker,
-                              ldlidar_node,
-                              base_link_to_laser_tf_node,
+                              camera_node,
                               sensor_collect_node])

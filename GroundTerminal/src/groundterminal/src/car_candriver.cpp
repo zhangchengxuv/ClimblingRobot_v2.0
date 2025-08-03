@@ -19,6 +19,7 @@ std::atomic<bool> m_run0(true); // 使用原子变量
 bool change_flag = false;
 // 模式
 int mode = 0;
+int arm_state = 0;
 float pitch;
 float roll;
 
@@ -27,6 +28,7 @@ int ret;
 pthread_t dataread_thread;
 // 将电机速度转换为十六进制数据
 std::array<unsigned char, 5> createOutspeed(int dec_speed);
+std::array<unsigned char, 5> createOutdegree(int dec_degree);
 
 void signal_handler(int signal);
 
@@ -108,9 +110,12 @@ public:
     rtspeed2_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt2_speed", 10);
     rtspeed3_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt3_speed", 10);
     rtspeed4_pub_ = this->create_publisher<std_msgs::msg::Int32>("rt4_speed", 10);
+    // 实时位置发布方
+    rtspos_pub_ = this->create_publisher<std_msgs::msg::Float32>("rt_position", 10);
+
     // 定时器
-    sp_timer_ = this->create_wall_timer(40ms, std::bind(&Can_Driver::on_rtsp_timer, this), timer_callback_group_);
-    send_timer_ = this->create_wall_timer(40ms, std::bind(&Can_Driver::senddata_cb, this), sendtimer_callback_group_);
+    sp_timer_ = this->create_wall_timer(25ms, std::bind(&Can_Driver::on_rtsp_timer, this), timer_callback_group_);
+    send_timer_ = this->create_wall_timer(25ms, std::bind(&Can_Driver::senddata_cb, this), sendtimer_callback_group_);
   }
 
 private:
@@ -150,6 +155,8 @@ private:
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed2_pub_;
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed3_pub_;
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed4_pub_;
+  // 实时位置反馈
+  rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr rtspos_pub_;
 
   // 定义计时器
   rclcpp::TimerBase::SharedPtr sp_timer_;
@@ -210,36 +217,34 @@ private:
   }
   void degree_control_cb(const std_msgs::msg::Float32 degree_msg)
   {
-    // 处理度数控制逻辑
-    if (is_position = true)
+    switch (arm_state)
     {
-      // 处理位置数据
-      new_degree_position = degree_msg.data;
-      // 与上一次的差值
-      float degree_delta = new_degree_position - last_degree_position;
-      last_degree_position = new_degree_position;            // 更新上一次位置
-      float control_degree = degree_position + degree_delta; // 更新控制位置
-      if (control_degree < -160.0)
+    case 0:
+    {
+      sleep(1); // 等待1秒
+      arm_state = 1;
+      break;
+    }
+    case 1:
+    {
+      if (std::abs(std::abs(degree_msg.data) - std::abs(degree_position)) < 2)
       {
-        control_degree = -160.0; // 限制最小值
+        arm_state = 2;
       }
-      else if (control_degree > 160.0)
-      {
-        control_degree = 160.0; // 限制最大值
-      }
+      break;
+    }
+    case 2:
+    {
       // 发送控制位置
-      int motor_degree = (control_degree / 360.0) * 65536.0 * 101; // 转换为电机位置
+      int motor_degree = (degree_msg.data / 360.0) * 65536.0 * 101; // 转换为电机位置
       auto out_degree = createOutdegree(motor_degree);
       for (int i = 0; i < 5; ++i)
       {
         motor_05[i] = out_degree[i]; // 更新推杆电机数据
       }
-      // 重置标志
-      is_position = false;
+      SendData(can0_socket, motor_id_05, false, motor_05, 1);
+      break;
     }
-    else
-    {
-      RCLCPP_WARN(this->get_logger(), "位置数据未更新");
     }
   }
   // 综合发布函数
@@ -253,7 +258,7 @@ private:
     SendData(can0_socket, motor_id_02, false, get_speed, 1);
     SendData(can0_socket, motor_id_03, false, get_speed, 1);
     SendData(can0_socket, motor_id_04, false, get_speed, 1);
-    // 发送位置获取数据
+    // 发送位置获取命令
     SendData(can0_socket, motor_id_05, false, get_position, 1);
 
     if (called)
@@ -263,7 +268,6 @@ private:
       SendData(can0_socket, motor_id_02, false, motor_02, 5);
       SendData(can0_socket, motor_id_03, false, motor_03, 5);
       SendData(can0_socket, motor_id_04, false, motor_04, 5);
-      SendData(can0_socket, motor_id_05, false, motor_05, 5); // 推杆电机
     }
     else
     {
@@ -272,7 +276,6 @@ private:
       SendData(can0_socket, motor_id_02, false, speed_zero, 5);
       SendData(can0_socket, motor_id_03, false, speed_zero, 5);
       SendData(can0_socket, motor_id_04, false, speed_zero, 5);
-      SendData(can0_socket, motor_id_05, false, speed_zero, 5); // 推杆电机
     }
   }
   // 操作方向回调函数
@@ -544,6 +547,7 @@ private:
         // 发布信息
         rt4_data.data = decval4;
       }
+      break;
 
       case 0x005:
       {
@@ -559,7 +563,7 @@ private:
         int32_t value = (positionData[0] << 24) | (positionData[1] << 16) | (positionData[2] << 8) | positionData[3];
         int decval5 = static_cast<int>(value);
         degree_position = (decval5 / 65536.0 / 101) * 360; // 转换为度数
-        is_position = true;                                // 设置位置数据已更新标志
+        rp5_data.data = degree_position;                   // 发布位置数据
       }
       break;
       }
@@ -572,6 +576,7 @@ private:
     rtspeed2_pub_->publish(rt2_data);
     rtspeed3_pub_->publish(rt3_data);
     rtspeed4_pub_->publish(rt4_data);
+    rtspos_pub_->publish(rp5_data); // 发布实时位置数据
   }
 };
 

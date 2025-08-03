@@ -40,7 +40,6 @@ BYTE get_position[1] = {0x08};
 float degree_position;     // 当前位置，单位：度
 float new_degree_position; // 新位置
 float last_degree_position;// 上一次位置
-bool is_position = false;
 // 同一发送
 BYTE motor_01[5] = {0x1d, 0x00, 0x00, 0x00, 0x00};
 BYTE motor_02[5] = {0x1d, 0x00, 0x00, 0x00, 0x00};
@@ -66,5 +65,7 @@ auto rt1_data = std_msgs::msg::Int32();
 auto rt2_data = std_msgs::msg::Int32();
 auto rt3_data = std_msgs::msg::Int32();
 auto rt4_data = std_msgs::msg::Int32();
+auto rp5_data = std_msgs::msg::Float32();
+
 
 #endif

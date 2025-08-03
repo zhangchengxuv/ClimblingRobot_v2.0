@@ -7,6 +7,10 @@
 #include "std_msgs/msg/float64_multi_array.hpp"
 #include "groundterminal/mode_switching.h"
 
+// 模式开关
+int state = 0;           
+
+
 // 模式1参数
 float mode_1_speed = 0.2;
 float mode_1_distance = 0.2;
@@ -25,7 +29,6 @@ float mode_2_expect;      // 模式2的推杆期望下压力
 float mode_2_max_voltage; // 模式2的最大电压
 float mode_2_ads;         // 期望电压与实际电压的绝对值
 float mode_2_1_voltage;   // 模式2 阶段一 的电压
-int state = 0;            // 状态机阶段
 int temp_state = 0;       // 临时状态机阶段
 
 // 模式3参数
@@ -37,9 +40,9 @@ float mode_3_1_maxroll;
 float mode_3_1_voltage = 0.0;
 float mode_3_kp;          // 模式2的比例系数
 float mode_3_expect;      // 模式2的推杆期望下压力
-float mode_2_max_voltage; // 模式2的最大电压
+float mode_3_max_voltage; // 模式2的最大电压
 float mode_3_ads;         // 期望电压与实际电压的绝对值
-float mode_3_1_voltage;   // 模式2 阶段一 的电压
+float mode_3_2_voltage;   // 模式2 阶段一 的电压
 
 using std::placeholders::_1;
 // 3.自定义节点类；
@@ -84,8 +87,9 @@ private:
         float roll = msg->data[1];
         float distance = msg->data[2];
         float force = msg->data[3];
-        if (state == 0)
+        if (state == 1)
         {
+            // 模式开启
             mode_01(pitch, roll, distance, force);
         }
         else
@@ -205,6 +209,7 @@ private:
     }
     void mode_03(float pitch, float roll, float distance, float force)
     {
+        (void)pitch;    // 忽略pitch
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
         switch (mode3_state)

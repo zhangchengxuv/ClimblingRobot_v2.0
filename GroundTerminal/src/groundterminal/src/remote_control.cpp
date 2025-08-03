@@ -83,7 +83,7 @@ private:
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr wheel_status_pub_;
     // arm状态(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
-    // 度数发布(Int32)
+    // 度数发布(Float32)
     rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr degree_pub_;
     // 模式开启与否
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_pub_;
@@ -96,7 +96,7 @@ private:
         mode_speed_value = msg.data[0];
         mode_voltage_value = msg.data[1];
         mode_wheel_direction = msg.data[2];
-        std::cout << "mode_speed_value: " << mode_speed_value << " mode_voltage_value: " << mode_voltage_value << " mode_wheel_direction: " << mode_wheel_direction << std::endl;
+        // std::cout << "mode_speed_value: " << mode_speed_value << " mode_voltage_value: " << mode_voltage_value << " mode_wheel_direction: " << mode_wheel_direction << std::endl;
     }
 
     void read_data()
@@ -155,6 +155,7 @@ private:
         else if (mode_speed_status == 1)
         {
             float motorspeed = mode_speed_value * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+            std::cout << "模式下巡航车体速度: " << mode_speed_value << " m/min" << std::endl;
             cruising_speed.data = motorspeed;
         }
         // 遥杆车体速度
@@ -178,9 +179,20 @@ private:
         float dec_voltage_0 = static_cast<int>(voltage_0) / 255.0 * 24.0; // 电压范围是0-24V
         combined_voltage_2.data[0] = dec_voltage_0;                       // 转换为推杆电压
         std::cout << "辅助推杆电压: " << dec_voltage_0 << " V" << std::endl;
-        // 备用旋钮
+        // 备用旋钮 摆臂旋钮
         uint8_t knob = controldate[16];
-        float dec_knob = static_cast<int>(knob) / 255.0 *180; // 旋钮范围是0-180度
+        float dec_knob = static_cast<int>(knob) / 255.0 * 180; // 旋钮范围是0-180度
+        dec_knob = std::round(dec_knob);
+        if (dec_knob < 90)
+        {
+            dec_knob = -(90 - dec_knob); // 旋钮度数转换
+        }
+        else
+        {
+            dec_knob = dec_knob - 90; // 旋钮度数转换
+        }
+        degree.data = dec_knob; // 转换为度数
+        std::cout << "旋钮度数: " << dec_knob << " deg" << std::endl;
         // 前臂推杆电压
         uint8_t voltage_1 = controldate[12];
         float dec_voltage_1 = static_cast<int>(voltage_1) / 255.0 * 24.0; // 电压范围是0-24V
@@ -437,7 +449,6 @@ private:
         if ((status_4 & 0x20) != 0)
         {
             std::cout << "旋转开关在11" << std::endl;
-
         }
         else if ((status_4 & 0x10) != 0)
         {
@@ -512,7 +523,9 @@ int main(int argc, char const *argv[])
 {
     // 2.初始化ROS2客户端；
     rclcpp::init(argc, argv);
-    ser.setPort("/dev/ttyUSB1");
+    // sudo usermod -aG dialout demo
+    // ser.setPort("/dev/ttyS0");
+    ser.setPort("/dev/ttyUSB0");
     ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     ser.setTimeout(to);
