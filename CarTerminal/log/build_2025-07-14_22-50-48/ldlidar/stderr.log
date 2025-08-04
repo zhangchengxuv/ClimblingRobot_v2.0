@@ -1,8 +1,0 @@
-In file included from [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/ros2_app/src/ldlidar/../../../ldlidar_driver/include/lipkg.h:32[m[K,
-                 from [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/ros2_app/src/ldlidar/src/ros2_node/stp23lnet_ros2node.cpp:23[m[K:
-[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/ros2_app/src/ldlidar/../../../ldlidar_driver/include/cmd_net_interface_linux.h:58:17:[m[K [01;35m[Kwarning: [m[K‘[01m[Kldlidar::DIFOP_DATA_PORT_NUMBER[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
-   58 | static uint16_t [01;35m[KDIFOP_DATA_PORT_NUMBER[m[K = 2369;  // lslidar default difop data port on PC
-      |                 [01;35m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
-[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/CarTerminal/src/ros2_app/src/ldlidar/../../../ldlidar_driver/include/cmd_net_interface_linux.h:56:17:[m[K [01;35m[Kwarning: [m[K‘[01m[Kldlidar::PACKET_SIZE_input[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
-   56 | static uint16_t [01;35m[KPACKET_SIZE_input[m[K = 1206;
-      |                 [01;35m[K^~~~~~~~~~~~~~~~~[m[K

@@ -259,7 +259,7 @@ private:
     SendData(can0_socket, motor_id_03, false, get_speed, 1);
     SendData(can0_socket, motor_id_04, false, get_speed, 1);
     // 发送位置获取命令
-    SendData(can0_socket, motor_id_05, false, get_position, 1);
+    SendData(can0_socket, motor_id_05, false, get_position, 5);
 
     if (called)
     {

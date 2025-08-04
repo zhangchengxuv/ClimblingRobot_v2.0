@@ -23,11 +23,13 @@ float mode_1_2_voltage = 0.0;
 
 // 模式2参数
 float mode_2_speed;       // 模式2的速度
-float mode_2_1_startroll; // 模式2开始的roll角度
-float mode_2_kp;          // 模式2的比例系数
-float mode_2_expect;      // 模式2的推杆期望下压力
-float mode_2_max_voltage; // 模式2的最大电压
-float mode_2_ads;         // 期望电压与实际电压的绝对值
+float mode_2_1_startroll = -11.0; // 模式2开始的roll角度
+float mode_2_kp = 0.5;          // 模式2的比例系数
+float mode_2_expect = -10.0;      // 模式2的推杆期望下压力
+float mode_2_max_voltage_1 = 15.0; // 模式2的最大电压
+float mode_2_max_voltage_2 = 15.0; // 模式2的最大电压
+
+float mode_2_ads = 10.0 ;         // 期望电压与实际电压的绝对值
 float mode_2_1_voltage;   // 模式2 阶段一 的电压
 int temp_state = 0;       // 临时状态机阶段
 
@@ -90,7 +92,7 @@ private:
         if (state == 1)
         {
             // 模式开启
-            mode_01(pitch, roll, distance, force);
+            mode_02(pitch, roll, distance, force);
         }
         else
         {
@@ -156,7 +158,7 @@ private:
                 // 比例 * 力差值
                 float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
                 // 限制最大电压
-                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage_1);
                 //
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 0;            // 方向 0：升|1：降
@@ -167,7 +169,7 @@ private:
                 // 比例 * 力差值
                 float mode_temp_voltage = mode_2_kp * std::abs(mode_2_expect - force);
                 // 限制最大电压
-                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage_2);
                 //
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 1;            // 方向 0：升|1：降
@@ -262,7 +264,7 @@ private:
                 // 比例 * 力差值
                 float mode_temp_voltage = mode_3_kp * std::abs(mode_3_expect - force);
                 // 限制最大电压
-                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                float mode_voltage = std::min(mode_temp_voltage, mode_3_max_voltage);
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 0;            // 方向 0：升|1：降
             }
@@ -271,7 +273,7 @@ private:
                 // 比例 * 力差值
                 float mode_temp_voltage = mode_3_kp * std::abs(mode_3_expect - force);
                 // 限制最大电压
-                float mode_voltage = std::min(mode_temp_voltage, mode_2_max_voltage);
+                float mode_voltage = std::min(mode_temp_voltage, mode_3_max_voltage);
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 1;            // 方向 0：升|1：降
             }

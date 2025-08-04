@@ -1,4 +1,0 @@
-[35m[1mConsolidate compiler generated dependencies of target remote_control[0m
-[ 33%] Built target mode_switching
-[ 66%] Built target car_candriver
-[ 83%] [32mBuilding CXX object CMakeFiles/remote_control.dir/src/remote_control.cpp.o[0m

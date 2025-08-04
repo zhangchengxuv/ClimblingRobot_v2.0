@@ -23,7 +23,7 @@ class ROS2_STM32_Lis : public rclcpp::Node
 public:
     ROS2_STM32_Lis() : Node("ros2_stm32_lis_node_cpp", rclcpp::NodeOptions().allow_undeclared_parameters(true))
     {
-        sub_ = this->create_subscription<std_msgs::msg::Float64MultiArray>("voltage_talker", 10, std::bind(&ROS2_STM32_Lis::topic_callback, this, _1));
+        sub_ = this->create_subscription<std_msgs::msg::Float64MultiArray>("voltage_array", 10, std::bind(&ROS2_STM32_Lis::topic_callback, this, _1));
     }
     void topic_callback(const std_msgs::msg::Float64MultiArray msg)
     {

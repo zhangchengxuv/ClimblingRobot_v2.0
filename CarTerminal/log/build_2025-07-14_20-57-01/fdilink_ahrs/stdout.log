@@ -1,2 +1,0 @@
-[ 20%] [32mBuilding CXX object CMakeFiles/imu_tf_node.dir/src/imu_tf.cpp.o[0m
-[ 80%] Built target ahrs_driver_node

@@ -73,7 +73,7 @@ private:
     }
     void weight_callback(const std_msgs::msg::Int32 msg)
     {
-        weight_sensor = msg.data;
+        weight_sensor = - msg.data;
     }
     void senddata_cb()
     {

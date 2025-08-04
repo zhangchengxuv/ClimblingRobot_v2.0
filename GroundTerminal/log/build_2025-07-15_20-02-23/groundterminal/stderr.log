@@ -1,4 +1,0 @@
-[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:[m[K In member function ‘[01m[Kvoid Mode_Switching::imu_and_laser_callback(std_msgs::msg::Float64MultiArray_<std::allocator<void> >::SharedPtr)[m[K’:
-[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/GroundTerminal/src/groundterminal/src/mode_switching.cpp:48:19:[m[K [01;35m[Kwarning: [m[Ksuggest parentheses around assignment used as truth value [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wparentheses-Wparentheses]8;;[m[K]
-   48 |         if ([01;35m[Kstate = 1[m[K)
-      |             [01;35m[K~~~~~~^~~[m[K

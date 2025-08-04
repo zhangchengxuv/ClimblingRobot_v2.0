@@ -120,11 +120,6 @@ private:
         auto mode_status = std_msgs::msg::Int32();
         // 度数
         auto degree = std_msgs::msg::Float32();
-        // // 辅助轮推杆变量
-        // auto auxiliary_rod = std_msgs::msg::Float32();
-        // // 前轮推杆变量
-        // auto front_rod = std_msgs::msg::Float32();
-        // 综合推杆电压变量
         auto combined_voltage = std_msgs::msg::Float64MultiArray();
         combined_voltage.data.resize(2);
         auto combined_voltage_2 = std_msgs::msg::Float64MultiArray();
@@ -154,8 +149,13 @@ private:
         }
         else if (mode_speed_status == 1)
         {
-            float motorspeed = mode_speed_value * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
-            std::cout << "模式下巡航车体速度: " << mode_speed_value << " m/min" << std::endl;
+            // float motorspeed = mode_speed_value * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
+            // std::cout << "模式下巡航车体速度: " << mode_speed_value << " m/min" << std::endl;
+            // cruising_speed.data = motorspeed;
+            uint8_t speed_wheel = controldate[8];
+            float dec_speed_wheel = static_cast<int>(speed_wheel) / 255.0 * 10; // 速度范围是0-10 m/min (2335)
+            std::cout << "巡航车体速度: " << dec_speed_wheel << " m/min" << std::endl;
+            float motorspeed = dec_speed_wheel * 3.0 * 110 * 100 / 3.14 / 0.125 / 360; // 转换为电机速度
             cruising_speed.data = motorspeed;
         }
         // 遥杆车体速度
@@ -249,16 +249,7 @@ private:
             std::cout << "巡航模式" << std::endl;
             joystick_or_cruising.data = 1; // 巡航模式
         }
-
-        // if ((status_0 & 0x02) != 0)
-        // {
-        //     std::cout << "F1: 按下" << std::endl;
-        // }
-        // else
-        // {
-        //     std::cout << "F1: 未按下" << std::endl;
-        // }
-
+        // 
         if ((status_0 & 0x01) != 0)
         {
             std::cout << "除锈: 开启" << std::endl;
@@ -397,7 +388,15 @@ private:
         {
             std::cout << "摆臂下降" << std::endl;
             // front_rod.data = dec_voltage_1 * 10.0 + 240.0;
-            combined_voltage.data[1] = dec_voltage_1 * 10.0 + 240.0;
+            float temp2 = dec_voltage_1 * 10.0 + 240.0;
+            if (temp2 == 240)
+            {
+                combined_voltage.data[1] = 0;
+            }
+            else
+            {
+                combined_voltage.data[1] = dec_voltage_1 * 10.0 + 240.0;
+            }
             arm_status.data = 2; // 摆臂下降状态
         }
         else
@@ -504,7 +503,7 @@ private:
         cruising_speed_pub->publish(cruising_speed);
         // 遥杆车体速度发布
         speed_joystick_pub_->publish(speed_joystick);
-        // 综合推杆电压发布
+        // 综合推杆电压发布 发送给QT和STM32
         voltageArray_pub_->publish(combined_voltage);
         voltageArray_pub_2->publish(combined_voltage_2);
         // wheel状态发布
