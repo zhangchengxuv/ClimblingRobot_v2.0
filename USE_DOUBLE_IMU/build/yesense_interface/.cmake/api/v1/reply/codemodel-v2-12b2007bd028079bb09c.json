@@ -1,0 +1,233 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-520c8d1a0725868eabe8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				},
+				{
+					"build" : "yesense_interface__py",
+					"jsonFile" : "directory-yesense_interface__py-befe685de282a6653769.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/yesense_interface/yesense_interface__py",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "yesense_interface",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_yesense_interface_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_yesense_interface_egg-b244951e26b17838070a.json",
+					"name" : "ament_cmake_python_build_yesense_interface_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_copy_yesense_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_copy_yesense_interface-f7944f442075bdb1f8bc.json",
+					"name" : "ament_cmake_python_copy_yesense_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-83c44143d0c91d9f2f81.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface-ff03fe7876cf8a02d190.json",
+					"name" : "yesense_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__cpp-eef45c7bf824691dd458.json",
+					"name" : "yesense_interface__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "yesense_interface__py::@75bf01eeef6a044338ff",
+					"jsonFile" : "target-yesense_interface__py-4839abef03cc595cb1f6.json",
+					"name" : "yesense_interface__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_generator_c-f0f977a3f8dc7955e561.json",
+					"name" : "yesense_interface__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_generator_py-25ff3a06e0510305c431.json",
+					"name" : "yesense_interface__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_c-74090a5f28ca76e84625.json",
+					"name" : "yesense_interface__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_c__pyext-31285bdae34515fd2846.json",
+					"name" : "yesense_interface__rosidl_typesupport_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_cpp-0680cdcddfefd020088f.json",
+					"name" : "yesense_interface__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_fastrtps_c-ff3411f9bb0d3c48c744.json",
+					"name" : "yesense_interface__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_fastrtps_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_fastrtps_c__pyext-c39f5ca8649677638ee4.json",
+					"name" : "yesense_interface__rosidl_typesupport_fastrtps_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_fastrtps_cpp-b6c4011098de96550471.json",
+					"name" : "yesense_interface__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_introspection_c-a540749177fbdba7a7ed.json",
+					"name" : "yesense_interface__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_introspection_c__pyext::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_introspection_c__pyext-3e9f7d759b2084c93d97.json",
+					"name" : "yesense_interface__rosidl_typesupport_introspection_c__pyext",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface__rosidl_typesupport_introspection_cpp-ffa176d7311327c1afb6.json",
+					"name" : "yesense_interface__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yesense_interface_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yesense_interface_uninstall-ad0dd07f146a05255a35.json",
+					"name" : "yesense_interface_uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/yesense_interface",
+		"source" : "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/yesense_interface"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

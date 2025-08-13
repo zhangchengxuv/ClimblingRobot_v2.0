@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-28ff4a521fdf1368fc97.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "to_euler",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "to_euler_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-to_euler_node-9f6cf5015123833dc3d8.json",
+					"name" : "to_euler_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "to_euler_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-to_euler_uninstall-139a2e8988202f65fed1.json",
+					"name" : "to_euler_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-5e952346d0d7f109f620.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/build/to_euler",
+		"source" : "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

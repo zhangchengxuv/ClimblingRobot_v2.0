@@ -1,0 +1,21 @@
+[ 50%] [32mBuilding CXX object CMakeFiles/to_euler_node.dir/src/to_euler_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable to_euler_node[0m
+[100%] Built target to_euler_node
+-- Install configuration: ""
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/lib/to_euler/to_euler_node
+-- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/lib/to_euler/to_euler_node" to ""
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/package_run_dependencies/to_euler
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/parent_prefix_path/to_euler
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/ament_prefix_path.sh
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/ament_prefix_path.dsv
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/path.sh
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/path.dsv
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.bash
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.sh
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.zsh
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.dsv
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/package.dsv
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/packages/to_euler
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/cmake/to_eulerConfig.cmake
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/cmake/to_eulerConfig-version.cmake
+-- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/package.xml

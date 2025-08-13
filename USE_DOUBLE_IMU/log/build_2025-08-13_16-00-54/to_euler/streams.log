@@ -1,0 +1,10 @@
+[0.011s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler -- -j12 -l12
+[0.079s] [ 50%] [32mBuilding CXX object CMakeFiles/to_euler_node.dir/src/to_euler_node.cpp.o[0m
+[0.293s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:7:10:[m[K [01;31m[Kfatal error: [m[Ktf2_geometry_msgs/tf2_geometry_msgs.hpp: 没有那个文件或目录
+[0.293s]     7 | #include [01;31m[K<tf2_geometry_msgs/tf2_geometry_msgs.hpp>[m[K
+[0.293s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[0.293s] compilation terminated.
+[0.297s] gmake[2]: *** [CMakeFiles/to_euler_node.dir/build.make:76：CMakeFiles/to_euler_node.dir/src/to_euler_node.cpp.o] 错误 1
+[0.298s] gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/to_euler_node.dir/all] 错误 2
+[0.298s] gmake: *** [Makefile:146：all] 错误 2
+[0.300s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler -- -j12 -l12

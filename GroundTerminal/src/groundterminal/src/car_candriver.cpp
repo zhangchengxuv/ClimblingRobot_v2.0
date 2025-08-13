@@ -242,7 +242,7 @@ private:
       {
         motor_05[i] = out_degree[i]; // 更新推杆电机数据
       }
-      SendData(can0_socket, motor_id_05, false, motor_05, 1);
+      SendData(can0_socket, motor_id_05, false, motor_05, 5);
       break;
     }
     }
@@ -259,7 +259,7 @@ private:
     SendData(can0_socket, motor_id_03, false, get_speed, 1);
     SendData(can0_socket, motor_id_04, false, get_speed, 1);
     // 发送位置获取命令
-    SendData(can0_socket, motor_id_05, false, get_position, 5);
+    SendData(can0_socket, motor_id_05, false, get_position, 1);
 
     if (called)
     {

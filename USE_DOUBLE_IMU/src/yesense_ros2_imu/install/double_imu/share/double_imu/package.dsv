@@ -1,0 +1,8 @@
+source;share/double_imu/hook/cmake_prefix_path.ps1
+source;share/double_imu/hook/cmake_prefix_path.dsv
+source;share/double_imu/hook/cmake_prefix_path.sh
+source;share/double_imu/local_setup.bash
+source;share/double_imu/local_setup.dsv
+source;share/double_imu/local_setup.ps1
+source;share/double_imu/local_setup.sh
+source;share/double_imu/local_setup.zsh

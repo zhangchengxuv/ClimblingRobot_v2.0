@@ -1,0 +1,17 @@
+[31mCMake Error at CMakeLists.txt:16 (find_package):
+  By not providing "Findgeometry_mags.cmake" in CMAKE_MODULE_PATH this
+  project has asked CMake to find a package configuration file provided by
+  "geometry_mags", but CMake did not find one.
+
+  Could not find a package configuration file provided by "geometry_mags"
+  with any of the following names:
+
+    geometry_magsConfig.cmake
+    geometry_mags-config.cmake
+
+  Add the installation prefix of "geometry_mags" to CMAKE_PREFIX_PATH or set
+  "geometry_mags_DIR" to a directory containing one of the above files.  If
+  "geometry_mags" provides a separate development package or SDK, be sure it
+  has been installed.
+
+[0m

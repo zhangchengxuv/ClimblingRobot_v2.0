@@ -1,0 +1,4 @@
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:[m[K In member function ‘[01m[Kvoid To_euler_node::senddata_cb()[m[K’:
+[01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:97:11:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdiff_r[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   97 |     float [01;35m[Kdiff_r[m[K = imu_1_r - imu_2_r;
+      |           [01;35m[K^~~~~~[m[K

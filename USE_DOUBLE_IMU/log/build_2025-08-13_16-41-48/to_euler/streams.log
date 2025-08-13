@@ -1,0 +1,32 @@
+[0.011s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler -- -j12 -l12
+[0.081s] [ 50%] [32mBuilding CXX object CMakeFiles/to_euler_node.dir/src/to_euler_node.cpp.o[0m
+[1.807s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:[m[K In member function ‘[01m[Kvoid To_euler_node::senddata_cb()[m[K’:
+[1.807s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:98:10:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Keuler_diff_msg[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[1.807s]    98 |     auto [01;35m[Keuler_diff_msg[m[K = std_msgs::msg::Float64();
+[1.808s]       |          [01;35m[K^~~~~~~~~~~~~~[m[K
+[1.808s] [01m[K/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/src/yesense_ros2_imu/to_euler_point/to_euler/src/to_euler_node.cpp:100:11:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdiff_r[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[1.808s]   100 |     float [01;35m[Kdiff_r[m[K = imu_1_r - imu_2_r;
+[1.808s]       |           [01;35m[K^~~~~~[m[K
+[6.397s] [100%] [32m[1mLinking CXX executable to_euler_node[0m
+[6.698s] [100%] Built target to_euler_node
+[6.712s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --build /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler -- -j12 -l12
+[6.714s] Invoking command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler
+[6.724s] -- Install configuration: ""
+[6.724s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/lib/to_euler/to_euler_node
+[6.728s] -- Set runtime path of "/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/lib/to_euler/to_euler_node" to ""
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/package_run_dependencies/to_euler
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/parent_prefix_path/to_euler
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/ament_prefix_path.sh
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/ament_prefix_path.dsv
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/path.sh
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/environment/path.dsv
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.bash
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.sh
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.zsh
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/local_setup.dsv
+[6.728s] -- Installing: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/package.dsv
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/ament_index/resource_index/packages/to_euler
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/cmake/to_eulerConfig.cmake
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/cmake/to_eulerConfig-version.cmake
+[6.728s] -- Up-to-date: /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/install/to_euler/share/to_euler/package.xml
+[6.730s] Invoked command in '/home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/zhangchenxu/MOVEIT/moveit2_ws/install/moveit_configs_utils:/home/zhangchenxu/MOVEIT/moveit2_ws/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake --install /home/zhangchenxu/Documents/00_Project/ClimblingRobot_v2.0/USE_DOUBLE_IMU/build/to_euler
