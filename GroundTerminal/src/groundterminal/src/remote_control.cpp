@@ -3,6 +3,7 @@
 #include "std_msgs/msg/int32.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
+#include "std_msgs/msg/int32_multi_array.hpp"
 #include "serial/serial.h"
 #include "groundterminal/mode_switching.h"
 #include <cmath>
@@ -17,6 +18,10 @@ using namespace std::chrono_literals;
 int mode_speed_status = 0;
 // 模式辅助轮状态
 int mode_wheel_status = 0; // 0:日常 1:模式
+// 喷漆手动或自动
+int mode_arm = 0;
+// 自动旋转角度
+int degree_auto = 0;
 
 // 定义
 uint8_t readdata[8] = {0x03, 0x04, 0x00, 0x00, 0x00, 0x0a, 0x71, 0xef};
@@ -41,7 +46,7 @@ public:
         // 方向
         direction_pub_ = this->create_publisher<std_msgs::msg::Int32>("direction", 10);
         // 度数发布
-        degree_pub_ = this->create_publisher<std_msgs::msg::Float32>("degree", 10);
+        degree_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("degree", 10);
         // 发送两种电压值（数组）
         voltageArray_pub_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("voltage_array", 10);
         // 发送两种电压值（数组）
@@ -84,13 +89,16 @@ private:
     // arm状态(Int32)
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr arm_status_pub_;
     // 度数发布(Float32)
-    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr degree_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr degree_pub_;
     // 模式开启与否
     rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_;
     // 发送两种电压值（数组）
     rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr voltageArray_pub_2;
+    // 发送自动旋转角度和速度
+
+    // 
     void mode_value_callback(const std_msgs::msg::Float64MultiArray msg)
     {
         mode_speed_value = msg.data[0];
@@ -118,8 +126,9 @@ private:
         auto arm_status = std_msgs::msg::Int32();
         // 模式状态
         auto mode_status = std_msgs::msg::Int32();
-        // 度数
-        auto degree = std_msgs::msg::Float32();
+        // 度数 速度 模式判断
+        auto degree = std_msgs::msg::Float64MultiArray();
+        degree.data.resize(3);
         auto combined_voltage = std_msgs::msg::Float64MultiArray();
         combined_voltage.data.resize(2);
         auto combined_voltage_2 = std_msgs::msg::Float64MultiArray();
@@ -172,27 +181,58 @@ private:
         speed_turn.data = motorspeed2;
         // 摆臂电机速度
         uint8_t speed_arm = controldate[14];
-        float dec_speed_arm = static_cast<int>(speed_arm) / 255.0 * 5; // 速度范围是0-10 m/min
+        float dec_speed_arm = static_cast<int>(speed_arm) / 255.0 * 1000;           // 速度范围是0-5 m/min
+        float armorspeed = dec_speed_arm ; // 转换为电机速度
         std::cout << "摆臂电机速度: " << dec_speed_arm << " m/min" << std::endl;
+
         // 辅助推杆电压
         uint8_t voltage_0 = controldate[10];
         float dec_voltage_0 = static_cast<int>(voltage_0) / 255.0 * 24.0; // 电压范围是0-24V
         combined_voltage_2.data[0] = dec_voltage_0;                       // 转换为推杆电压
         std::cout << "辅助推杆电压: " << dec_voltage_0 << " V" << std::endl;
         // 备用旋钮 摆臂旋钮
-        uint8_t knob = controldate[16];
-        float dec_knob = static_cast<int>(knob) / 255.0 * 180; // 旋钮范围是0-180度
-        dec_knob = std::round(dec_knob);
-        if (dec_knob < 90)
+        if (mode_arm == 0)
         {
-            dec_knob = -(90 - dec_knob); // 旋钮度数转换
+            // 手动旋钮模式
+            std::cout << "手动旋钮模式" << std::endl;
+            uint8_t knob_arm = controldate[16];
+            float dec_knob_arm = static_cast<int>(knob_arm) / 255.0 * 180; // 旋钮范围是0-180度
+            dec_knob_arm = std::round(dec_knob_arm);
+            if (dec_knob_arm < 90)
+            {
+                dec_knob_arm = -(90 - dec_knob_arm); // 旋钮度数转换
+            }
+            else
+            {
+                dec_knob_arm = dec_knob_arm - 90; // 旋钮度数转换
+            }
+            degree.data[0] = dec_knob_arm; // 转换为度数
+            degree.data[1] = armorspeed;   // 转换为摆臂电机速度
+            degree.data[2] = 0;     // 模式判断
+            std::cout << "摆臂旋钮度数: " << dec_knob_arm << " deg" << std::endl;
         }
-        else
+        else if (mode_arm == 1)
         {
-            dec_knob = dec_knob - 90; // 旋钮度数转换
+            std::cout << "自动旋转模式" << std::endl;
+            // 旋转角度
+            std::cout << "摆臂旋钮度数: " << degree_auto << " deg" << std::endl;
+            degree.data[0] = degree_auto; // 转换为度数
+            degree.data[1] = armorspeed;   // 转换为摆臂电机速度
+            degree.data[2] = 1;     // 模式判断
         }
-        degree.data = dec_knob; // 转换为度数
-        std::cout << "旋钮度数: " << dec_knob << " deg" << std::endl;
+        // uint8_t knob = controldate[16];
+        // float dec_knob = static_cast<int>(knob) / 255.0 * 180; // 旋钮范围是0-180度
+        // dec_knob = std::round(dec_knob);
+        // if (dec_knob < 90)
+        // {
+        //     dec_knob = -(90 - dec_knob); // 旋钮度数转换
+        // }
+        // else
+        // {
+        //     dec_knob = dec_knob - 90; // 旋钮度数转换
+        // }
+        // degree.data = dec_knob; // 转换为度数
+        // std::cout << "旋钮度数: " << dec_knob << " deg" << std::endl;
         // 前臂推杆电压
         uint8_t voltage_1 = controldate[12];
         float dec_voltage_1 = static_cast<int>(voltage_1) / 255.0 * 24.0; // 电压范围是0-24V
@@ -210,10 +250,12 @@ private:
         }
         if ((status_0 & 0x40) != 0)
         {
+            mode_arm = 0;
             std::cout << "喷漆: 关闭" << std::endl;
         }
         else
         {
+            mode_arm = 1;
             std::cout << "喷漆: 开启" << std::endl;
         }
         // 日常模式与特殊模式切换
@@ -249,7 +291,7 @@ private:
             std::cout << "巡航模式" << std::endl;
             joystick_or_cruising.data = 1; // 巡航模式
         }
-        // 
+        //
         if ((status_0 & 0x01) != 0)
         {
             std::cout << "除锈: 开启" << std::endl;
@@ -480,17 +522,21 @@ private:
         else if ((status_2 & 0x20) != 0)
         {
             std::cout << "旋转开关在3 " << std::endl;
+            degree_auto = 45;
         }
         else if ((status_2 & 0x10) != 0)
         {
             std::cout << "旋转开关在2" << std::endl;
+            degree_auto = 30;
         }
         else if ((status_2 & 0x08) != 0)
         {
+            degree_auto = 15;
             std::cout << "旋转开关在1" << std::endl;
         }
         else
         {
+            degree_auto = 0;
             std::cout << "旋转开关在0" << std::endl;
         }
         //-----------------------------数据的发布----------------------------//
@@ -516,6 +562,7 @@ private:
         mode_pub_->publish(mode_status);
         // 度数发布
         degree_pub_->publish(degree);
+
     }
 };
 int main(int argc, char const *argv[])
@@ -523,8 +570,8 @@ int main(int argc, char const *argv[])
     // 2.初始化ROS2客户端；
     rclcpp::init(argc, argv);
     // sudo usermod -aG dialout demo
-    // ser.setPort("/dev/ttyS0");
-    ser.setPort("/dev/ttyUSB0");
+    ser.setPort("/dev/ttyS0");
+    // ser.setPort("/dev/ttyUSB0");
     ser.setBaudrate(19200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     ser.setTimeout(to);

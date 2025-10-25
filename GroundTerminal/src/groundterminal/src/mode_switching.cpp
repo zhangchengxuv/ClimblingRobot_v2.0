@@ -8,8 +8,7 @@
 #include "groundterminal/mode_switching.h"
 
 // 模式开关
-int state = 0;           
-
+int state = 0;
 
 // 模式1参数
 float mode_1_speed = 0.2;
@@ -22,16 +21,15 @@ float mode_1_2_maxroll;
 float mode_1_2_voltage = 0.0;
 
 // 模式2参数
-float mode_2_speed;       // 模式2的速度
-float mode_2_1_startroll = -11.0; // 模式2开始的roll角度
-float mode_2_kp = 0.5;          // 模式2的比例系数
-float mode_2_expect = -10.0;      // 模式2的推杆期望下压力
+float mode_2_speed;                // 模式2的速度
+float mode_2_1_startroll = 1.0;    // 模式2开始的roll角度
+float mode_2_kp = 0.33;             // 模式2的比例系数
+float mode_2_expect = -15.0;       // 模式2的推杆期望下压力
 float mode_2_max_voltage_1 = 15.0; // 模式2的最大电压
 float mode_2_max_voltage_2 = 15.0; // 模式2的最大电压
-
-float mode_2_ads = 10.0 ;         // 期望电压与实际电压的绝对值
-float mode_2_1_voltage;   // 模式2 阶段一 的电压
-int temp_state = 0;       // 临时状态机阶段
+float mode_2_ads = 15.0;           // 期望电压与实际电压的绝对值
+float mode_2_1_voltage;            // 模式2 阶段一 的电压
+int temp_state = 0;                // 临时状态机阶段
 
 // 模式3参数
 int mode3_state = 0;   // 模式3状态机阶段
@@ -96,7 +94,7 @@ private:
         }
         else
         {
-            std::cout << "模式切换未启用" << std::endl;
+            // std::cout << "模式切换未启用" << std::endl;
         }
     }
     void mode_01(float pitch, float roll, float distance, float force)
@@ -150,7 +148,8 @@ private:
         // 定速值 确保车辆一直有速度
         combined_value.data[0] = mode_2_speed;
         // 俯角大于某个值后开启
-        if (roll > mode_2_1_startroll)
+        // if (roll < mode_2_1_startroll && roll > -89.5)
+        if(true)
         {
             // 实际力小于期望力 且 力差值大于阈值 需要上拉
             if (force < mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
@@ -162,6 +161,7 @@ private:
                 //
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 0;            // 方向 0：升|1：降
+                // std::cout << "upupupup" <<"force :"<<force<<"std::abs(mode_2_expect - force) "<<std::abs(mode_2_expect - force) << std::endl;
             }
             // 实际力大于期望力 且 力差值大于阈值 需要下压
             else if (force > mode_2_expect && std::abs(mode_2_expect - force) > mode_2_ads)
@@ -173,6 +173,8 @@ private:
                 //
                 combined_value.data[1] = mode_voltage; // 阶段2 电压
                 combined_value.data[2] = 1;            // 方向 0：升|1：降
+                // std::cout << "downwown" <<"force :"<<force<<"std::abs(mode_2_expect - force) "<<std::abs(mode_2_expect - force) << std::endl;
+
             }
             // 实际力接近期望力，且力差值小于阈值，停止推杆动作，继续往前走
             else
@@ -180,38 +182,40 @@ private:
                 // 力差值小于阈值，保持原有状态
                 combined_value.data[1] = 0.0; // 停止
                 combined_value.data[2] = 2;   // 停止
+                // std::cout << "stop" << std::endl;
+
             }
         }
         // 关闭条件，俯角达到88度以上
-        else if (roll >= 88.0)
-        {
-            if (temp_state == 0)
-            {
-                combined_value.data[0] = 0.4; // 稍微加快速度
-                combined_value.data[1] = 0.0; // 停止
-                combined_value.data[2] = 2;   // 停止
-                temp_state = 1;
-            }
-            else if (temp_state == 1)
-            {
-                // 延时 2s
-                rclcpp::sleep_for(std::chrono::seconds(2));
-                temp_state = 2;
-            }
-            else if (temp_state == 2)
-            {
-                combined_value.data[0] = 0.0; // 停止
-                combined_value.data[1] = 0.0; // 停止
-                combined_value.data[2] = 2;   // 停止
-            }
-        }
+        // else if (roll <= -89.5)
+        // {
+        //     if (temp_state == 0)
+        //     {
+        //         combined_value.data[0] = mode_2_speed; // 稍微加快速度
+        //         combined_value.data[1] = 0.0;          // 停止
+        //         combined_value.data[2] = 2;            // 停止
+        //         temp_state = 1;
+        //     }
+        //     else if (temp_state == 1)
+        //     {
+        //         // 延时 2s
+        //         rclcpp::sleep_for(std::chrono::seconds(2));
+        //         temp_state = 2;
+        //     }
+        //     else if (temp_state == 2)
+        //     {
+        //         combined_value.data[0] = mode_2_speed; // 停止
+        //         combined_value.data[1] = 0.0;          // 停止
+        //         combined_value.data[2] = 2;            // 停止
+        //     }
+        // }
 
         // 发送数据
         value_pub_->publish(combined_value);
     }
     void mode_03(float pitch, float roll, float distance, float force)
     {
-        (void)pitch;    // 忽略pitch
+        (void)pitch; // 忽略pitch
         auto combined_value = std_msgs::msg::Float64MultiArray();
         combined_value.data.resize(3);
         switch (mode3_state)

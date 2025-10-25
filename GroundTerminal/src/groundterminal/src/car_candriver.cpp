@@ -1,6 +1,7 @@
 // 1.包含头文件
 #include "rclcpp/rclcpp.hpp"
 #include <std_msgs/msg/float64_multi_array.hpp>
+#include "std_msgs/msg/int32_multi_array.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "std_msgs/msg/float32.hpp"
@@ -20,6 +21,8 @@ bool change_flag = false;
 // 模式
 int mode = 0;
 int arm_state = 0;
+int auto_arm_state = 0;
+int auto_arm_run = 0;
 float pitch;
 float roll;
 
@@ -29,6 +32,9 @@ pthread_t dataread_thread;
 // 将电机速度转换为十六进制数据
 std::array<unsigned char, 5> createOutspeed(int dec_speed);
 std::array<unsigned char, 5> createOutdegree(int dec_degree);
+
+// 速度限制
+BYTE motor_05_speed[5] = {0x1d, 0x00, 0x00, 0x00, 0x00};
 
 void signal_handler(int signal);
 
@@ -85,8 +91,8 @@ public:
     this->direction_sub_ = this->create_subscription<std_msgs::msg::Int32>("direction", 10,
                                                                            std::bind(&Can_Driver::directionCallback, this, std::placeholders::_1), options_direction_sub);
     // 度数订阅
-    this->degree_sub_ = this->create_subscription<std_msgs::msg::Float32>("degree", 10,
-                                                                          std::bind(&Can_Driver::degree_control_cb, this, std::placeholders::_1), options_degree_sub);
+    this->degree_sub_ = this->create_subscription<std_msgs::msg::Float64MultiArray>("degree", 10,
+                                                                                    std::bind(&Can_Driver::degree_control_cb, this, std::placeholders::_1), options_degree_sub);
     // 遥杆速度订阅
     this->speed_sub_ = this->create_subscription<std_msgs::msg::Int32>("speed_joystick", 10,
                                                                        std::bind(&Can_Driver::joyspeedCallback, this, std::placeholders::_1), joystick_speed_sub);
@@ -137,7 +143,7 @@ private:
   // 键盘控制节点订阅
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr direction_sub_;
   // 度数订阅
-  rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr degree_sub_;
+  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr degree_sub_;
   // 订阅IMU数据
   rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr imu_data_subr;
   // 遥杆速度
@@ -150,6 +156,8 @@ private:
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr joystick_or_cruising_sub_;
   // 模式订阅
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr mode_sub_;
+  // // 自动摆臂数据
+  // rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr degree_auto_sub_;
   // 四个车轮的实时速度反馈
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed1_pub_;
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr rtspeed2_pub_;
@@ -215,36 +223,117 @@ private:
     pitch = imu_data->data[1] + 90;
     roll = imu_data->data[0];
   }
-  void degree_control_cb(const std_msgs::msg::Float32 degree_msg)
+  void degree_control_cb(const std_msgs::msg::Float64MultiArray degree_msg)
   {
-    switch (arm_state)
+    if (degree_msg.data[2] == 0)
     {
-    case 0:
-    {
-      sleep(1); // 等待1秒
-      arm_state = 1;
-      break;
-    }
-    case 1:
-    {
-      if (std::abs(std::abs(degree_msg.data) - std::abs(degree_position)) < 2)
+      switch (arm_state)
       {
-        arm_state = 2;
-      }
-      break;
-    }
-    case 2:
-    {
-      // 发送控制位置
-      int motor_degree = (degree_msg.data / 360.0) * 65536.0 * 101; // 转换为电机位置
-      auto out_degree = createOutdegree(motor_degree);
-      for (int i = 0; i < 5; ++i)
+      case 0:
       {
-        motor_05[i] = out_degree[i]; // 更新推杆电机数据
+        sleep(1); // 等待1秒
+        arm_state = 1;
+        break;
       }
-      SendData(can0_socket, motor_id_05, false, motor_05, 5);
-      break;
+      case 1:
+      {
+        if (std::abs(std::abs(degree_msg.data[0]) - std::abs(degree_position)) < 2)
+        {
+          arm_state = 2;
+        }
+        break;
+      }
+      case 2:
+      {
+        // 发送控制位置
+        int motor_degree = (degree_msg.data[0] / 360.0) * 65536.0 * 101; // 转换为电机位置
+        auto out_degree = createOutdegree(motor_degree);
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_05[i] = out_degree[i]; // 更新推杆电机数据
+        }
+        SendData(can0_socket, motor_id_05, false, motor_05, 5);
+        break;
+      }
+      }
     }
+    else if (degree_msg.data[2] == 1)
+    {
+      switch (auto_arm_state)
+      {
+      case 0:
+      {
+        // 先回归到0度
+        int motor_degree = (0 / 360.0) * 65536.0 * 101;
+        auto out_degree = createOutdegree(motor_degree);
+        for (int i = 0; i < 5; ++i)
+        {
+          motor_05[i] = out_degree[i]; // 更新推杆电机数据
+        }
+        SendData(can0_socket, motor_id_05, false, motor_05, 5);
+        if (std::abs(degree_position - 0) < 1)
+        {
+          SendData(can0_socket, motor_id_05, false, motor_stop, 1);
+          auto_arm_state = 1;
+        }
+        break;
+      }
+      case 1:
+      {
+        switch (auto_arm_run)
+        {
+        case 0:
+        {
+          // 先正转到目标位置
+          auto arm_auto_speed_r = createOutspeed(degree_msg.data[1]);
+          for (int i = 0; i < 5; ++i)
+          {
+            motor_05_speed[i] = arm_auto_speed_r[i]; // 更新推杆电机数据
+          }
+          SendData(can0_socket, motor_id_05, false, motor_05_speed, 5);
+          std::cout << "++++++++++++++++::::::" << std::abs(degree_msg.data[0] - degree_position) << std::endl;
+          std::cout << degree_position << std::endl;
+
+          if (std::abs(degree_msg.data[0] - degree_position) < 1)
+          {
+            auto_arm_run = 1;
+          }
+          break;
+        }
+        case 1:
+        {
+          // 再反转回目标位置
+          auto arm_auto_speed_i = createOutspeed(-degree_msg.data[1]);
+          for (int i = 0; i < 5; ++i)
+          {
+            motor_05_speed[i] = arm_auto_speed_i[i]; // 更新推杆电机数据
+          }
+          SendData(can0_socket, motor_id_05, false, motor_05_speed, 5);
+          std::cout << "------------------::::" << std::abs(-degree_msg.data[0] - degree_position) << std::endl;
+          std::cout << degree_position << std::endl;
+
+          if (std::abs(-degree_msg.data[0] - degree_position) < 1)
+          {
+            auto_arm_run = 0;
+          }
+          break;
+        }
+
+        default:
+          break;
+        }
+
+        // arm_state = 0; // 重置状态机
+        // // 发送速度控制
+        // int motor_speed = degree_msg.data[1]; // 直接使用传入的速度值
+        // auto out_speed = createOutspeed(motor_speed);
+        // for (int i = 0; i < 5; ++i)
+        // {
+        //   motor_05[i] = out_speed[i]; // 更新推杆电机数据
+        // }
+        // SendData(can0_socket, motor_id_05, false, motor_05, 5);
+      }
+      }
     }
   }
   // 综合发布函数
@@ -625,6 +714,7 @@ void signal_handler(int signal)
   SendData(can0_socket, motor_id_02, false, motor_stop, 1);
   SendData(can0_socket, motor_id_03, false, motor_stop, 1);
   SendData(can0_socket, motor_id_04, false, motor_stop, 1);
+  SendData(can0_socket, motor_id_05, false, motor_stop, 1);
   rclcpp::shutdown();
   m_run0 = false;
   // 关闭CAN设备
